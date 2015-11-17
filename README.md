@@ -12,6 +12,6 @@ changer la branche dans laquelle vous travaillez:
   
 cela vous permet toujours de faire les modifications sur la bonne branche
 
-(instructions pour Git GUI vont venir bientôt...)
+(instructions pour Git eclipse vont venir bientôt...)
 
 
