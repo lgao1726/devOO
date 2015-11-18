@@ -1,10 +1,13 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class FenetreLivraison {
 	private Date heureDebut;
 	private Date heureFin;
+	
+	private ArrayList<Livraison> listeLivraisons;
 	
 	public FenetreLivraison(Date heureDebut, Date heureFin) {
 		super();
@@ -28,8 +31,23 @@ public class FenetreLivraison {
 		this.heureFin = heureFin;
 	}
 	
+	public ArrayList<Livraison> getListeLivraisons() {
+		return listeLivraisons;
+	}
+
+	public void setListeLivraisons(ArrayList<Livraison> listeLivraisons) {
+		this.listeLivraisons = listeLivraisons;
+	}
+
+	
 	public Livraison getLivraison(int idLivraison){
-		
+		Livraison livraison = null;
+		for(Livraison l: listeLivraisons){
+			if(l.getId() == idLivraison){
+				livraison = l;
+			}
+		}
+		return livraison;
 	}
 	
 	public void echangerLivraison(int idLivraison1, int idLivraison2){
@@ -37,11 +55,11 @@ public class FenetreLivraison {
 	}
 	
 	public void supprimerLivraison(int idLivraison){
-		
+		listeLivraisons.remove(idLivraison);
 	}
 	
 	public void ajouterLivraison(Livraison livraison){
-		
+		listeLivraisons.add(livraison);
 	}
 
 	
