@@ -7,33 +7,34 @@ package model;
  */
 public class Troncon 
 {
-	private int vitesse;
-	private int longueur;
+	private float vitesse;
+	private float longueur;
 	private String nomRue;
 	
 	private Noeud noeudOrigine;
 	private Noeud noeudDestination;
 	
-	public Troncon(int vitesse, int longueur, String nomRue) 
+	public Troncon(float vitesse, float longueur, String nomRue, Noeud noeudDestination) 
 	{
 		this.vitesse = vitesse;
 		this.longueur = longueur;
 		this.nomRue = nomRue;
+		setNoeudDestination(noeudDestination);
 	}
 
-	public int getVitesse() {
+	public float getVitesse() {
 		return vitesse;
 	}
 
-	public void setVitesse(int vitesse) {
+	public void setVitesse(float vitesse) {
 		this.vitesse = vitesse;
 	}
 
-	public int getLongueur() {
+	public float getLongueur() {
 		return longueur;
 	}
 
-	public void setLongueur(int longueur) {
+	public void setLongueur(float longueur) {
 		this.longueur = longueur;
 	}
 
