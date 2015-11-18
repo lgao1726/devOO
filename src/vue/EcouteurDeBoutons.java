@@ -1,4 +1,4 @@
-package vue;
+/**package vue;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,4 +30,4 @@ public class EcouteurDeBoutons implements ActionListener {
 		case Fenetre.AUGMENTER_ECHELLE: controleur.augmenterEchelle(); break;
 		}
 	}
-}
+}**/

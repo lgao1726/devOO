@@ -8,7 +8,7 @@ public class OuvreurDeFichierXML extends FileFilter {// Singleton
 	
 	private static OuvreurDeFichierXML instance = null;
 	private OuvreurDeFichierXML(){}
-	protected static OuvreurDeFichierXML getInstance(){
+	public static OuvreurDeFichierXML getInstance(){
 		if (instance == null) instance = new OuvreurDeFichierXML();
 		return instance;
 	}

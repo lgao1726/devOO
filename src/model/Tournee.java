@@ -1,4 +1,4 @@
-package model;
+/**package model;
 
 import java.util.ArrayList;
 
@@ -23,3 +23,4 @@ public class Tournee {
 		
 	}
 }
+**/

@@ -1,10 +1,5 @@
-package model;
+/**package model;
 
-/**
- * Classe Livraison 
- * @author interCorp
- *
- */
 public class Livraison 
 {
 	private int id;
@@ -55,4 +50,4 @@ public class Livraison
 	
 	
 	
-}
+}**/

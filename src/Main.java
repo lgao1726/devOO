@@ -1,6 +1,9 @@
-package outils;
+//package outils;
 
 import java.io.File;
+
+import xml.ExceptionXML;
+import xml.OuvreurDeFichierXML;
 
 public class Main {
 
@@ -9,7 +12,7 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		
-		OuvreurDeFichierXML ouvreurDeFichierXML = new OuvreurDeFichierXML();
+		OuvreurDeFichierXML ouvreurDeFichierXML = OuvreurDeFichierXML.getInstance();
 		try {
 			File fichierSelectionne =  ouvreurDeFichierXML.ouvre(true);
 			

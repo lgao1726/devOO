@@ -1,4 +1,4 @@
-package vue;
+/**package vue;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -19,4 +19,4 @@ public class EcouteurDeClavier extends KeyAdapter {
 		controleur.caractereSaisi(e.getKeyCode());
 	}
 
-}
+}**/

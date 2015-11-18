@@ -1,4 +1,4 @@
-package model;
+/**package model;
 
 public class Itineraire {
 
@@ -25,4 +25,4 @@ public class Itineraire {
 	}
 	
 	
-}
+}**/
