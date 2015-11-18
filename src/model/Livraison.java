@@ -10,9 +10,9 @@ public class Livraison
 	private int id;
 	private Noeud adresse;
 	private int client;
-	private FentereLivraison fenetre;
+	private FenetreLivraison fenetre;
 	
-	public Livraison(int id, Noeud adresse, int client, FentereLivraison fenetre) 
+	public Livraison(int id, Noeud adresse, int client, FenetreLivraison fenetre) 
 	{
 		super();
 		this.id = id;
@@ -45,11 +45,11 @@ public class Livraison
 		this.client = client;
 	}
 
-	public FentereLivraison getFenetre() {
+	public FenetreLivraison getFenetre() {
 		return fenetre;
 	}
 
-	public void setFenetre(FentereLivraison fenetre) {
+	public void setFenetre(FenetreLivraison fenetre) {
 		this.fenetre = fenetre;
 	}
 	
