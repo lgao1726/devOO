@@ -19,6 +19,11 @@ public class Plan
 	// Liste des noeud
 	private ArrayList<Noeud> intersection;
 	
+	public Plan()
+	{
+		this.intersection = new ArrayList<Noeud>();
+	}
+	
 	/**
 	 * Constructor d'objet
 	 * @param Dimession d'axe X
@@ -60,7 +65,7 @@ public class Plan
 	 * Méthode qui ajout la liste des intersection un noeud
 	 * @param noeud
 	 */
-	public void ajoutNoeud(Noeud noeud)
+	public void ajouterNoeud(Noeud noeud)
 	{
 		intersection.add(noeud);
 	}

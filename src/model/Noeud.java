@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Classe noeud qui définir une intersection des tronçons
  * @author interCorp
@@ -11,9 +14,11 @@ public class Noeud
 	private int x;
 	private int y;
 	
+	private List<Troncon> listeTronconsSortants;
+	
 	/**
 	 * 
-	 * @param id identifiant de neoud sur le plan
+	 * @param id identifiant de noeud sur le plan
 	 * @param x coordonnée X
 	 * @param y coordonnée y
 	 */
@@ -22,6 +27,7 @@ public class Noeud
 		this.id = id;
 		this.x = x;
 		this.y = y;
+		listeTronconsSortants = new ArrayList<Troncon>();
 	}
 
 	public int getId() {
@@ -46,6 +52,10 @@ public class Noeud
 
 	public void setY(int y) {
 		this.y = y;
+	}
+	
+	public void ajouterTroncon(Troncon troncon){
+		listeTronconsSortants.add(troncon);
 	}
 	
 }
