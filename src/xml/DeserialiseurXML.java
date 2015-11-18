@@ -6,6 +6,7 @@ import model.Troncon;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -26,7 +27,7 @@ public class DeserialiseurXML {
 	 * @throws IOException
 	 * @throws ExceptionXML
 	 */
-	public static void charger(Plan plan) throws ParserConfigurationException, SAXException, IOException, ExceptionXML{
+	public static void traiterPlan(Plan plan) throws ParserConfigurationException, SAXException, IOException, ExceptionXML{
 		File xml = OuvreurDeFichierXML.getInstance().ouvre(true);
         DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();	
         Document document = docBuilder.parse(xml);
@@ -40,7 +41,8 @@ public class DeserialiseurXML {
 	}
 
     private static void construireAPartirDeDOMXML(Element noeudDOMRacine, Plan plan) throws ExceptionXML, NumberFormatException{
-    	// a voir
+    	
+    	// il faut calculer les dimensions du plan en cherchant le min et le max de la liste
     	int hauteur = Integer.parseInt(noeudDOMRacine.getAttribute("hauteur"));
         if (hauteur <= 0)
         	throw new ExceptionXML("Erreur lors de la lecture du fichier : La hauteur du plan doit etre positive");
@@ -49,13 +51,17 @@ public class DeserialiseurXML {
         	throw new ExceptionXML("Erreur lors de la lecture du fichier : La largeur du plan doit etre positive");
        	//plan.reset(largeur,hauteur);
         
-       	NodeList listeCercles = noeudDOMRacine.getElementsByTagName("cercle");
-       	for (int i = 0; i < listeCercles.getLength(); i++) {
-        	plan.addNoeud(creerNoeud((Element) listeCercles.item(i)));
-       	}
-       	NodeList listeRectangles = noeudDOMRacine.getElementsByTagName("rectangle");
-       	for (int i = 0; i < listeRectangles.getLength(); i++) {
-          	plan.ajoute(creeRectangle((Element) listeRectangles.item(i)));
+       	NodeList listeNoeuds = noeudDOMRacine.getElementsByTagName("Noeud");
+       	for (int i = 0; i < listeNoeuds.getLength(); i++) {
+       		Element noeudActuel = (Element) listeNoeuds.item(i);
+       		Noeud noeud = creerNoeud(noeudActuel);
+       		
+           	NodeList listeTroncons = noeudActuel.getElementsByTagName("LeTronconSortant");
+           	for (int j = 0; j < listeTroncons.getLength(); j++){
+           		noeud.ajouterTroncon(creerTroncon((Element) listeTroncons.item(j)));
+           	}
+           	
+    	plan.ajouterNoeud(noeud);
        	}
     }
     
@@ -67,7 +73,7 @@ public class DeserialiseurXML {
     }
     
     private static Troncon creerTroncon(Element elt) throws ExceptionXML{
-   		int id = Integer.parseInt(elt.getAttribute("id"));
+   		int idNoeudDestination = Integer.parseInt(elt.getAttribute("idNoeudDestination"));
    		String nomRue = elt.getAttribute("nomRue");
    		float vitesse = Float.parseFloat(elt.getAttribute("vitesse"));
    		float longueur = Float.parseFloat(elt.getAttribute("longueur"));
@@ -75,7 +81,7 @@ public class DeserialiseurXML {
    			throw new ExceptionXML("Erreur lors de la lecture du fichier : Longueur négative");
    		if (vitesse <= 0)
    			throw new ExceptionXML("Erreur lors de la lecture du fichier : Vitesse négative");
-   		return new Troncon(vitesse, longueur, nomRue);
+   		return new Troncon(vitesse, longueur, nomRue, idNoeudDestination);
     }
  
 }

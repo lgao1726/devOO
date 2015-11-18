@@ -12,14 +12,15 @@ public class Troncon
 	private String nomRue;
 	
 	private Noeud noeudOrigine;
-	private Noeud noeudDestination;
-	
-	public Troncon(float vitesse, float longueur, String nomRue, Noeud noeudDestination) 
+	private int idNoeudDestination;
+
+
+	public Troncon(float vitesse, float longueur, String nomRue, int idNoeudDestination) 
 	{
 		this.vitesse = vitesse;
 		this.longueur = longueur;
 		this.nomRue = nomRue;
-		setNoeudDestination(noeudDestination);
+		setIdNoeudDestination(idNoeudDestination);
 	}
 
 	public float getVitesse() {
@@ -53,13 +54,15 @@ public class Troncon
 	public void setNoeudOrigine(Noeud noeudOrigine) {
 		this.noeudOrigine = noeudOrigine;
 	}
-
-	public Noeud getNoeudDestination() {
-		return noeudDestination;
+	
+	public int getIdNoeudDestination() {
+		return idNoeudDestination;
 	}
 
-	public void setNoeudDestination(Noeud noeudDestination) {
-		this.noeudDestination = noeudDestination;
+	public void setIdNoeudDestination(int idNoeudDestination) {
+		this.idNoeudDestination = idNoeudDestination;
 	}
+
+
 }
 	
