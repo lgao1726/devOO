@@ -1,7 +1,7 @@
 package controleur;
 
+import modele.Plan;
 import vue.Fenetre;
-import model.Plan;
 
 public abstract class Etat {
 	

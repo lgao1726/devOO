@@ -1,16 +1,10 @@
 package vue;
 
-import model.Plan;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
-import modele.Cercle;
 import modele.Plan;
-import modele.Forme;
-import modele.Rectangle;
-import modele.VisiteurDeFormes;
-
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -33,7 +27,7 @@ public class VueGraphique extends JPanel implements Observer{
 	 */
 	public VueGraphique(Plan plan, int e, Fenetre f) {
 		super();
-		plan.ajouterObserver(this); // this observe plan
+		plan.addObserver(this); // this observe plan
 		this.echelle = e;
 		hauteurVue = plan.getDimY()*e;
 		largeurVue = plan.getDimX()*e;

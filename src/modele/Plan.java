@@ -1,9 +1,10 @@
 /**
  * 
  */
-package model;
+package modele;
 
 import java.util.ArrayList;
+import java.util.Observable;
 import java.util.Observer;
 
 import vue.Fenetre;
@@ -14,7 +15,7 @@ import vue.VueGraphique;
  * @author interCorp
  *
  */
-public class Plan 
+public class Plan extends Observable
 {
 	// La dimenssion X
 	private int dimX;
@@ -27,7 +28,6 @@ public class Plan
 	{
 		this.intersections = new ArrayList<Noeud>();
 	}
-	
 	/**
 	 * Constructor d'objet
 	 * @param Dimession d'axe X
@@ -74,8 +74,4 @@ public class Plan
 		intersections.add(noeud);
 	}
 
-	public void ajouterObserver(Observer observer) {
-		// TODO Auto-generated method stub
-		
-	}
 }

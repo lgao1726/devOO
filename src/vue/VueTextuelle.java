@@ -1,12 +1,13 @@
 package vue;
 
-import model.Plan;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+
+import modele.Plan;
 
 public class VueTextuelle extends JLabel implements Observer{
 
@@ -24,7 +25,7 @@ public class VueTextuelle extends JLabel implements Observer{
 		this.setVerticalTextPosition(TOP);
 		this.setVerticalAlignment(TOP);
 		fenetre.getContentPane().add(this);
-		plan.ajouterObserver(this); // this observe plan
+		plan.addObserver(this); // this observe plan
 		this.plan = plan;
 	}
 	

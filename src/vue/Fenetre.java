@@ -1,6 +1,5 @@
 package vue;
 
-import model.Plan;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -10,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import controleur.Controleur;
+import modele.Plan;
 import vue.VueGraphique;
 
 public class Fenetre extends JFrame {

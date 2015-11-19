@@ -1,9 +1,6 @@
 package controleur;
 
-/**import model.DemandeLivraison;
-import model.FenetreLivraison;
-import model.Livraison;**/
-import model.Plan;
+import modele.Plan;
 import vue.Fenetre;
 //import model.Tournee;
 

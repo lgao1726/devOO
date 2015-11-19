@@ -10,7 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import model.Plan;
+import modele.Plan;
 
 public class EtatInit extends EtatDefaut{
 
