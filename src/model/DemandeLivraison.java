@@ -21,10 +21,11 @@ public class DemandeLivraison {
 	
 	public int ajouterLivraison(Livraison livraison,Date heureDebut,Date heureFin){
 		
+		return 0;
 	}
 	
 	public int supprimerLivraison(int idLivraison1, Date heureDebut1,int idLivraison2, Date heureDebut2){
-		
+		return 0;
 	}
 	
 	public void echangerLivraison(int idLivraison1, Date heureDebut1,int idLivraison2, Date heureDebut2){

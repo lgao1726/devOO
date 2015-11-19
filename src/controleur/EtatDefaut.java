@@ -1,18 +1,22 @@
 package controleur;
 
+import model.DemandeLivraison;
+import model.FenetreLivraison;
 import model.Livraison;
+import model.Noeud;
 import model.Plan;
+import model.Tournee;
 
 public class EtatDefaut extends Etat{
 
 	@Override
-	protected void chargerPlan(planXML planDeVille) {
+	protected void chargerPlan(Plan planDeVille) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	protected void chargerDemandes(demandesXML demandesDeLivraison) {
+	protected void chargerDemandes(DemandeLivraison demandesDeLivraison) {
 		// TODO Auto-generated method stub
 		
 	}

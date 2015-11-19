@@ -4,6 +4,10 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Observer;
+
+import vue.Fenetre;
+import vue.VueGraphique;
 
 /**
  * Class plan qui décrit le plan de la ville
@@ -68,5 +72,10 @@ public class Plan
 	public void ajouterNoeud(Noeud noeud)
 	{
 		intersection.add(noeud);
+	}
+
+	public void ajouterObserver(Observer observer) {
+		// TODO Auto-generated method stub
+		
 	}
 }

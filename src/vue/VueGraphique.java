@@ -1,6 +1,6 @@
 package vue;
 
-
+import model.Plan;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
@@ -17,7 +17,7 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 
-public class VueGraphique extends JPanel implements Observer, VisiteurDeFormes{
+public class VueGraphique extends JPanel implements Observer{
 
 	private int echelle;
 	private int hauteurVue;
@@ -33,10 +33,10 @@ public class VueGraphique extends JPanel implements Observer, VisiteurDeFormes{
 	 */
 	public VueGraphique(Plan plan, int e, Fenetre f) {
 		super();
-		plan.addObserver(this); // this observe plan
+		plan.ajouterObserver(this); // this observe plan
 		this.echelle = e;
-		hauteurVue = plan.getHauteur()*e;
-		largeurVue = plan.getLargeur()*e;
+		hauteurVue = plan.getDimY()*e;
+		largeurVue = plan.getDimX()*e;
 		setLayout(null);
 		setBackground(Color.white);
 		setSize(largeurVue, hauteurVue);

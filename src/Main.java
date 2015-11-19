@@ -1,6 +1,14 @@
-package outils;
 
 import java.io.File;
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
+import model.Plan;
+import xml.DeserialiseurXML;
+import xml.ExceptionXML;
 
 public class Main {
 
@@ -9,14 +17,17 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		
-		OuvreurDeFichierXML ouvreurDeFichierXML = new OuvreurDeFichierXML();
+		DeserialiseurXML deserialiseurXML = new DeserialiseurXML();
+		Plan plan = new Plan();
 		try {
-			File fichierSelectionne =  ouvreurDeFichierXML.ouvre(true);
-			
-			if(!ouvreurDeFichierXML.accept(fichierSelectionne)) System.out.println("Mauvaise extension de fichier ! ");
-			else System.out.println("OK !");
-			
+			deserialiseurXML.traiterPlan(plan);
 		} catch (ExceptionXML e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		

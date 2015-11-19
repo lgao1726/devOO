@@ -1,5 +1,6 @@
 package vue;
 
+import model.Plan;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -8,7 +9,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import modele.Plan;
 import controleur.Controleur;
 import vue.VueGraphique;
 
