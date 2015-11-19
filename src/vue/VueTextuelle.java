@@ -1,5 +1,6 @@
 package vue;
 
+import model.Plan;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
@@ -7,13 +8,7 @@ import java.util.Observer;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
-import modele.Cercle;
-import modele.Forme;
-import modele.Plan;
-import modele.Rectangle;
-import modele.VisiteurDeFormes;
-
-public class VueTextuelle extends JLabel implements Observer, VisiteurDeFormes{
+public class VueTextuelle extends JLabel implements Observer{
 
 	private String texte;
 	private Plan plan;
@@ -29,7 +24,7 @@ public class VueTextuelle extends JLabel implements Observer, VisiteurDeFormes{
 		this.setVerticalTextPosition(TOP);
 		this.setVerticalAlignment(TOP);
 		fenetre.getContentPane().add(this);
-		plan.addObserver(this); // this observe plan
+		plan.ajouterObserver(this); // this observe plan
 		this.plan = plan;
 	}
 	

@@ -1,13 +1,17 @@
 /**package controleur;
 
+import model.DemandeLivraison;
+import model.FenetreLivraison;
 import model.Livraison;
+import model.Noeud;
 import model.Plan;
+import model.Tournee;
 
 public abstract class Etat {
 	
-	protected abstract void chargerPlan(planXML planDeVille);
+	protected abstract void chargerPlan(Plan planDeVille);
 	
-	protected abstract void chargerDemandes(demandesXML demandesDeLivraison);
+	protected abstract void chargerDemandes(DemandeLivraison demandesDeLivraison);
 	
 	protected abstract void calculerTournee(Plan plan);
 	
