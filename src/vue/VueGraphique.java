@@ -4,10 +4,12 @@ import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
+import modele.Noeud;
 import modele.Plan;
 
 import java.awt.Color;
 import java.awt.Graphics;
+
 import javax.swing.JPanel;
 
 
@@ -45,16 +47,25 @@ public class VueGraphique extends JPanel implements Observer{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(Color.lightGray);
-		for (int y=0; y<largeurVue/echelle; y++)
+		for (int y=0; y<largeurVue/echelle; y+=20)
 			g.drawLine(y*echelle, 0, y*echelle, hauteurVue);
-		for (int x=0; x<hauteurVue/echelle; x++)
+		for (int x=0; x<hauteurVue/echelle; x+=20)
 			g.drawLine(0, x*echelle, largeurVue, x*echelle);
 		g.setColor(Color.gray);
 		g.drawRect(0, 0, largeurVue, hauteurVue);
 		this.g = g;
+		
+		
+		for(int i = 0; i < this.plan.getIntersections().size(); i++)
+		{
+			g.fillOval(this.plan.getIntersections().get(i).getX()*echelle-3, this.plan.getIntersections().get(i).getY()*echelle-3, 6,6);
+		}
+		
+		/*
 		Iterator<Forme> it = plan.getIterateurFormes();
 		while (it.hasNext())
 			it.next().accepte(this);
+			*/
 
 	}
 
@@ -83,8 +94,8 @@ public class VueGraphique extends JPanel implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		if (arg != null){ // arg est une forme qui vient d'etre ajoutee a plan
-			Forme f = (Forme)arg;
-			f.addObserver(this);  // this observe la forme f
+			Noeud n = (Noeud)arg;
+			//n.addObserver(this);  // this observe la forme f
 		}
 		repaint();
 	}
@@ -92,6 +103,7 @@ public class VueGraphique extends JPanel implements Observer{
 	/**
 	 * Methode appelee par l'objet visite (un cercle) a chaque fois qu'il recoit le message accepte
 	 */
+	/*
 	@Override
 	public void visiteForme(Cercle c) {
 		int r = echelle*c.getRayon();
@@ -104,6 +116,7 @@ public class VueGraphique extends JPanel implements Observer{
 	/**
 	 * Methode appelee par l'objet visite (un rectangle) a chaque fois qu'il recoit le message accepte
 	 */
+	/*
 	@Override
 	public void visiteForme(Rectangle r) {
 		if (r.getEstSelectionne())
@@ -111,5 +124,6 @@ public class VueGraphique extends JPanel implements Observer{
 		else
 			g.fillRect(echelle*r.getCoin().getX(),echelle*r.getCoin().getY(),echelle*(r.getLargeur()),echelle*(r.getHauteur()));
 	}
+	*/
 
 }
