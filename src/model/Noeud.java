@@ -15,7 +15,8 @@ public class Noeud
 	private int y;
 	
 	private List<Troncon> listeTronconsSortants;
-	
+
+
 	/**
 	 * 
 	 * @param id identifiant de noeud sur le plan
@@ -52,6 +53,10 @@ public class Noeud
 
 	public void setY(int y) {
 		this.y = y;
+	}
+	
+	public List<Troncon> getListeTronconsSortants() {
+		return listeTronconsSortants;
 	}
 	
 	public void ajouterTroncon(Troncon troncon){

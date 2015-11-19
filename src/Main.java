@@ -24,6 +24,7 @@ public class Main {
 			System.out.println("X : " + plan.getDimX());
 			System.out.println("Y : "+plan.getDimY());
 			System.out.println("Noeuds :" + plan.getIntersections().size());
+			System.out.println(plan.getIntersections().get(3).getListeTronconsSortants().get(0).getNomRue());
 		} catch (ExceptionXML e) {
 			e.printStackTrace();
 		} catch (ParserConfigurationException e) {
