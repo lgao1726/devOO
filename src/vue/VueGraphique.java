@@ -9,6 +9,8 @@ import modele.Plan;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import javax.swing.JPanel;
 
@@ -46,20 +48,27 @@ public class VueGraphique extends JPanel implements Observer{
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.setColor(Color.lightGray);
+		
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+		RenderingHints.VALUE_ANTIALIAS_ON);
+		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+		RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		
+		g2.setColor(Color.lightGray);
 		for (int y=0; y<largeurVue/echelle; y+=20)
 			g.drawLine(y*echelle, 0, y*echelle, hauteurVue);
 		for (int x=0; x<hauteurVue/echelle; x+=20)
 			g.drawLine(0, x*echelle, largeurVue, x*echelle);
-		g.setColor(Color.gray);
-		g.drawRect(0, 0, largeurVue, hauteurVue);
+		g2.setColor(Color.gray);
+		g2.drawRect(0, 0, largeurVue, hauteurVue);
 		this.g = g;
 		
 		
 		for(int i = 0; i < this.plan.getIntersections().size(); i++)
 		{
 			Noeud noeudOrigine = this.plan.getIntersections().get(i);
-			g.fillOval(noeudOrigine.getX()*echelle-3, noeudOrigine.getY()*echelle-3, 6,6);
+			g2.fillOval(noeudOrigine.getX()*echelle-3, noeudOrigine.getY()*echelle-3, 6,6);
 			
 			for(int j = 0; j < noeudOrigine.getListeTronconsSortants().size(); j++) 
 			{
@@ -75,7 +84,7 @@ public class VueGraphique extends JPanel implements Observer{
 					}
 				}
 				
-				g.drawLine(noeudOrigine.getX()*echelle, noeudOrigine.getY()*echelle, 
+				g2.drawLine(noeudOrigine.getX()*echelle, noeudOrigine.getY()*echelle, 
 						noeudDestination.getX()*echelle, noeudDestination.getY()*echelle);
 			}
 		}
