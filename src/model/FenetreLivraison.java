@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /**package model;
 
 import java.util.Date;
@@ -49,7 +48,7 @@ public class FenetreLivraison {
 }
 
 **/
-=======
+/**
 package model;
 
 import java.util.ArrayList;
@@ -115,6 +114,5 @@ public class FenetreLivraison {
 	}
 
 	
-}
+}**/
 
->>>>>>> 54a2fa4cabddc63be953bdf6b04d4eb151ec630e

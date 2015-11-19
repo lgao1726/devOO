@@ -1,7 +1,5 @@
-<<<<<<< HEAD
 //package outils;
-=======
->>>>>>> 54a2fa4cabddc63be953bdf6b04d4eb151ec630e
+
 
 import java.io.File;
 import java.io.IOException;
@@ -24,12 +22,11 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		
-<<<<<<< HEAD
+
 		OuvreurDeFichierXML ouvreurDeFichierXML = OuvreurDeFichierXML.getInstance();
-=======
 		DeserialiseurXML deserialiseurXML = new DeserialiseurXML();
 		Plan plan = new Plan();
->>>>>>> 54a2fa4cabddc63be953bdf6b04d4eb151ec630e
+
 		try {
 			deserialiseurXML.traiterPlan(plan);
 			System.out.println("X : " + plan.getDimX());
