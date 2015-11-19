@@ -21,11 +21,11 @@ public class Plan
 	// La dimession Y
 	private int dimY;
 	// Liste des noeud
-	private ArrayList<Noeud> intersection;
+	private ArrayList<Noeud> intersections;
 	
 	public Plan()
 	{
-		this.intersection = new ArrayList<Noeud>();
+		this.intersections = new ArrayList<Noeud>();
 	}
 	
 	/**
@@ -38,7 +38,7 @@ public class Plan
 		this.dimX = dimX;
 		this.dimY = dimY;
 		
-		this.intersection = new ArrayList<Noeud>();
+		this.intersections = new ArrayList<Noeud>();
 	}
 
 	public int getDimX() {
@@ -57,12 +57,12 @@ public class Plan
 		this.dimY = dimY;
 	}
 	
-	public ArrayList<Noeud> getTroncons() {
-		return intersection;
+	public ArrayList<Noeud> getIntersections() {
+		return intersections;
 	}
 
-	public void setTroncons(ArrayList<Noeud> noeuds) {
-		this.intersection = noeuds;
+	public void setIntersections(ArrayList<Noeud> noeuds) {
+		this.intersections = noeuds;
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class Plan
 	 */
 	public void ajouterNoeud(Noeud noeud)
 	{
-		intersection.add(noeud);
+		intersections.add(noeud);
 	}
 
 	public void ajouterObserver(Observer observer) {

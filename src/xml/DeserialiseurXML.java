@@ -6,6 +6,9 @@ import model.Troncon;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -41,28 +44,25 @@ public class DeserialiseurXML {
 	}
 
     private static void construireAPartirDeDOMXML(Element noeudDOMRacine, Plan plan) throws ExceptionXML, NumberFormatException{
-    	
-    	// il faut calculer les dimensions du plan en cherchant le min et le max de la liste
-    	int hauteur = Integer.parseInt(noeudDOMRacine.getAttribute("hauteur"));
-        if (hauteur <= 0)
-        	throw new ExceptionXML("Erreur lors de la lecture du fichier : La hauteur du plan doit etre positive");
-        int largeur = Integer.parseInt(noeudDOMRacine.getAttribute("largeur"));
-        if (largeur <= 0)
-        	throw new ExceptionXML("Erreur lors de la lecture du fichier : La largeur du plan doit etre positive");
-       	//plan.reset(largeur,hauteur);
         
        	NodeList listeNoeuds = noeudDOMRacine.getElementsByTagName("Noeud");
+       	int maxX = 0, maxY = 0;
        	for (int i = 0; i < listeNoeuds.getLength(); i++) {
        		Element noeudActuel = (Element) listeNoeuds.item(i);
        		Noeud noeud = creerNoeud(noeudActuel);
+       		int x = Integer.parseInt(noeudActuel.getAttribute("x"));
+       		int y = Integer.parseInt(noeudActuel.getAttribute("y"));
+       		if(x > maxX) maxX = x;
+       		if(y > maxY) maxY = y;
        		
            	NodeList listeTroncons = noeudActuel.getElementsByTagName("LeTronconSortant");
            	for (int j = 0; j < listeTroncons.getLength(); j++){
            		noeud.ajouterTroncon(creerTroncon((Element) listeTroncons.item(j)));
            	}
-           	
-    	plan.ajouterNoeud(noeud);
+           	plan.ajouterNoeud(noeud);
        	}
+        plan.setDimX(maxX);
+        plan.setDimY(maxY);
     }
     
     private static Noeud creerNoeud(Element elt) throws ExceptionXML{
@@ -75,8 +75,24 @@ public class DeserialiseurXML {
     private static Troncon creerTroncon(Element elt) throws ExceptionXML{
    		int idNoeudDestination = Integer.parseInt(elt.getAttribute("idNoeudDestination"));
    		String nomRue = elt.getAttribute("nomRue");
-   		float vitesse = Float.parseFloat(elt.getAttribute("vitesse"));
-   		float longueur = Float.parseFloat(elt.getAttribute("longueur"));
+   		float vitesse = 0;
+   		float longueur = 0;
+   		
+   		
+   		DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+   		symbols.setDecimalSeparator(',');
+   		DecimalFormat format = new DecimalFormat("#,#");
+   		format.setDecimalFormatSymbols(symbols);
+   		try {
+			vitesse = format.parse(elt.getAttribute("vitesse")).floatValue();
+			longueur = format.parse(elt.getAttribute("longueur")).floatValue();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+   		
+//   		float vitesse = Float.parseFloat(elt.getAttribute("vitesse"));
+//   		float longueur = Float.parseFloat(elt.getAttribute("longueur"));
    		if (longueur <= 0)
    			throw new ExceptionXML("Erreur lors de la lecture du fichier : Longueur négative");
    		if (vitesse <= 0)

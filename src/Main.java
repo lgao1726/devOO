@@ -21,6 +21,9 @@ public class Main {
 		Plan plan = new Plan();
 		try {
 			deserialiseurXML.traiterPlan(plan);
+			System.out.println("X : " + plan.getDimX());
+			System.out.println("Y : "+plan.getDimY());
+			System.out.println("Noeuds :" + plan.getIntersections().size());
 		} catch (ExceptionXML e) {
 			e.printStackTrace();
 		} catch (ParserConfigurationException e) {
