@@ -1,30 +1,31 @@
 package controleur;
 
+import vue.Fenetre;
+import model.Plan;
+
 public class Controleur {
 	
-	//TODO : attribut Demande de Livraison
+	Plan plan;	
+	private Fenetre fenetre;
+	private static Etat etatCourant;
 	
-	Etat etatCourant;
-
-	public void clicDroit() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void caractereSaisi(int keyCode) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void undo() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void redo() {
-		// TODO Auto-generated method stub
-		
+	protected static final EtatInit etatInit = new EtatInit();
+	protected static final EtatPlanCharge etatPlanCharge = new EtatPlanCharge();
+	
+	public Controleur(Plan p, int e) {
+		this.plan = p;
+		//listeDeCdes = new ListeDeCdes();
+		etatCourant = etatInit;
+		fenetre = new Fenetre(p, e, this);
 	}
 	
+	protected static void setEtatCourant(Etat etat){
+		etatCourant = etat;
+	}
+	
+	public void chargerPlan()
+	{
+		etatCourant.chargerPlan(plan, fenetre);
+	}
 
 }
