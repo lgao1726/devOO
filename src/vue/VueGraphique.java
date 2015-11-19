@@ -58,7 +58,26 @@ public class VueGraphique extends JPanel implements Observer{
 		
 		for(int i = 0; i < this.plan.getIntersections().size(); i++)
 		{
-			g.fillOval(this.plan.getIntersections().get(i).getX()*echelle-3, this.plan.getIntersections().get(i).getY()*echelle-3, 6,6);
+			Noeud noeudOrigine = this.plan.getIntersections().get(i);
+			g.fillOval(noeudOrigine.getX()*echelle-3, noeudOrigine.getY()*echelle-3, 6,6);
+			
+			for(int j = 0; j < noeudOrigine.getListeTronconsSortants().size(); j++) 
+			{
+				int idNoeudDestination = noeudOrigine.getListeTronconsSortants().get(j).getIdNoeudDestination();
+				Noeud noeudDestination = null;
+				
+				for(int k = 0; k < this.plan.getIntersections().size(); k++)
+				{
+					if(idNoeudDestination == this.plan.getIntersections().get(k).getId())
+					{
+						noeudDestination = this.plan.getIntersections().get(k);
+						break;
+					}
+				}
+				
+				g.drawLine(noeudOrigine.getX()*echelle, noeudOrigine.getY()*echelle, 
+						noeudDestination.getX()*echelle, noeudDestination.getY()*echelle);
+			}
 		}
 		
 		/*
