@@ -4,7 +4,7 @@ public class Controleur {
 	
 	//TODO : attribut Demande de Livraison
 	
-	Etat etatCourant;
+	//Etat etatCourant;
 
 	public void clicDroit() {
 		// TODO Auto-generated method stub
