@@ -1,6 +1,5 @@
 package vue;
 
-import model.Plan;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -10,32 +9,24 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import controleur.Controleur;
+import modele.Plan;
 import vue.VueGraphique;
 
 public class Fenetre extends JFrame {
 	
 	// Intitules des boutons de la fenetre
-	protected final static String AJOUTER_CERCLE = "Ajouter un cercle";
-	protected static final String AJOUTER_RECTANGLE = "Ajouter un rectangle";
-	protected static final String SUPPRIMER = "Supprimer des formes";
-	protected static final String DEPLACER = "Deplacer une forme";
-	protected static final String AUGMENTER_ECHELLE = "Augmenter l'echelle";
-	protected static final String DIMINUER_ECHELLE = "Diminuer l'echelle";
-	protected static final String OUVRIR = "Charger un plan";
-	protected static final String SAUVER = "Sauver le plan";
-	protected static final String REDO = "Redo";
-	protected static final String UNDO = "Undo";
+	protected final static String CHARGER_PLAN = "Charger Plan";
+	//protected static final String REDO = "Redo";
+	//protected static final String UNDO = "Undo";
 	private ArrayList<JButton> boutons;
 	private JLabel cadreMessages;
 	private VueGraphique vueGraphique;
-	private VueTextuelle vueTextuelle;
+	//private VueTextuelle vueTextuelle;
 	private EcouteurDeBoutons ecouteurDeBoutons;
-	private EcouteurDeSouris ecouteurDeSouris;
-	private EcouteurDeClavier ecouteurDeClavier;
+	//private EcouteurDeSouris ecouteurDeSouris;
+	//private EcouteurDeClavier ecouteurDeClavier;
 	
-	private final String[] intitulesBoutons = new String[]{AJOUTER_CERCLE, AJOUTER_RECTANGLE, 
-			SUPPRIMER, DEPLACER, DIMINUER_ECHELLE, AUGMENTER_ECHELLE,
-			SAUVER, OUVRIR, UNDO, REDO};
+	private final String[] intitulesBoutons = new String[]{CHARGER_PLAN};
 	private final int hauteurBouton = 40;
 	private final int largeurBouton = 150;
 	private final int hauteurCadreMessages = 80;
@@ -57,12 +48,12 @@ public class Fenetre extends JFrame {
 		cadreMessages.setBorder(BorderFactory.createTitledBorder("Messages..."));
 		getContentPane().add(cadreMessages);
 		vueGraphique = new VueGraphique(p, e, this);
-		vueTextuelle = new VueTextuelle(p, this);
-		ecouteurDeSouris = new EcouteurDeSouris(controleur,vueGraphique,this);
-		addMouseListener(ecouteurDeSouris);
-		addMouseMotionListener(ecouteurDeSouris);
-		ecouteurDeClavier = new EcouteurDeClavier(controleur);
-		addKeyListener(ecouteurDeClavier);
+		//vueTextuelle = new VueTextuelle(p, this);
+		//ecouteurDeSouris = new EcouteurDeSouris(controleur,vueGraphique,this);
+		//addMouseListener(ecouteurDeSouris);
+		//addMouseMotionListener(ecouteurDeSouris);
+		//ecouteurDeClavier = new EcouteurDeClavier(controleur);
+		//addKeyListener(ecouteurDeClavier);
 		setTailleFenetre();
 		setVisible(true);
 	}
@@ -100,8 +91,8 @@ public class Fenetre extends JFrame {
 		cadreMessages.setSize(largeurFenetre,60);
 		cadreMessages.setLocation(0,hauteurFenetre-hauteurCadreMessages);
 		vueGraphique.setLocation(largeurBouton, 0);
-		vueTextuelle.setSize(largeurVueTextuelle,hauteurFenetre-hauteurCadreMessages);
-		vueTextuelle.setLocation(10+vueGraphique.getLargeur()+largeurBouton,0);
+		//vueTextuelle.setSize(largeurVueTextuelle,hauteurFenetre-hauteurCadreMessages);
+		//vueTextuelle.setLocation(10+vueGraphique.getLargeur()+largeurBouton,0);
 	}
 
 	/**

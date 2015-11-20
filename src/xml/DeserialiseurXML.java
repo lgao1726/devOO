@@ -1,9 +1,5 @@
 package xml;
 
-import model.Noeud;
-import model.Plan;
-import model.Troncon;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -19,6 +15,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import modele.Noeud;
+import modele.Plan;
+import modele.Troncon;
 
 
 public class DeserialiseurXML {

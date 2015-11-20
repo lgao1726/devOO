@@ -1,21 +1,18 @@
-/**package controleur;
+package controleur;
 
-import model.DemandeLivraison;
-import model.FenetreLivraison;
-import model.Livraison;
-import model.Noeud;
-import model.Plan;
-import model.Tournee;
+import modele.Plan;
+import vue.Fenetre;
+//import model.Tournee;
 
 public class EtatDefaut extends Etat{
 
 	@Override
-	protected void chargerPlan(Plan planDeVille) {
+	public void chargerPlan(Plan planDeVille, Fenetre fenetre) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	/**@Override
 	protected void chargerDemandes(DemandeLivraison demandesDeLivraison) {
 		// TODO Auto-generated method stub
 		
@@ -63,6 +60,6 @@ public class EtatDefaut extends Etat{
 	protected void redo() {
 		// TODO Auto-generated method stub
 		
-	}
+	}**/
 
-}**/
+}

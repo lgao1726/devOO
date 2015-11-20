@@ -1,4 +1,4 @@
-package model;
+package modele;
 
 /**
  * Classe troncon qui décrit un lien entre deux noeud
