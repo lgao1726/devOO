@@ -1,5 +1,4 @@
-package modele;
-/**package model;
+/**package modele;
 
 import java.util.Date;
 
@@ -46,11 +45,11 @@ public class FenetreLivraison {
 	}
 
 	
-}
+}**/
 
-**/
-/**
-package model;
+
+
+package modele;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -115,5 +114,5 @@ public class FenetreLivraison {
 	}
 
 	
-}**/
+}
 

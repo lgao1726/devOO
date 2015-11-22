@@ -2,6 +2,7 @@ package modele;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * Classe noeud qui définir une intersection des tronçons
@@ -15,7 +16,6 @@ public class Noeud
 	private int y;
 	
 	private List<Troncon> listeTronconsSortants;
-
 
 	/**
 	 * 

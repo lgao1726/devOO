@@ -64,7 +64,11 @@ public class Plan extends Observable
 	public void setIntersections(ArrayList<Noeud> noeuds) {
 		this.intersections = noeuds;
 	}
-
+	
+	public int getNbIntersections()
+	{
+		return intersections.size();
+	}
 	/**
 	 * Méthode qui ajout la liste des intersection un noeud
 	 * @param noeud

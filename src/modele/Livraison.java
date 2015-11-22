@@ -1,5 +1,5 @@
 package modele;
-/**package model;
+
 
 public class Livraison 
 {
@@ -51,4 +51,4 @@ public class Livraison
 	
 	
 	
-}**/
+}

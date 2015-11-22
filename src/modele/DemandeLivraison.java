@@ -1,11 +1,13 @@
 package modele;
-/**package model;
 
+
+/**import java.util.ArrayList;
 import java.util.Date;
 
 public class DemandeLivraison {
 
 	private int adresseEntrepot;
+	private ArrayList<FenetreLivraison> listeFenetre;
 
 	public DemandeLivraison(int adresseEntrepot) {
 		super();
