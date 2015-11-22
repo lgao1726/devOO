@@ -11,7 +11,7 @@ import vue.Fenetre;
 import vue.VueGraphique;
 
 /**
- * Class plan qui décrit le plan de la ville
+ * Class plan qui dï¿½crit le plan de la ville
  * @author interCorp
  *
  */
@@ -66,12 +66,15 @@ public class Plan extends Observable
 	}
 
 	/**
-	 * Méthode qui ajout la liste des intersection un noeud
+	 * Mï¿½thode qui ajout la liste des intersection un noeud
 	 * @param noeud
 	 */
 	public void ajouterNoeud(Noeud noeud)
 	{
 		intersections.add(noeud);
+		this.setChanged();
+		
+		
 	}
 
 }

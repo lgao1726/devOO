@@ -26,8 +26,9 @@ public class Main {
 		OuvreurDeFichierXML ouvreurDeFichierXML = OuvreurDeFichierXML.getInstance();
 		DeserialiseurXML deserialiseurXML = new DeserialiseurXML();
 		Plan plan = new Plan();
+		new Controleur(plan, 1);
 
-		try {
+		/**try {
 			deserialiseurXML.traiterPlan(plan);
 			System.out.println("X : " + plan.getDimX());
 			System.out.println("Y : "+plan.getDimY());
@@ -43,7 +44,7 @@ public class Main {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}**/
 		
 	}
 

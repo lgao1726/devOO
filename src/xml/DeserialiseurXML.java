@@ -63,6 +63,7 @@ public class DeserialiseurXML {
        	}
         plan.setDimX(maxX);
         plan.setDimY(maxY);
+        plan.notifyObservers();
     }
     
     private static Noeud creerNoeud(Element elt) throws ExceptionXML{
@@ -94,9 +95,9 @@ public class DeserialiseurXML {
 //   		float vitesse = Float.parseFloat(elt.getAttribute("vitesse"));
 //   		float longueur = Float.parseFloat(elt.getAttribute("longueur"));
    		if (longueur <= 0)
-   			throw new ExceptionXML("Erreur lors de la lecture du fichier : Longueur négative");
+   			throw new ExceptionXML("Erreur lors de la lecture du fichier : Longueur nï¿½gative");
    		if (vitesse <= 0)
-   			throw new ExceptionXML("Erreur lors de la lecture du fichier : Vitesse négative");
+   			throw new ExceptionXML("Erreur lors de la lecture du fichier : Vitesse nï¿½gative");
    		return new Troncon(vitesse, longueur, nomRue, idNoeudDestination);
     }
  

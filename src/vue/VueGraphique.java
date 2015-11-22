@@ -40,6 +40,7 @@ public class VueGraphique extends JPanel implements Observer{
 		setSize(largeurVue, hauteurVue);
 		f.getContentPane().add(this);
 		this.plan = plan;
+		
 	}
 	
 	/**
@@ -48,7 +49,6 @@ public class VueGraphique extends JPanel implements Observer{
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 		RenderingHints.VALUE_ANTIALIAS_ON);
@@ -125,6 +125,12 @@ public class VueGraphique extends JPanel implements Observer{
 			Noeud n = (Noeud)arg;
 			//n.addObserver(this);  // this observe la forme f
 		}
+		//modifier les dimensions du JPanel avec les nouvelles dimensions du plan
+		hauteurVue = plan.getDimY()*this.echelle;
+		largeurVue = plan.getDimX()*this.echelle;
+		System.out.println(plan.getDimX());
+		setSize(largeurVue, hauteurVue);
+		
 		repaint();
 	}
 

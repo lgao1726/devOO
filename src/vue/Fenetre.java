@@ -55,6 +55,7 @@ public class Fenetre extends JFrame {
 		//ecouteurDeClavier = new EcouteurDeClavier(controleur);
 		//addKeyListener(ecouteurDeClavier);
 		setTailleFenetre();
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setVisible(true);
 	}
 

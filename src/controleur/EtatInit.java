@@ -17,7 +17,7 @@ public class EtatInit extends EtatDefaut{
 	public  void chargerPlan(Plan planDeVille, Fenetre fenetre)
 	{
 		try {
-			DeserialiseurXML.traiterPlan(planDeVille);
+		DeserialiseurXML.traiterPlan(planDeVille);
 			Controleur.setEtatCourant(Controleur.etatPlanCharge);
 		} catch (ParserConfigurationException 
 				| SAXException | IOException 
