@@ -63,26 +63,29 @@ public class DeserialiseurXML {
 	 * @throws IOException
 	 * @throws ExceptionXML
 	 */
-	public static void chargerDemandeLivraison(Plan plan) throws ParserConfigurationException, SAXException, 
+	public static boolean chargerDemandeLivraison(Plan plan) throws ParserConfigurationException, SAXException, 
 																	   IOException, ExceptionXML
     {
 		File xml = OuvreurDeFichierXML.getInstance().ouvre(true);
-        DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document document = docBuilder.parse(xml);
-        Element racine = document.getDocumentElement();
-        
-        DemandeLivraison demande = new DemandeLivraison();
-        
-        if (racine.getNodeName().equals("JourneeType")) 
-        {
-           getEntrepot(racine, plan);
-           contruireFenetresLivraison(racine, demande);
-           
-           plan.setDemandeLivraisons(demande);
-           plan.notifyObservers();
-        }
-        else
-        	throw new ExceptionXML("Document non conforme");
+        if (xml!=null){
+			DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+	        Document document = docBuilder.parse(xml);
+	        Element racine = document.getDocumentElement();
+	        
+	        DemandeLivraison demande = new DemandeLivraison();
+	        
+	        if (racine.getNodeName().equals("JourneeType")) 
+	        {
+	        	getEntrepot(racine, plan);
+				contruireFenetresLivraison(racine, demande);
+				   
+				plan.setDemandeLivraisons(demande);
+				plan.notifyObservers();
+				return true;
+	        } else
+				throw new ExceptionXML("Document non conforme");
+        } else
+        	return false;
 	}
 	
 	protected static void getEntrepot(Element noeudDOMRacine, Plan plan) throws NumberFormatException, ExceptionXML
