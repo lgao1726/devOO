@@ -1,38 +1,45 @@
 package modele;
 
-
-/**import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.Observable;
 
-public class DemandeLivraison {
+public class DemandeLivraison
+{
+	private ArrayList<FenetreLivraison> listeFenetres;
 
-	private int adresseEntrepot;
-	private ArrayList<FenetreLivraison> listeFenetre;
-
-	public DemandeLivraison(int adresseEntrepot) {
+	public DemandeLivraison() 
+	{
 		super();
-		this.adresseEntrepot = adresseEntrepot;
-	}
-
-	public int getAdresseEntrepot() {
-		return adresseEntrepot;
-	}
-
-	public void setAdresseEntrepot(int adresseEntrepot) {
-		this.adresseEntrepot = adresseEntrepot;
+		listeFenetres = new ArrayList<FenetreLivraison>();
 	}
 	
-	public int ajouterLivraison(Livraison livraison,Date heureDebut,Date heureFin){
+	public void ajouterFenetre(FenetreLivraison fenetre)
+	{
+		listeFenetres.add(fenetre);
+	}
+	
+	public FenetreLivraison getFenetre(Date debut, Date fin)
+	{
+		Iterator<FenetreLivraison> it = listeFenetres.iterator();
+		FenetreLivraison fenetre = null;
 		
-		return 0;
-	}
-	
-	public int supprimerLivraison(int idLivraison1, Date heureDebut1,int idLivraison2, Date heureDebut2){
-		return 0;
-	}
-	
-	public void echangerLivraison(int idLivraison1, Date heureDebut1,int idLivraison2, Date heureDebut2){
+		while (it.hasNext())
+		{
+			fenetre = (FenetreLivraison)it.next();
+			
+			if (fenetre.getHeureDebut().equals(debut) && fenetre.getHeureFin().equals(fin))
+				
+				break;
+		}
 		
+		return fenetre;
 	}
+	
+	public Iterator<FenetreLivraison> getFenetreIterator()
+	{
+		return listeFenetres.iterator();
+	}
+	
 }
-**/
