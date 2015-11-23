@@ -7,7 +7,7 @@ import java.util.Observable;
  * @author InterCorp
  *
  */
-public class Livraison extends Observable
+public class Livraison 
 {
 	private int id;
 	private Noeud adresse;
