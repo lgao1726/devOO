@@ -16,11 +16,8 @@ public class Main
 		Plan plan = new Plan(dimX, dimY);
 		
 		new Controleur(plan);
-<<<<<<< HEAD
+
 		
 	}
-=======
-	}
-
->>>>>>> branch 'development' of https://github.com/lgao1726/devOO.git
 }
+
