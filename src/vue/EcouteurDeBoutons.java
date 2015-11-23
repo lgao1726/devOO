@@ -19,6 +19,7 @@ public class EcouteurDeBoutons implements ActionListener {
 		// Envoi au controleur du message correspondant au bouton clique
 		switch (e.getActionCommand()){
 		case Fenetre.CHARGER_PLAN: controleur.chargerPlan(); break;
+		case Fenetre.CHARGER_LIVRAISON: controleur.chargerLivraison(); break;
 		}
 	}
 }
