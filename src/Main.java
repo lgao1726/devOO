@@ -18,4 +18,5 @@ public class Main
 		
 		new Controleur(plan);
 		
+	}
 }
