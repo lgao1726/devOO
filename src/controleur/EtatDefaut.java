@@ -1,21 +1,21 @@
 package controleur;
 
+import modele.DemandeLivraison;
 import modele.Plan;
 import vue.Fenetre;
 //import model.Tournee;
 
-public class EtatDefaut extends Etat{
+public class EtatDefaut implements Etat {
 
 	@Override
-	public void chargerPlan(Plan planDeVille, Fenetre fenetre) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void chargerPlan(Plan planDeVille, Fenetre fenetre)
+	{}
+
+	@Override
+	public void chargerDemandes(Plan plan, Fenetre fenetre)
+	{}
 
 	/**@Override
-	protected void chargerDemandes(DemandeLivraison demandesDeLivraison) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
