@@ -115,6 +115,9 @@ public class Plan extends Observable
 	{
 		Iterator<Noeud> it = intersections.iterator();
 		
+		demandeLivraisons = null;
+		adresseEntrepot = null;
+		
 		while (it.hasNext())
 		{
 			it.next();

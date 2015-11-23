@@ -34,49 +34,7 @@ public class VueTextuelle extends JLabel implements Observer{
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		if (arg != null){ // arg est une forme qui vient d'etre ajoutee a plan
-			Forme f = (Forme)arg;
-			f.addObserver(this);
-		}
-		Iterator<Forme> it = plan.getIterateurFormes();
-		texte = "<html><ul>";
-		while (it.hasNext())
-			it.next().accepte(this);
-		texte = texte+"</ul></html>";
-		setText(texte);
-	}
-
-
-	/**
-	 * Methode appelee par l'objet visite (un cercle) a chaque fois qu'il recoit le message accepte
-	 */
-	@Override
-	public void visiteForme(Cercle c) {
-		texte = texte+"<li>";
-		if (c.getEstSelectionne())
-			texte = texte+"<b><i>";
-		texte = texte+"Cercle : centre=(" + c.getCentre().getX() 
-				+ "," + c.getCentre().getY()
-				+ ") rayon=" + c.getRayon();
-		if (c.getEstSelectionne())
-				texte = texte+"</i></b>";
-		texte = texte+"</li>";
-	}
-	
-	/**
-	 * Methode appelee par l'objet visite (un rectangle) a chaque fois qu'il recoit le message accepte
-	 */
-	@Override
-	public void visiteForme(Rectangle r) {
-		texte = texte+"<li>";
-		if (r.getEstSelectionne())
-			texte = texte+"<b><i>";
-		texte = texte+"Rectangle : coin=(" + r.getCoin().getX() 
-				+ "," + r.getCoin().getY() + ") largeur="
-				+ r.getLargeur() + " hauteur=" + r.getHauteur();
-		if (r.getEstSelectionne())
-			texte = texte+"</i></b>";
-		texte = texte+"</li>";
+		
 	}
 
 

@@ -35,18 +35,28 @@ public class DeserialiseurXML {
 	 * @throws IOException
 	 * @throws ExceptionXML
 	 */
-	public static void traiterPlan(Plan plan) throws ParserConfigurationException, SAXException, IOException, ExceptionXML{
+	public static boolean traiterPlan(Plan plan) throws ParserConfigurationException, SAXException, IOException, ExceptionXML
+	{
 		File xml = OuvreurDeFichierXML.getInstance().ouvre(true);
-        DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();	
-        Document document = docBuilder.parse(xml);
-        Element racine = document.getDocumentElement();
-        if (racine.getNodeName().equals("Reseau")) 
-        {
-           construireAPartirDeDOMXML(racine, plan);
-           
-        }
-        else
-        	throw new ExceptionXML("Document non conforme");
+		
+		if (xml != null)
+		{
+	        DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();	
+	        Document document = docBuilder.parse(xml);
+	        Element racine = document.getDocumentElement();
+	        if (racine.getNodeName().equals("Reseau")) 
+	        {
+	           plan.reset(0);
+	           construireAPartirDeDOMXML(racine, plan);
+	        }
+	        else
+	        	throw new ExceptionXML("Document plan non conforme");
+	        
+	        return true;
+		}
+		else
+			
+			return false;
 	}
 	
 	/**
@@ -57,26 +67,36 @@ public class DeserialiseurXML {
 	 * @throws IOException
 	 * @throws ExceptionXML
 	 */
-	public static void chargerDemandeLivraison(Plan plan) throws ParserConfigurationException, SAXException, 
+	public static boolean chargerDemandeLivraison(Plan plan) throws ParserConfigurationException, SAXException, 
 																	   IOException, ExceptionXML
     {
 		File xml = OuvreurDeFichierXML.getInstance().ouvre(true);
-        DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document document = docBuilder.parse(xml);
-        Element racine = document.getDocumentElement();
-        
-        DemandeLivraison demande = new DemandeLivraison();
-        
-        if (racine.getNodeName().equals("JourneeType")) 
-        {
-           getEntrepot(racine, plan);
-           contruireFenetresLivraison(racine, demande);
-           
-           plan.setDemandeLivraisons(demande);
-           plan.notifyObservers();
-        }
-        else
-        	throw new ExceptionXML("Document non conforme");
+		
+		if (xml != null)
+		{
+	        DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+	        Document document = docBuilder.parse(xml);
+	        Element racine = document.getDocumentElement();
+	        
+	        DemandeLivraison demande = new DemandeLivraison();
+	        
+	        if (racine.getNodeName().equals("JourneeType")) 
+	        {
+	           getEntrepot(racine, plan);
+	           contruireFenetresLivraison(racine, demande);
+	           
+	           plan.setDemandeLivraisons(demande);
+	           plan.notifyObservers();
+	        }
+	        else
+	        	throw new ExceptionXML("Document livraison non conforme");
+		
+	        
+	        return true;
+		}
+		else
+			
+			return false;
 	}
 	
 	private static void getEntrepot(Element noeudDOMRacine, Plan plan) throws NumberFormatException, ExceptionXML
@@ -214,9 +234,9 @@ public class DeserialiseurXML {
 //   		float vitesse = Float.parseFloat(elt.getAttribute("vitesse"));
 //   		float longueur = Float.parseFloat(elt.getAttribute("longueur"));
    		if (longueur <= 0)
-   			throw new ExceptionXML("Erreur lors de la lecture du fichier : Longueur nÃ©gative");
+   			throw new ExceptionXML("Erreur lors de la lecture du fichier : Longueur négative");
    		if (vitesse <= 0)
-   			throw new ExceptionXML("Erreur lors de la lecture du fichier : Vitesse nÃ©gative");
+   			throw new ExceptionXML("Erreur lors de la lecture du fichier : Vitesse négative");
    		return new Troncon(vitesse, longueur, nomRue, idNoeudDestination);
     }
     

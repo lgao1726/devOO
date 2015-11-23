@@ -15,25 +15,26 @@ import modele.Plan;
 public class EtatInit extends EtatDefaut
 {
 	/**
-	 * MÃ©thode qui charger un plan
+	 * Méthode qui charger un plan
 	 * @param Plan de ville
 	 * @param Fenetre
 	 * @throws ExceptionEtat
 	 */
 	@Override
-	public void chargerPlan(Plan planDeVille, Fenetre fenetre)
+	public void chargerPlan(Plan plan, Fenetre fenetre)
 	{
 		try 
 		{
-			DeserialiseurXML.traiterPlan(planDeVille);
+			if (DeserialiseurXML.traiterPlan(plan))
 			
-			Controleur.setEtatCourant(Controleur.etatPlanCharge);
+				Controleur.setEtatCourant(Controleur.etatPlanCharge);
 			
 		} 
 		catch (Exception e) 
 		{
-			fenetre.afficheMessageBox("Erreur au niveau de chargement de plan");
-			planDeVille.reset(0);
+			fenetre.afficheMessageBox(e.getMessage());
+			// A changé jusqu'au on implémentra liste des commandes
+			plan.reset(0);
 		}
 	}
 	
