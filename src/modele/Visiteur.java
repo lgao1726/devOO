@@ -10,4 +10,5 @@ package modele;
 public interface Visiteur 
 {
 	public void visite(Livraison v);
+	public void visite(Itineraire v);
 }

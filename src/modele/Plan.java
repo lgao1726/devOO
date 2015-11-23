@@ -62,7 +62,10 @@ public class Plan extends Observable
 	public ArrayList<Noeud> getIntersections() {
 		return intersections;
 	}
-
+	
+	public int getNbIntersections(){
+		return intersections.size();
+	}
 	/**
 	 * Méthode qui ajout la liste des intersection un noeud
 	 * @param noeud
@@ -73,6 +76,21 @@ public class Plan extends Observable
 		
 		setChanged();
 		//notifyObservers(noeud);
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Noeud getNoeud(int id) {
+		for(Noeud n:intersections){
+			if(n.getId() == id){
+				return n;
+			}
+			
+		}
+		return intersections.get(id);
 	}
 	
 	/**
@@ -97,6 +115,7 @@ public class Plan extends Observable
 		this.demandeLivraisons = demandes;
 		setChanged();
 	}
+
 	
 	/**
 	 * @param DemandeDeLivraison
@@ -115,6 +134,9 @@ public class Plan extends Observable
 	{
 		Iterator<Noeud> it = intersections.iterator();
 		
+		demandeLivraisons = null;
+		adresseEntrepot = null;
+		
 		while (it.hasNext())
 		{
 			it.next();
@@ -127,4 +149,12 @@ public class Plan extends Observable
 		// vidé la liste des noeuds
 		UsineNoeud.initPointFactory(taille);
 	}
+	
+	public void setTournee() 
+	{
+		setChanged();
+		notifyObservers();
+		
+	}
+	
 }

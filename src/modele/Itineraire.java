@@ -1,17 +1,25 @@
 package modele;
-/**package model;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Itineraire {
 
-	private Livraison livraisonOrigine;
-	private Livraison livraisonDestination;
+	//private Livraison livraisonOrigine;
+	//private Livraison livraisonDestination;
+	private ArrayList<Integer> noeudsItineraire;
+	private List <Integer> listeNoeud;
 	
-	public Itineraire(Livraison livraisonOrigine, Livraison livraisonDestination) {
+	
+	public Itineraire() {
 		super();
-		this.livraisonOrigine = livraisonOrigine;
-		this.livraisonDestination = livraisonDestination;
+		listeNoeud= new ArrayList<Integer>();
+		//this.livraisonOrigine = livraisonOrigine;
+		//this.livraisonDestination = livraisonDestination;
+		noeudsItineraire = new ArrayList<Integer>();
 	}
 	
+	/**
 	public Livraison getLivraisonOrigine() {
 		return livraisonOrigine;
 	}
@@ -23,7 +31,20 @@ public class Itineraire {
 	}
 	public void setLivraisonDestination(Livraison livraisonDestination) {
 		this.livraisonDestination = livraisonDestination;
+	}**/
+	
+	public void addNoeud(int id){
+		noeudsItineraire.add(id);
+	}
+	public void ajouterNoeud(int id ) {
+		listeNoeud.add(id);
+	}
+	public void ajouterNoeud(int index, int id) {
+		listeNoeud.add(index, id);
 	}
 	
+	public void accepte(Visiteur v){
+		v.visite(this);
+	}
 	
-}**/
+}

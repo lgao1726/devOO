@@ -15,7 +15,7 @@ import modele.Plan;
 public class EtatPlanCharge extends EtatDefaut
 {	
 	/**
-	 * Méthode qui charge les demande des livraision et qui passe vers l'état LivraisonCharger
+	 * M�thode qui charge les demande des livraision et qui passe vers l'�tat LivraisonCharger
 	 * @param Plan
 	 * @param DemandeLivraison
 	 */
@@ -24,9 +24,15 @@ public class EtatPlanCharge extends EtatDefaut
 	{
 		try 
 		{
-			DeserialiseurXML.chargerDemandeLivraison(plan);
+			if (DeserialiseurXML.chargerDemandeLivraison(plan))
+				
+				Controleur.setEtatCourant(Controleur.etatLivraisonCharge);
 			
 			Controleur.setEtatCourant(Controleur.etatLivraisonCharge);
+			//temporaire pour faciliter le developpement de la vue	
+			plan.getDemandeLivraisons().calculTournee(plan);
+			
+	        plan.notifyObservers();
 			
 		} 
 		catch (Exception e) 
@@ -36,5 +42,16 @@ public class EtatPlanCharge extends EtatDefaut
 		}
 	}
 	
+	/**
+	 * M�thode qui charger un plan
+	 * @param Plan de ville
+	 * @param Fenetre
+	 * @throws ExceptionEtat
+	 */
+	@Override
+	public void chargerPlan(Plan plan, Fenetre fenetre)
+	{
+		Controleur.etatInit.chargerPlan(plan, fenetre);
+	}
 	
 }

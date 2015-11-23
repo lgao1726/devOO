@@ -1,16 +1,20 @@
 package vue;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
 import modele.DemandeLivraison;
 import modele.FenetreLivraison;
+import modele.Itineraire;
 import modele.Livraison;
 import modele.Noeud;
 import modele.Plan;
+import modele.Tournee;
 import modele.Visiteur;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -108,17 +112,22 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 		
 		if (dem != null)
 		{
-			Iterator<FenetreLivraison> itFen = dem.getFenetreIterator();
-			
+			Iterator<FenetreLivraison> itFen = dem.getFenetreIterator();			
 			while (itFen.hasNext())
 			{
-				FenetreLivraison fen = itFen.next();
-				
-				Iterator<Livraison> itLiv = fen.getLivraisonIterator();
-				
-				while (itLiv.hasNext())
-				
+				FenetreLivraison fen = itFen.next();				
+				Iterator<Livraison> itLiv = fen.getLivraisonIterator();				
+				while (itLiv.hasNext())				
 					itLiv.next().accepte(this);
+			}
+		}
+		
+		if(dem != null && dem.getTournee() != null){
+			Tournee tour = dem.getTournee();
+			Iterator<Itineraire> itIti = tour.getItineraireIterator();
+			while(itIti.hasNext()){
+				itIti.next().accepte(this);
+				
 			}
 		}
 	}
@@ -170,6 +179,24 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 		g2.setColor(Color.RED);
 		
 		g2.fillOval(x*echelle-5, y*echelle-5, 10, 10);
+	}
+	
+	@Override
+	public void visite(Itineraire iti) {
+		int i = 0;
+		ArrayList<Integer> idNoeuds = iti.getNoeuds();
+		while(i < idNoeuds.size() - 1){
+			Graphics2D g2 = (Graphics2D) g;
+			Noeud origine = plan.getNoeud(idNoeuds.get(i));
+			Noeud destination = plan.getNoeud(idNoeuds.get(i+1));		
+			g2.setColor(Color.green);
+			g2.setStroke(new BasicStroke(3));
+			g2.drawLine(origine.getX(),origine.getY(),
+						destination.getX(),destination.getY());			
+			i++;
+			
+		}
+		
 	}
 
 }
