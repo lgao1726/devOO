@@ -1,4 +1,3 @@
-
 import tsp.Graphe;
 import tsp.GrapheLivraison;
 import modele.Plan;
@@ -19,14 +18,4 @@ public class Main
 		
 		new Controleur(plan);
 		
-		try {
-			Thread.sleep(20000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		GrapheLivraison graphe=new GrapheLivraison(plan);
-		
-		graphe.afficherMatrice();
-	}
-
 }

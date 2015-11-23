@@ -5,18 +5,21 @@ import java.util.List;
 
 public class Itineraire {
 
-	private Livraison livraisonOrigine;
-	private Livraison livraisonDestination;
+	//private Livraison livraisonOrigine;
+	//private Livraison livraisonDestination;
+	private ArrayList<Integer> noeudsItineraire;
 	private List <Integer> listeNoeud;
 	
 	
-	public Itineraire(Livraison livraisonOrigine, Livraison livraisonDestination) {
+	public Itineraire() {
 		super();
 		listeNoeud= new ArrayList<Integer>();
-		this.livraisonOrigine = livraisonOrigine;
-		this.livraisonDestination = livraisonDestination;
+		//this.livraisonOrigine = livraisonOrigine;
+		//this.livraisonDestination = livraisonDestination;
+		noeudsItineraire = new ArrayList<Integer>();
 	}
 	
+	/**
 	public Livraison getLivraisonOrigine() {
 		return livraisonOrigine;
 	}
@@ -28,6 +31,10 @@ public class Itineraire {
 	}
 	public void setLivraisonDestination(Livraison livraisonDestination) {
 		this.livraisonDestination = livraisonDestination;
+	}**/
+	
+	public void addNoeud(int id){
+		noeudsItineraire.add(id);
 	}
 	public void ajouterNoeud(int id ) {
 		listeNoeud.add(id);
@@ -36,5 +43,8 @@ public class Itineraire {
 		listeNoeud.add(index, id);
 	}
 	
+	public void accepte(Visiteur v){
+		v.visite(this);
+	}
 	
 }
