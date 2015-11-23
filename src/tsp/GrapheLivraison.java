@@ -93,8 +93,9 @@ public class GrapheLivraison implements Graphe {
 	{
 		int idDebut=noeudDebut.getId();
 		grapheChemin[idDebut][idDebut]=0;
-		int[] ensembleNoeuds=initEnsembleNoeud();
-		ensembleNoeuds[idDebut]=GRIS;
+		int[] etatNoeuds=initEtatNoeuds();
+		int[] predecesseurs=initPredecesseurs();
+		etatNoeuds[idDebut]=GRIS;
 		List <Integer> gris=new LinkedList<Integer>();
 		gris.add(idDebut);
 		while(!gris.isEmpty())
@@ -102,9 +103,18 @@ public class GrapheLivraison implements Graphe {
 			int idNoeudCourant=choisirSommetGris(gris, idDebut);
 			for(int i=0; i<nbSommets; i++)
 			{
-				if(graphePlan[idNoeudCourant][i]!=-1 && (ensembleNoeuds[i]!=NOIR))
+				if(graphePlan[idNoeudCourant][i]!=-1 && (etatNoeuds[i]!=NOIR) && i!=idNoeudCourant)
 				{
-					
+					if(grapheChemin[idDebut][i]>grapheChemin[idDebut][idNoeudCourant]+graphePlan[idNoeudCourant][i])
+					{
+						grapheChemin[idDebut][i]=grapheChemin[idDebut][idNoeudCourant]+graphePlan[idNoeudCourant][i];
+						predecesseurs[i]=idNoeudCourant;
+						if(etatNoeuds[i]==BLANC)
+						{
+							etatNoeuds[i]=NOIR;
+							gris.remove(i);						
+						}
+					}
 				}
 			}
 			
@@ -128,14 +138,24 @@ public class GrapheLivraison implements Graphe {
 		return idNoeudChoisi;
 	}
 	
-	private int[] initEnsembleNoeud()
+	private int[] initEtatNoeuds()
 	{
-		int[] ensembleNoeuds=new int [nbSommets] ;
+		int[] etatNoeuds=new int [nbSommets] ;
 		for(int i=0; i<nbSommets; i++)
 		{
-			ensembleNoeuds[i]=BLANC;
+			etatNoeuds[i]=BLANC;
 		}
-		return ensembleNoeuds;
+		return etatNoeuds;
+	}
+	
+	private int[] initPredecesseurs()
+	{
+		int[] predecesseurs=new int [nbSommets] ;
+		for(int i=0; i<nbSommets; i++)
+		{
+			predecesseurs[i]=-1;
+		}
+		return predecesseurs;
 	}
 }
 	
