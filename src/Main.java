@@ -22,14 +22,30 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		
+
+		OuvreurDeFichierXML ouvreurDeFichierXML = OuvreurDeFichierXML.getInstance();
+		DeserialiseurXML deserialiseurXML = new DeserialiseurXML();
 		Plan plan = new Plan();
-		Controleur controleur = new Controleur(plan,1);
-		controleur.chargerPlan();
+		new Controleur(plan, 1);
+
+		/**try {
+			deserialiseurXML.traiterPlan(plan);
 			System.out.println("X : " + plan.getDimX());
 			System.out.println("Y : "+plan.getDimY());
 			System.out.println("Noeuds :" + plan.getIntersections().size());
 			System.out.println(plan.getIntersections().get(3).getListeTronconsSortants().get(0).getNomRue());
 			
-		}
+			new Controleur(plan, 1);
+		} catch (ExceptionXML e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}**/
+		
+	}
 
 }
