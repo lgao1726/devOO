@@ -1,4 +1,6 @@
 
+import tsp.Graphe;
+import tsp.GrapheLivraison;
 import modele.Plan;
 import controleur.Controleur;
 
@@ -16,6 +18,15 @@ public class Main
 		Plan plan = new Plan(dimX, dimY);
 		
 		new Controleur(plan);
+		
+		try {
+			Thread.sleep(20000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		GrapheLivraison graphe=new GrapheLivraison(plan);
+		
+		graphe.afficherMatrice();
 	}
 
 }

@@ -1,25 +1,31 @@
 package tsp;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 
-
-import modele.FenetreLivraison;
-import modele.Livraison;
 import modele.Noeud;
 import modele.Plan;
 import modele.Troncon;
-
+import modele.Itineraire;
 public class GrapheLivraison implements Graphe {
 	
 	int nbSommets;
 	float[][] graphePlan;
 	float[][] grapheChemin;
+	Map<Integer, Itineraire> listItinéraires;
+	final int BLANC=0;
+	final int GRIS=1;
+	final int NOIR=2;
+	final float DUREE_MAX=100000; //en heure pour l'instant
 
 
-	public GrapheLivraison(Plan p, ArrayList<FenetreLivraison> listeFenetres){
-		int nbSommets=p.getNbIntersections();
+	public GrapheLivraison(Plan p){
+		listItinéraires=new HashMap<Integer, Itineraire>();
+		nbSommets=p.getNbIntersections();
 		graphePlan = new float[nbSommets][nbSommets]; 
 		grapheChemin = new float[nbSommets][nbSommets]; 
 		for (int i=0; i<nbSommets; i++){
@@ -28,7 +34,7 @@ public class GrapheLivraison implements Graphe {
 		         graphePlan[i][j] = -1;
 		    }
 		}
-		initGraphePlan(p);
+		initGraphe(p);
 	}
 
 	@Override
@@ -36,12 +42,12 @@ public class GrapheLivraison implements Graphe {
 		return nbSommets;
 	}
 
-	@Override
+	/**@Override
 	public float getCout(int i, int j) {
 		if (i<0 || i>=nbSommets || j<0 || j>=nbSommets)
 			return -1;
 		return grapheChemin[i][j];
-	}
+	}**/
 
 	@Override
 	public boolean estArc(int i, int j) {
@@ -50,25 +56,87 @@ public class GrapheLivraison implements Graphe {
 		return i != j;
 	}
 	
-	private void initGraphePlan(Plan p)
+    public void afficherMatrice()
+    {
+        System.out.println("Matrice du plan");
+        for(int i=0; i<nbSommets; i++)
+        {
+            for(int j=0; j<nbSommets; j++)
+            {
+            	
+                System.out.print("|"+graphePlan[i][j]);
+            }
+            System.out.println("|");
+        }
+    }
+	
+	private void initGraphe(Plan p)
 	{
 		ArrayList<Noeud> intersections=p.getIntersections();
-		for (Iterator<Noeud> itNoeud=intersections.iterator(); itNoeud.hasNext();)
+		for (Noeud curNoeud:intersections)
 		{
-			Noeud curNoeud=(Noeud)itNoeud.next();
 			int idOrigine=curNoeud.getId();
-			List troncons= curNoeud.getListeTronconsSortants();
-			for (Iterator itTroncon=intersections.iterator(); itTroncon.hasNext();)
+			List<Troncon> troncons=  curNoeud.getListeTronconsSortants();
+			for (Troncon curTroncon:troncons)
 			{
-				Troncon curTroncon=(Troncon)itTroncon.next();
 				int idDestination=curTroncon.getIdNoeudDestination();
 				float longueur=curTroncon.getLongueur();
 				float vitesse=curTroncon.getVitesse();
 				float duree= longueur/vitesse;
 				graphePlan[idOrigine][idDestination]=duree;
-				
+				grapheChemin[idOrigine][idDestination]=DUREE_MAX;
 				
 			}
 		}
 	}
+	private void dijkstra(Noeud noeudDebut)
+	{
+		int idDebut=noeudDebut.getId();
+		grapheChemin[idDebut][idDebut]=0;
+		int[] ensembleNoeuds=initEnsembleNoeud();
+		ensembleNoeuds[idDebut]=GRIS;
+		List <Integer> gris=new LinkedList<Integer>();
+		gris.add(idDebut);
+		while(!gris.isEmpty())
+		{
+			int idNoeudCourant=choisirSommetGris(gris, idDebut);
+			for(int i=0; i<nbSommets; i++)
+			{
+				if(graphePlan[idNoeudCourant][i]!=-1 && (ensembleNoeuds[i]!=NOIR))
+				{
+					
+				}
+			}
+			
+		}
+		
+		
+	}
+	
+	private int choisirSommetGris(List<Integer> gris, int idDebut)
+	{
+		float dureeMin=DUREE_MAX;
+		int idNoeudChoisi=gris.get(0);
+		for(Integer id:gris)
+		{
+			if (grapheChemin[idDebut][id]<dureeMin)
+			{
+				idNoeudChoisi=id;
+				dureeMin=grapheChemin[idDebut][id];
+			}
+		}
+		return idNoeudChoisi;
+	}
+	
+	private int[] initEnsembleNoeud()
+	{
+		int[] ensembleNoeuds=new int [nbSommets] ;
+		for(int i=0; i<nbSommets; i++)
+		{
+			ensembleNoeuds[i]=BLANC;
+		}
+		return ensembleNoeuds;
+	}
+}
+	
 	
