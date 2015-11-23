@@ -3,29 +3,36 @@ package controleur;
 import modele.Plan;
 import vue.Fenetre;
 
-public class Controleur {
-	
+public class Controleur 
+{
 	Plan plan;	
 	private Fenetre fenetre;
 	private static Etat etatCourant;
 	
 	protected static final EtatInit etatInit = new EtatInit();
 	protected static final EtatPlanCharge etatPlanCharge = new EtatPlanCharge();
-	
-	public Controleur(Plan p, int e) {
+	protected static final EtatLivraisonCharge etatLivraisonCharge = new EtatLivraisonCharge();
+
+	public Controleur(Plan p) 
+	{
 		this.plan = p;
 		//listeDeCdes = new ListeDeCdes();
 		etatCourant = etatInit;
-		fenetre = new Fenetre(p, e, this);
+		this.fenetre = new Fenetre(p, this);
 	}
 	
 	protected static void setEtatCourant(Etat etat){
 		etatCourant = etat;
 	}
 	
-	public void chargerPlan()
+	public void chargerPlan() 
 	{
 		etatCourant.chargerPlan(plan, fenetre);
+	}
+	
+	public void chargerLivraison()
+	{
+		etatCourant.chargerDemandes(plan, fenetre);
 	}
 
 }
