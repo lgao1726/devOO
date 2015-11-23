@@ -71,9 +71,8 @@ public class DeserialiseurXML {
         {
            getEntrepot(racine, plan);
            contruireFenetresLivraison(racine, demande);
-           
            plan.setDemandeLivraisons(demande);
-           plan.notifyObservers();
+           
         }
         else
         	throw new ExceptionXML("Document non conforme");
@@ -81,38 +80,28 @@ public class DeserialiseurXML {
 	
 	private static void getEntrepot(Element noeudDOMRacine, Plan plan) throws NumberFormatException, ExceptionXML
 	{    
-       	int adresseEntrepot = Integer.parseInt(((Element)noeudDOMRacine.getElementsByTagName("Entrepot").item(0)).getAttribute("adresse"));
-       	
-       	System.out.println(adresseEntrepot);
-       	
-       	Noeud entrepotNoeud = UsineNoeud.getNoeud(adresseEntrepot);
-       	
-       	if (entrepotNoeud != null)
-       		
+       	int adresseEntrepot = Integer.parseInt(((Element)noeudDOMRacine.getElementsByTagName("Entrepot").item(0)).getAttribute("adresse"));       	
+       	System.out.println(adresseEntrepot);       	
+       	Noeud entrepotNoeud = UsineNoeud.getNoeud(adresseEntrepot);       	
+       	if (entrepotNoeud != null)       		
        		plan.setAdresseEntrepot(entrepotNoeud);
        	
-       	else
-       		
+       	else       		
        		throw new ExceptionXML("L'adresse de l'entrepot est introuvable");
     }
 	
 	private static void contruireFenetresLivraison(Element noeudDOMRacine, DemandeLivraison demande) throws ExceptionXML, NumberFormatException{
         
-       	NodeList listeNoeuds = noeudDOMRacine.getElementsByTagName("Plage");
-       	
+       	NodeList listeNoeuds = noeudDOMRacine.getElementsByTagName("Plage");      	
        	for (int i = 0; i < listeNoeuds.getLength(); i++) 
        	{
-       		Element plageActuel = (Element) listeNoeuds.item(i);
-       		
-       		FenetreLivraison plage = creerPlage(plageActuel);
-       		
-           	NodeList listeLivraison = plageActuel.getElementsByTagName("Livraison");
-           	
+       		Element plageActuel = (Element) listeNoeuds.item(i);       		
+       		FenetreLivraison plage = creerPlage(plageActuel);       		
+           	NodeList listeLivraison = plageActuel.getElementsByTagName("Livraison");           	
            	for (int j = 0; j < listeLivraison.getLength(); j++)
            	{
            		plage.ajouterLivraison(creerLivraison((Element) listeLivraison.item(j)));
-           	}
-           	
+           	}           	
            	demande.ajouterFenetre(plage);
        	}
        	
@@ -126,18 +115,14 @@ public class DeserialiseurXML {
 		
 		Noeud livraisonNoeud = UsineNoeud.getNoeud(adresse);
 		
-		if (livraisonNoeud == null)
-			
-			throw new ExceptionXML("L'adresse du livraison n'existe pas sur le plan");
-			
-		
+		if (livraisonNoeud == null)			
+			throw new ExceptionXML("L'adresse du livraison n'existe pas sur le plan");		
 		return new Livraison(id, livraisonNoeud, client);
     }
 	
 	private static FenetreLivraison creerPlage(Element elt) throws ExceptionXML
 	{
-		SimpleDateFormat formater = new SimpleDateFormat("HH:mm:ss");
-   		
+		SimpleDateFormat formater = new SimpleDateFormat("HH:mm:ss");   		
    		Date debut;
    		Date fin;
    		
@@ -149,8 +134,7 @@ public class DeserialiseurXML {
 		catch (ParseException e) 
 		{
 			throw new ExceptionXML("Format de l'heure incorrecte");
-		}
-   		
+		}   		
    		return new FenetreLivraison(debut, fin);
     }
 

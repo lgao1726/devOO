@@ -76,6 +76,21 @@ public class Plan extends Observable
 	}
 	
 	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Noeud getNoeud(int id) {
+		for(Noeud n:intersections){
+			if(n.getId() == id){
+				return n;
+			}
+			
+		}
+		return intersections.get(id);
+	}
+	
+	/**
 	 * @return L'adresse d'Entrepot
 	 */
 	public Noeud getAdresseEntrepot() {
@@ -97,6 +112,7 @@ public class Plan extends Observable
 		this.demandeLivraisons = demandes;
 		setChanged();
 	}
+
 	
 	/**
 	 * @param DemandeDeLivraison
@@ -127,4 +143,12 @@ public class Plan extends Observable
 		// vidé la liste des noeuds
 		UsineNoeud.initPointFactory(taille);
 	}
+	
+	public void setTournee() 
+	{
+		setChanged();
+		notifyObservers();
+		
+	}
+	
 }
