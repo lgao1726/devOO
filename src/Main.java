@@ -1,5 +1,5 @@
-package solnon;
 
+import modele.Plan;
 import controleur.Controleur;
 
 public class Main 
