@@ -1,15 +1,16 @@
 package controleur;
 
+import modele.DemandeLivraison;
 import modele.Plan;
 import vue.Fenetre;
 
-public abstract class Etat {
+public interface Etat {
 	
-	public abstract void chargerPlan(Plan planDeVille, Fenetre fenetre);
+	public void chargerPlan(Plan planDeVille, Fenetre fenetre);
 	
-	/**public abstract void chargerDemandes(DemandeLivraison demandesDeLivraison);
+	public void chargerDemandes(Plan plan, Fenetre fenetre);
 	
-	public abstract void calculerTournee(Plan plan);
+	/*public abstract void calculerTournee(Plan plan);
 	
 	public abstract void genererFeuilleDeRoute(Tournee tournee);
 	
