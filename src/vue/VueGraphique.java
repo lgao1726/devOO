@@ -4,16 +4,22 @@ import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
+import modele.DemandeLivraison;
+import modele.FenetreLivraison;
+import modele.Livraison;
 import modele.Noeud;
 import modele.Plan;
+import modele.Visiteur;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 import javax.swing.JPanel;
 
 
-public class VueGraphique extends JPanel implements Observer{
+public class VueGraphique extends JPanel implements Observer, Visiteur {
 
 	private int echelle;
 	private int hauteurVue;
@@ -30,9 +36,12 @@ public class VueGraphique extends JPanel implements Observer{
 	public VueGraphique(Plan plan, int e, Fenetre f) {
 		super();
 		plan.addObserver(this); // this observe plan
+		
 		this.echelle = e;
+		
 		hauteurVue = plan.getDimY()*e;
 		largeurVue = plan.getDimX()*e;
+		
 		setLayout(null);
 		setBackground(Color.white);
 		setSize(largeurVue, hauteurVue);
@@ -46,27 +55,72 @@ public class VueGraphique extends JPanel implements Observer{
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.setColor(Color.lightGray);
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+		RenderingHints.VALUE_ANTIALIAS_ON);
+		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+		RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		
+		g2.setColor(Color.lightGray);
 		for (int y=0; y<largeurVue/echelle; y+=20)
 			g.drawLine(y*echelle, 0, y*echelle, hauteurVue);
 		for (int x=0; x<hauteurVue/echelle; x+=20)
 			g.drawLine(0, x*echelle, largeurVue, x*echelle);
-		g.setColor(Color.gray);
-		g.drawRect(0, 0, largeurVue, hauteurVue);
+		g2.setColor(Color.gray);
+		g2.drawRect(0, 0, largeurVue, hauteurVue);
 		this.g = g;
 		
 		
 		for(int i = 0; i < this.plan.getIntersections().size(); i++)
 		{
-			g.fillOval(this.plan.getIntersections().get(i).getX()*echelle-3, this.plan.getIntersections().get(i).getY()*echelle-3, 6,6);
+			Noeud noeudOrigine = this.plan.getIntersections().get(i);
+			g2.fillOval(noeudOrigine.getX()*echelle-3, noeudOrigine.getY()*echelle-3, 6,6);
+			
+			for(int j = 0; j < noeudOrigine.getListeTronconsSortants().size(); j++) 
+			{
+				int idNoeudDestination = noeudOrigine.getListeTronconsSortants().get(j).getIdNoeudDestination();
+				Noeud noeudDestination = null;
+				
+				for(int k = 0; k < this.plan.getIntersections().size(); k++)
+				{
+					if(idNoeudDestination == this.plan.getIntersections().get(k).getId())
+					{
+						noeudDestination = this.plan.getIntersections().get(k);
+						break;
+					}
+				}
+				
+				g2.drawLine(noeudOrigine.getX()*echelle, noeudOrigine.getY()*echelle, 
+						noeudDestination.getX()*echelle, noeudDestination.getY()*echelle);
+			}
 		}
 		
-		/*
-		Iterator<Forme> it = plan.getIterateurFormes();
-		while (it.hasNext())
-			it.next().accepte(this);
-			*/
-
+		// Déssiner l'entrepot
+		Noeud entropt = plan.getAdresseEntrepot();
+		
+		if (entropt != null)
+		{
+			g2.setColor(Color.BLUE);
+			g2.fillRect(entropt.getX()*echelle-5, entropt.getY()*echelle-5, 10, 10);
+		}
+		
+		DemandeLivraison dem = plan.getDemandeLivraisons();
+		
+		if (dem != null)
+		{
+			Iterator<FenetreLivraison> itFen = dem.getFenetreIterator();
+			
+			while (itFen.hasNext())
+			{
+				FenetreLivraison fen = itFen.next();
+				
+				Iterator<Livraison> itLiv = fen.getLivraisonIterator();
+				
+				while (itLiv.hasNext())
+				
+					itLiv.next().accepte(this);
+			}
+		}
 	}
 
 	public void setEchelle(int e) {
@@ -92,38 +146,30 @@ public class VueGraphique extends JPanel implements Observer{
 	 * Methode appelee par les objets observes par this a chaque fois qu'ils ont ete modifies
 	 */
 	@Override
-	public void update(Observable o, Object arg) {
-		if (arg != null){ // arg est une forme qui vient d'etre ajoutee a plan
-			Noeud n = (Noeud)arg;
-			//n.addObserver(this);  // this observe la forme f
-		}
+	public void update(Observable o, Object arg) 
+	{
+		hauteurVue = plan.getDimY()*this.echelle;
+		largeurVue = plan.getDimX()*this.echelle;
+		
+		setSize(largeurVue, hauteurVue);
+		
 		repaint();
 	}
 
 	/**
-	 * Methode appelee par l'objet visite (un cercle) a chaque fois qu'il recoit le message accepte
+	 * Methode appelee par l'objet visite (un livraison) a chaque fois qu'il recoit le message accepte
 	 */
-	/*
 	@Override
-	public void visiteForme(Cercle c) {
-		int r = echelle*c.getRayon();
-		if (c.getEstSelectionne())
-			g.drawOval(echelle*c.getCentre().getX()-r, echelle*c.getCentre().getY()-r, 2*r, 2*r);
-		else
-			g.fillOval(echelle*c.getCentre().getX()-r, echelle*c.getCentre().getY()-r, 2*r, 2*r);
+	public void visite(Livraison liv) 
+	{
+		int x = liv.getAdresse().getX();
+		int y = liv.getAdresse().getY();
+		
+		
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setColor(Color.RED);
+		
+		g2.fillOval(x*echelle-5, y*echelle-5, 10, 10);
 	}
-
-	/**
-	 * Methode appelee par l'objet visite (un rectangle) a chaque fois qu'il recoit le message accepte
-	 */
-	/*
-	@Override
-	public void visiteForme(Rectangle r) {
-		if (r.getEstSelectionne())
-			g.drawRect(echelle*r.getCoin().getX(),echelle*r.getCoin().getY(),echelle*(r.getLargeur()),echelle*(r.getHauteur()));
-		else
-			g.fillRect(echelle*r.getCoin().getX(),echelle*r.getCoin().getY(),echelle*(r.getLargeur()),echelle*(r.getHauteur()));
-	}
-	*/
 
 }
