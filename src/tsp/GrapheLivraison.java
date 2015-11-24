@@ -56,9 +56,9 @@ public class GrapheLivraison implements Graphe {
 		return i != j;
 	}
 	
-    public void afficherMatrice()
+    public void afficherMatrice(Integer idDebut)
     {
-        System.out.println("Matrice du plan");
+        /**System.out.println("Matrice du plan");
         for(int i=0; i<nbSommets; i++)
         {
             for(int j=0; j<nbSommets; j++)
@@ -67,8 +67,16 @@ public class GrapheLivraison implements Graphe {
                 System.out.print("|"+graphePlan[i][j]);
             }
             System.out.println("|");
+        }**/
+        System.out.println("Matrice de chemin");
+        for(int j=0; j<nbSommets; j++)
+        {
+        	
+            System.out.print("|"+grapheChemin[idDebut][j]);
         }
-    }
+            System.out.println("|");
+        }
+        
 	
 	private void initGraphe(Plan p)
 	{
@@ -79,6 +87,7 @@ public class GrapheLivraison implements Graphe {
 			List<Troncon> troncons=  curNoeud.getListeTronconsSortants();
 			for (Troncon curTroncon:troncons)
 			{
+				
 				int idDestination=curTroncon.getIdNoeudDestination();
 				float longueur=curTroncon.getLongueur();
 				float vitesse=curTroncon.getVitesse();
@@ -89,41 +98,63 @@ public class GrapheLivraison implements Graphe {
 			}
 		}
 	}
-	private void dijkstra(Noeud noeudDebut)
+	public void dijkstra(Noeud noeudDebut)
 	{
-		int idDebut=noeudDebut.getId();
+		Integer idDebut=noeudDebut.getId();
+		System.out.println("id debut: "+ idDebut);
 		grapheChemin[idDebut][idDebut]=0;
 		int[] etatNoeuds=initEtatNoeuds();
 		int[] predecesseurs=initPredecesseurs();
 		etatNoeuds[idDebut]=GRIS;
-		List <Integer> gris=new LinkedList<Integer>();
+		List <Integer> gris=new ArrayList<Integer>();
 		gris.add(idDebut);
 		while(!gris.isEmpty())
 		{
-			int idNoeudCourant=choisirSommetGris(gris, idDebut);
-			for(int i=0; i<nbSommets; i++)
+			Integer idNoeudCourant=choisirSommetGris(gris, idDebut);
+			System.out.println("si :"+idNoeudCourant);
+			for(Integer i=0; i<nbSommets; i++)
 			{
 				if(graphePlan[idNoeudCourant][i]!=-1 && (etatNoeuds[i]!=NOIR) && i!=idNoeudCourant)
 				{
+					System.out.println("sj: "+i);
 					if(grapheChemin[idDebut][i]>grapheChemin[idDebut][idNoeudCourant]+graphePlan[idNoeudCourant][i])
 					{
 						grapheChemin[idDebut][i]=grapheChemin[idDebut][idNoeudCourant]+graphePlan[idNoeudCourant][i];
 						predecesseurs[i]=idNoeudCourant;
-						if(etatNoeuds[i]==BLANC)
-						{
-							etatNoeuds[i]=NOIR;
-							gris.remove(i);						
-						}
 					}
+					if(etatNoeuds[i]==BLANC)
+					{
+						etatNoeuds[i]=GRIS;
+						gris.add(i);						
+					}
+					
 				}
 			}
+			etatNoeuds[idNoeudCourant]=NOIR;
+			gris.remove(idNoeudCourant);
+			for(Integer it:gris)
+			{
+				System.out.print("|"+it);
+			}
+			System.out.println("|");
 			
 		}
-		
-		
+		System.out.println("predecesseurs");
+
+		for(int j=0; j<nbSommets; j++)
+		{
+			System.out.print("|"+predecesseurs[j]);
+		}
+		System.out.println("etat noeud");
+
+		for(int j=0; j<nbSommets; j++)
+		{
+			System.out.print("|"+etatNoeuds[j]);
+		}
+		System.out.println("|");
 	}
 	
-	private int choisirSommetGris(List<Integer> gris, int idDebut)
+	private Integer choisirSommetGris(List<Integer> gris, int idDebut)
 	{
 		float dureeMin=DUREE_MAX;
 		int idNoeudChoisi=gris.get(0);
