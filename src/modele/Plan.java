@@ -14,9 +14,9 @@ import java.util.Observable;
  */
 public class Plan extends Observable
 {
-	// La dimenssion X
+	// La dimension X
 	private int dimX;
-	// La dimession Y
+	// La dimension Y
 	private int dimY;
 	// Liste des noeud
 	private ArrayList<Noeud> intersections;

@@ -122,7 +122,6 @@ public class DeserialiseurXMLTest extends DeserialiseurXML{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
 		assertEquals(plan, planManu);
 	}
 
