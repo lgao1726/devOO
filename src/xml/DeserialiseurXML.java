@@ -67,16 +67,12 @@ public class DeserialiseurXML {
 																	   IOException, ExceptionXML
     {
 		File xml = OuvreurDeFichierXML.getInstance().ouvre(true);
-<<<<<<< HEAD
+
 
 		
 		if (xml != null)
 		{
 	        DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-=======
-        if (xml!=null){
-			DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
->>>>>>> branch 'development' of https://github.com/lgao1726/devOO.git
 	        Document document = docBuilder.parse(xml);
 	        Element racine = document.getDocumentElement();
 	        
@@ -84,7 +80,7 @@ public class DeserialiseurXML {
 	        
 	        if (racine.getNodeName().equals("JourneeType")) 
 	        {
-<<<<<<< HEAD
+
 	           getEntrepot(racine, plan);
 	           contruireFenetresLivraison(racine, demande);
 	           
@@ -101,18 +97,7 @@ public class DeserialiseurXML {
 			
 			return false;
 
-=======
-	        	getEntrepot(racine, plan);
-				contruireFenetresLivraison(racine, demande);
-				   
-				plan.setDemandeLivraisons(demande);
-				plan.notifyObservers();
-				return true;
-	        } else
-				throw new ExceptionXML("Document non conforme");
-        } else
-        	return false;
->>>>>>> branch 'development' of https://github.com/lgao1726/devOO.git
+
 	}
 	
 	protected static void getEntrepot(Element noeudDOMRacine, Plan plan) throws NumberFormatException, ExceptionXML
@@ -250,17 +235,11 @@ public class DeserialiseurXML {
 //   		float vitesse = Float.parseFloat(elt.getAttribute("vitesse"));
 //   		float longueur = Float.parseFloat(elt.getAttribute("longueur"));
    		if (longueur <= 0)
-<<<<<<< HEAD
    			throw new ExceptionXML("Erreur lors de la lecture du fichier : Longueur n�gative");
-=======
-   			throw new ExceptionXML("Erreur lors de la lecture du fichier : Longueur négative");
->>>>>>> branch 'development' of https://github.com/lgao1726/devOO.git
    		if (vitesse <= 0)
-<<<<<<< HEAD
+
    			throw new ExceptionXML("Erreur lors de la lecture du fichier : Vitesse n�gative");
-=======
-   			throw new ExceptionXML("Erreur lors de la lecture du fichier : Vitesse négative");
->>>>>>> branch 'development' of https://github.com/lgao1726/devOO.git
+
    		return new Troncon(vitesse, longueur, nomRue, idNoeudDestination);
     }
     
