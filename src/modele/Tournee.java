@@ -31,7 +31,7 @@ public class Tournee {
 		}
 		
 		Itineraire iti = new Itineraire();
-		for(int i:idNoeuds){iti.addNoeud(i);}
+		for(int i:idNoeuds){iti.ajouterNoeud(i);}
 		itineraires.add(iti);
 		
 		

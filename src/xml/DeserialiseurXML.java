@@ -35,28 +35,24 @@ public class DeserialiseurXML {
 	 * @throws IOException
 	 * @throws ExceptionXML
 	 */
-	public static boolean traiterPlan(Plan plan) throws ParserConfigurationException, SAXException, IOException, ExceptionXML
-	{
+	public static void traiterPlan(Plan plan) throws ParserConfigurationException, SAXException, IOException, ExceptionXML{
 		File xml = OuvreurDeFichierXML.getInstance().ouvre(true);
-		
-		if (xml != null)
-		{
-	        DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();	
-	        Document document = docBuilder.parse(xml);
-	        Element racine = document.getDocumentElement();
-	        if (racine.getNodeName().equals("Reseau")) 
-	        {
-	           plan.reset(0);
-	           construireAPartirDeDOMXML(racine, plan);
-	        }
-	        else
-	        	throw new ExceptionXML("Document plan non conforme");
-	        
-	        return true;
-		}
-		else
-			
-			return false;
+        traitementFichier(plan, xml);
+	}
+
+	protected static void traitementFichier(Plan plan, File xml)
+			throws ParserConfigurationException, SAXException, IOException,
+			ExceptionXML {
+		DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();	
+        Document document = docBuilder.parse(xml);
+        Element racine = document.getDocumentElement();
+        if (racine.getNodeName().equals("Reseau")) 
+        {
+           construireAPartirDeDOMXML(racine, plan);
+           
+        }
+        else
+        	throw new ExceptionXML("Document non conforme");
 	}
 	
 	/**
@@ -71,11 +67,16 @@ public class DeserialiseurXML {
 																	   IOException, ExceptionXML
     {
 		File xml = OuvreurDeFichierXML.getInstance().ouvre(true);
+<<<<<<< HEAD
 
 		
 		if (xml != null)
 		{
 	        DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+=======
+        if (xml!=null){
+			DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+>>>>>>> branch 'development' of https://github.com/lgao1726/devOO.git
 	        Document document = docBuilder.parse(xml);
 	        Element racine = document.getDocumentElement();
 	        
@@ -83,6 +84,7 @@ public class DeserialiseurXML {
 	        
 	        if (racine.getNodeName().equals("JourneeType")) 
 	        {
+<<<<<<< HEAD
 	           getEntrepot(racine, plan);
 	           contruireFenetresLivraison(racine, demande);
 	           
@@ -99,38 +101,60 @@ public class DeserialiseurXML {
 			
 			return false;
 
+=======
+	        	getEntrepot(racine, plan);
+				contruireFenetresLivraison(racine, demande);
+				   
+				plan.setDemandeLivraisons(demande);
+				plan.notifyObservers();
+				return true;
+	        } else
+				throw new ExceptionXML("Document non conforme");
+        } else
+        	return false;
+>>>>>>> branch 'development' of https://github.com/lgao1726/devOO.git
 	}
 	
-	private static void getEntrepot(Element noeudDOMRacine, Plan plan) throws NumberFormatException, ExceptionXML
+	protected static void getEntrepot(Element noeudDOMRacine, Plan plan) throws NumberFormatException, ExceptionXML
 	{    
-       	int adresseEntrepot = Integer.parseInt(((Element)noeudDOMRacine.getElementsByTagName("Entrepot").item(0)).getAttribute("adresse"));       	
-       	System.out.println(adresseEntrepot);       	
-       	Noeud entrepotNoeud = UsineNoeud.getNoeud(adresseEntrepot);       	
-       	if (entrepotNoeud != null)       		
+       	int adresseEntrepot = Integer.parseInt(((Element)noeudDOMRacine.getElementsByTagName("Entrepot").item(0)).getAttribute("adresse"));
+       	
+       	System.out.println(adresseEntrepot);
+       	
+       	Noeud entrepotNoeud = UsineNoeud.getNoeud(adresseEntrepot);
+       	
+       	if (entrepotNoeud != null)
+       		
        		plan.setAdresseEntrepot(entrepotNoeud);
        	
-       	else       		
+       	else
+       		
        		throw new ExceptionXML("L'adresse de l'entrepot est introuvable");
     }
 	
-	private static void contruireFenetresLivraison(Element noeudDOMRacine, DemandeLivraison demande) throws ExceptionXML, NumberFormatException{
+	protected static void contruireFenetresLivraison(Element noeudDOMRacine, DemandeLivraison demande) throws ExceptionXML, NumberFormatException{
         
-       	NodeList listeNoeuds = noeudDOMRacine.getElementsByTagName("Plage");      	
+       	NodeList listeNoeuds = noeudDOMRacine.getElementsByTagName("Plage");
+       	
        	for (int i = 0; i < listeNoeuds.getLength(); i++) 
        	{
-       		Element plageActuel = (Element) listeNoeuds.item(i);       		
-       		FenetreLivraison plage = creerPlage(plageActuel);       		
-           	NodeList listeLivraison = plageActuel.getElementsByTagName("Livraison");           	
+       		Element plageActuel = (Element) listeNoeuds.item(i);
+       		
+       		FenetreLivraison plage = creerPlage(plageActuel);
+       		
+           	NodeList listeLivraison = plageActuel.getElementsByTagName("Livraison");
+           	
            	for (int j = 0; j < listeLivraison.getLength(); j++)
            	{
            		plage.ajouterLivraison(creerLivraison((Element) listeLivraison.item(j)));
-           	}           	
+           	}
+           	
            	demande.ajouterFenetre(plage);
        	}
        	
     }
 	
-	private static Livraison creerLivraison(Element elt) throws ExceptionXML
+	protected static Livraison creerLivraison(Element elt) throws ExceptionXML
 	{
 		int id = Integer.parseInt(elt.getAttribute("id"));
 		int client = Integer.parseInt(elt.getAttribute("client"));
@@ -138,14 +162,18 @@ public class DeserialiseurXML {
 		
 		Noeud livraisonNoeud = UsineNoeud.getNoeud(adresse);
 		
-		if (livraisonNoeud == null)			
-			throw new ExceptionXML("L'adresse du livraison n'existe pas sur le plan");		
+		if (livraisonNoeud == null)
+			
+			throw new ExceptionXML("L'adresse du livraison n'existe pas sur le plan");
+			
+		
 		return new Livraison(id, livraisonNoeud, client);
     }
 	
-	private static FenetreLivraison creerPlage(Element elt) throws ExceptionXML
+	protected static FenetreLivraison creerPlage(Element elt) throws ExceptionXML
 	{
-		SimpleDateFormat formater = new SimpleDateFormat("HH:mm:ss");   		
+		SimpleDateFormat formater = new SimpleDateFormat("HH:mm:ss");
+   		
    		Date debut;
    		Date fin;
    		
@@ -157,11 +185,12 @@ public class DeserialiseurXML {
 		catch (ParseException e) 
 		{
 			throw new ExceptionXML("Format de l'heure incorrecte");
-		}   		
+		}
+   		
    		return new FenetreLivraison(debut, fin);
     }
 
-    private static void construireAPartirDeDOMXML(Element noeudDOMRacine, Plan plan) throws ExceptionXML, NumberFormatException{
+    protected static void construireAPartirDeDOMXML(Element noeudDOMRacine, Plan plan) throws ExceptionXML, NumberFormatException{
         
        	NodeList listeNoeuds = noeudDOMRacine.getElementsByTagName("Noeud");
        	
@@ -192,14 +221,14 @@ public class DeserialiseurXML {
         plan.notifyObservers();
     }
     
-    private static Noeud creerNoeud(Element elt) throws ExceptionXML{
+    protected static Noeud creerNoeud(Element elt) throws ExceptionXML{
    		int x = Integer.parseInt(elt.getAttribute("x"));
    		int y = Integer.parseInt(elt.getAttribute("y"));
    		int id = Integer.parseInt(elt.getAttribute("id"));
    		return UsineNoeud.creeNoeud(id, x, y);
     }
     
-    private static Troncon creerTroncon(Element elt) throws ExceptionXML{
+    protected static Troncon creerTroncon(Element elt) throws ExceptionXML{
    		int idNoeudDestination = Integer.parseInt(elt.getAttribute("idNoeudDestination"));
    		String nomRue = elt.getAttribute("nomRue");
    		float vitesse = 0;
@@ -221,9 +250,17 @@ public class DeserialiseurXML {
 //   		float vitesse = Float.parseFloat(elt.getAttribute("vitesse"));
 //   		float longueur = Float.parseFloat(elt.getAttribute("longueur"));
    		if (longueur <= 0)
+<<<<<<< HEAD
    			throw new ExceptionXML("Erreur lors de la lecture du fichier : Longueur n�gative");
+=======
+   			throw new ExceptionXML("Erreur lors de la lecture du fichier : Longueur négative");
+>>>>>>> branch 'development' of https://github.com/lgao1726/devOO.git
    		if (vitesse <= 0)
+<<<<<<< HEAD
    			throw new ExceptionXML("Erreur lors de la lecture du fichier : Vitesse n�gative");
+=======
+   			throw new ExceptionXML("Erreur lors de la lecture du fichier : Vitesse négative");
+>>>>>>> branch 'development' of https://github.com/lgao1726/devOO.git
    		return new Troncon(vitesse, longueur, nomRue, idNoeudDestination);
     }
     

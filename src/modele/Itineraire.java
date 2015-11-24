@@ -1,15 +1,19 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Itineraire {
 
-	//private Livraison livraisonOrigine;
-	//private Livraison livraisonDestination;
+	private Livraison livraisonOrigine;
+	private Livraison livraisonDestination;
 	private ArrayList<Integer> noeudsItineraire;
+	private List <Integer> listeNoeud;
+	
 	
 	public Itineraire() {
 		super();
+		listeNoeud= new ArrayList<Integer>();
 		//this.livraisonOrigine = livraisonOrigine;
 		//this.livraisonDestination = livraisonDestination;
 		noeudsItineraire = new ArrayList<Integer>();
@@ -29,17 +33,20 @@ public class Itineraire {
 		this.livraisonDestination = livraisonDestination;
 	}**/
 	
-	public void addNoeud(int id){
-		noeudsItineraire.add(id);
+	public List<Integer> getNoeuds(){
+		return listeNoeud;
+	}
+
+	
+	public void ajouterNoeud(int id ) {
+		listeNoeud.add(id);
+	}
+	public void ajouterNoeud(int index, int id) {
+		listeNoeud.add(index, id);
 	}
 	
 	public void accepte(Visiteur v){
 		v.visite(this);
 	}
-	
-	public ArrayList<Integer> getNoeuds(){
-		return noeudsItineraire;
-	}
-	
 	
 }

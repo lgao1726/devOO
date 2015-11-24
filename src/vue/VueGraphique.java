@@ -2,6 +2,7 @@ package vue;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -184,7 +185,7 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 	@Override
 	public void visite(Itineraire iti) {
 		int i = 0;
-		ArrayList<Integer> idNoeuds = iti.getNoeuds();
+		List<Integer> idNoeuds = iti.getNoeuds();
 		while(i < idNoeuds.size() - 1){
 			Graphics2D g2 = (Graphics2D) g;
 			Noeud origine = plan.getNoeud(idNoeuds.get(i));

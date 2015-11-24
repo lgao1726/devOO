@@ -62,7 +62,10 @@ public class Plan extends Observable
 	public ArrayList<Noeud> getIntersections() {
 		return intersections;
 	}
-
+	
+	public int getNbIntersections(){
+		return intersections.size();
+	}
 	/**
 	 * Méthode qui ajout la liste des intersection un noeud
 	 * @param noeud

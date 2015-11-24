@@ -7,14 +7,14 @@ import modele.Plan;
 import vue.Fenetre;
 
 /**
- * Etat des les livraisons chargées
+ * Etat des les livraisons chargï¿½es
  * @author interCorp
  *
  */
 public class EtatLivraisonCharge extends EtatDefaut 
 {
 	/**
-	 * Méthode qui charge les demande des livraision et qui passe vers l'état LivraisonCharger
+	 * Mï¿½thode qui charge les demande des livraision et qui passe vers l'ï¿½tat LivraisonCharger
 	 * @param Plan
 	 * @param DemandeLivraison
 	 */
@@ -25,7 +25,7 @@ public class EtatLivraisonCharge extends EtatDefaut
 	}
 	
 	/**
-	 * Méthode qui charger un plan
+	 * Mï¿½thode qui charger un plan
 	 * @param Plan de ville
 	 * @param Fenetre
 	 * @throws ExceptionEtat
