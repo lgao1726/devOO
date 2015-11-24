@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Itineraire {
 
-	//private Livraison livraisonOrigine;
-	//private Livraison livraisonDestination;
+	private Livraison livraisonOrigine;
+	private Livraison livraisonDestination;
 	private ArrayList<Integer> noeudsItineraire;
 	private List <Integer> listeNoeud;
 	
@@ -33,9 +33,11 @@ public class Itineraire {
 		this.livraisonDestination = livraisonDestination;
 	}**/
 	
-	public void addNoeud(int id){
-		noeudsItineraire.add(id);
+	public List<Integer> getNoeuds(){
+		return listeNoeud;
 	}
+
+	
 	public void ajouterNoeud(int id ) {
 		listeNoeud.add(id);
 	}

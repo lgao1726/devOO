@@ -29,7 +29,7 @@ public class Main
 		int index=0;
 		Noeud noeud=plan.getIntersections().get(index);
 		graphe.dijkstra(noeud);
-		//graphe.afficherMatrice();
+		graphe.afficherMatrice(noeud.getId());
 	}
 
 }

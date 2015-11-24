@@ -16,7 +16,7 @@ public class GrapheLivraison implements Graphe {
 	int nbSommets;
 	float[][] graphePlan;
 	float[][] grapheChemin;
-	Map<Integer, Itineraire> listItinéraires;
+	Map<Integer, Itineraire> listItineraires;
 	final int BLANC=0;
 	final int GRIS=1;
 	final int NOIR=2;
@@ -24,13 +24,13 @@ public class GrapheLivraison implements Graphe {
 
 
 	public GrapheLivraison(Plan p){
-		listItinéraires=new HashMap<Integer, Itineraire>();
+		listItineraires=new HashMap<Integer, Itineraire>();
 		nbSommets=p.getNbIntersections();
 		graphePlan = new float[nbSommets][nbSommets]; 
 		grapheChemin = new float[nbSommets][nbSommets]; 
 		for (int i=0; i<nbSommets; i++){
 		    for (int j=0; j<nbSommets; j++){
-		         grapheChemin[i][j] = -1;
+		         grapheChemin[i][j] = DUREE_MAX;
 		         graphePlan[i][j] = -1;
 		    }
 		}
@@ -92,67 +92,51 @@ public class GrapheLivraison implements Graphe {
 				float longueur=curTroncon.getLongueur();
 				float vitesse=curTroncon.getVitesse();
 				float duree= longueur/vitesse;
-				graphePlan[idOrigine][idDestination]=duree;
-				grapheChemin[idOrigine][idDestination]=DUREE_MAX;
-				
+				graphePlan[idOrigine][idDestination]=duree;				
 			}
 		}
 	}
+	
+	
 	public void dijkstra(Noeud noeudDebut)
 	{
+		//s0
 		Integer idDebut=noeudDebut.getId();
-		System.out.println("id debut: "+ idDebut);
-		grapheChemin[idDebut][idDebut]=0;
-		int[] etatNoeuds=initEtatNoeuds();
-		int[] predecesseurs=initPredecesseurs();
-		etatNoeuds[idDebut]=GRIS;
+		int[] couleurNoeud=initEtatNoeuds(); //pour chaque sommet,colorier si en blanc,
+		int[] predecesseurs=initPredecesseurs(); //pour chaque sommet,		 faire pi[si]=-1; 
+
 		List <Integer> gris=new ArrayList<Integer>();
+		
+		grapheChemin[idDebut][idDebut]=0; //d[si]=0
+		couleurNoeud[idDebut]=GRIS;
 		gris.add(idDebut);
+		
 		while(!gris.isEmpty())
 		{
-			Integer idNoeudCourant=choisirSommetGris(gris, idDebut);
-			System.out.println("si :"+idNoeudCourant);
-			for(Integer i=0; i<nbSommets; i++)
+			Integer iNoeud=choisirSommetGris(gris, idDebut); //choisir si tel que d[si]minimal
+			for(Integer jNoeud=0; jNoeud<nbSommets; jNoeud++)
 			{
-				if(graphePlan[idNoeudCourant][i]!=-1 && (etatNoeuds[i]!=NOIR) && i!=idNoeudCourant)
+				if(graphePlan[iNoeud][jNoeud]!=-1 && (couleurNoeud[jNoeud]!=NOIR) && jNoeud!=iNoeud)
 				{
-					System.out.println("sj: "+i);
-					if(grapheChemin[idDebut][i]>grapheChemin[idDebut][idNoeudCourant]+graphePlan[idNoeudCourant][i])
-					{
-						grapheChemin[idDebut][i]=grapheChemin[idDebut][idNoeudCourant]+graphePlan[idNoeudCourant][i];
-						predecesseurs[i]=idNoeudCourant;
-					}
-					if(etatNoeuds[i]==BLANC)
-					{
-						etatNoeuds[i]=GRIS;
-						gris.add(i);						
-					}
+					relacher(idDebut, iNoeud, jNoeud, predecesseurs);
 					
+					if(couleurNoeud[jNoeud]==BLANC)
+					{
+						couleurNoeud[jNoeud]=GRIS;
+						gris.add(jNoeud);						
+					}
 				}
 			}
-			etatNoeuds[idNoeudCourant]=NOIR;
-			gris.remove(idNoeudCourant);
-			for(Integer it:gris)
-			{
-				System.out.print("|"+it);
-			}
-			System.out.println("|");
-			
+			couleurNoeud[iNoeud]=NOIR;
+			gris.remove(iNoeud);
 		}
+		
 		System.out.println("predecesseurs");
-
 		for(int j=0; j<nbSommets; j++)
 		{
 			System.out.print("|"+predecesseurs[j]);
 		}
-		System.out.println("etat noeud");
-
-		for(int j=0; j<nbSommets; j++)
-		{
-			System.out.print("|"+etatNoeuds[j]);
-		}
-		System.out.println("|");
-	}
+}
 	
 	private Integer choisirSommetGris(List<Integer> gris, int idDebut)
 	{
@@ -188,6 +172,19 @@ public class GrapheLivraison implements Graphe {
 		}
 		return predecesseurs;
 	}
+	
+	private void relacher(Integer idDebut, Integer iNoeud, Integer jNoeud, int[] predecesseurs)
+	{
+		if(grapheChemin[idDebut][jNoeud]>grapheChemin[idDebut][iNoeud]+graphePlan[iNoeud][jNoeud])
+		{
+			grapheChemin[idDebut][jNoeud]=grapheChemin[idDebut][iNoeud]+graphePlan[iNoeud][jNoeud];
+			predecesseurs[jNoeud]=iNoeud;
+		}
+	}
+	// va certainement nettoyer graphe chemin en passant
+	//private Itineraire ConstruireItineraireDePredecesseur(int[] predecesseurs, Livraison){
+		
+	//}
 }
 	
 	
