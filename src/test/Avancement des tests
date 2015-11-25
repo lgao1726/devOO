@@ -1,0 +1,13 @@
+----- Etat des Tests -----
+
+package modele :
+	DemandeLivraison : not yet implemented
+	FenetreLivraison : not yet implemented
+	Itineraire : no tests
+	Livraison : no tests
+	Noeud : no tests
+	Plan : implemented
+	Tournee : not yet implemented
+	Troncon : no tests
+	UsineNoeud : no tests
+	Visiteur : no tests

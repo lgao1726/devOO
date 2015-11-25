@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
-public class FenetreLivraison 
-{
+public class FenetreLivraison {
 	private Date heureDebut;
 	private Date heureFin;
 	private ArrayList<Livraison> listeLivraisons;
-	
+
 	public FenetreLivraison(Date heureDebut, Date heureFin) {
 		super();
 		this.heureDebut = heureDebut;
@@ -32,31 +31,28 @@ public class FenetreLivraison
 	public void setHeureFin(Date heureFin) {
 		this.heureFin = heureFin;
 	}
-	
-	public void ajouterLivraison(Livraison livraison)
-	{
+
+	public void ajouterLivraison(Livraison livraison) {
 		listeLivraisons.add(livraison);
 	}
-	
-	public void supprimerLivraison(Livraison livraison)
-	{
+
+	public void supprimerLivraison(Livraison livraison) {
 		listeLivraisons.remove(livraison);
 	}
-	
-	public Iterator<Livraison> getLivraisonIterator()
-	{
+
+	public Iterator<Livraison> getLivraisonIterator() {
 		return listeLivraisons.iterator();
 	}
-	public int getNbLivraison()
-	{
-		return listeLivraisons.size();
-	}
-	
-	public boolean appartient(Livraison livraison){
-		for(Livraison liv:listeLivraisons){
-			if(livraison.getAdresse().getId()==liv.getAdresse().getId()
-					&& livraison.getId()==liv.getId()) return true;
+
+	public boolean appartient(Livraison livraison) {
+		for (Livraison liv : listeLivraisons) {
+			if (livraison.getAdresse().getId() == liv.getAdresse().getId() && livraison.getId() == liv.getId())
+				return true;
 		}
-		return false;		
+		return false;
+	}
+
+	public int getNbLivraisons() {
+		return listeLivraisons.size();
 	}
 }

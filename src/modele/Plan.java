@@ -40,6 +40,9 @@ public class Plan extends Observable
 		this.dimX = dimX;
 		this.dimY = dimY;
 		
+
+		UsineNoeud.initPointFactory(dimY * dimX);
+
 		this.intersections = new ArrayList<Noeud>();
 	}
 
@@ -148,8 +151,7 @@ public class Plan extends Observable
 		UsineNoeud.initPointFactory(taille);
 	}
 	
-	public void setTournee() 
-	{
+	public void updatePlan() {
 		setChanged();
 		notifyObservers();
 		

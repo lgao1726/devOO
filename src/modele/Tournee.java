@@ -3,6 +3,8 @@ package modele;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Tournee {
 	private ArrayList<Itineraire> itineraires;
