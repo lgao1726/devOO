@@ -1,11 +1,13 @@
 package controleur;
 
 import modele.Plan;
+import modele.Tournee;
 import vue.Fenetre;
 
 public class Controleur 
 {
-	Plan plan;	
+	private Plan plan;	
+	private static Tournee tournee;
 	private Fenetre fenetre;
 	private static Etat etatCourant;
 	
@@ -19,10 +21,16 @@ public class Controleur
 		//listeDeCdes = new ListeDeCdes();
 		etatCourant = etatInit;
 		this.fenetre = new Fenetre(p, this);
+		tournee= new Tournee(plan);
 	}
 	
 	protected static void setEtatCourant(Etat etat){
 		etatCourant = etat;
+	}
+	
+	public static void setTournee(Tournee t)
+	{
+		tournee=t;
 	}
 	
 	public void chargerPlan() 
@@ -34,5 +42,13 @@ public class Controleur
 	{
 		etatCourant.chargerDemandes(plan, fenetre);
 	}
+<<<<<<< HEAD
+=======
+	
+	public void calculerTournee()
+	{
+		etatCourant.calculerTournee(plan, fenetre);
+	}
+>>>>>>> branch 'development' of https://github.com/lgao1726/devOO.git
 
 }

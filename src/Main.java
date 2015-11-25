@@ -18,7 +18,7 @@ public class Main
 		// Creation du plan
 		Plan plan = new Plan(dimX, dimY);
 		
-		new Controleur(plan);
+		Controleur controleur=new Controleur(plan);
 		
 
 		//graphe.afficherMatrice();
@@ -27,7 +27,11 @@ public class Main
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+<<<<<<< HEAD
 
+=======
+		controleur.calculerTournee();
+>>>>>>> branch 'development' of https://github.com/lgao1726/devOO.git
 		
 	}
 

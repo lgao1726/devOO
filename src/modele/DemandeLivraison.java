@@ -47,10 +47,15 @@ public class DemandeLivraison
 		return listeFenetres;
 	}
 	
-	public void calculTournee(Plan plan){
+	public Tournee calculerTournee(Plan plan){
 		tournee = new Tournee(plan);
+<<<<<<< HEAD
 		tournee.calculTournee(plan, listeFenetres);
+=======
+		tournee.calculerTournee(plan, listeFenetres);
+>>>>>>> branch 'development' of https://github.com/lgao1726/devOO.git
 		plan.updatePlan();
+		return tournee;
 	}
 	
 	public Tournee getTournee(){

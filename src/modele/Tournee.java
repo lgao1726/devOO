@@ -20,7 +20,7 @@ public class Tournee {
 		itineraires = new ArrayList<Itineraire>();
 	}
 
-	public void calculTournee(Plan plan, ArrayList<FenetreLivraison> fenetreLivraisons) {
+	public void calculerTournee(Plan plan, ArrayList<FenetreLivraison> fenetreLivraisons) {
 		GrapheLivraison grapheLivraison = new GrapheLivraison(plan, fenetreLivraisons);
 		System.out.println("xxx");
 		//grapheLivraison.afficherMatrice();
