@@ -1,25 +1,24 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Itineraire {
 
 	private Livraison livraisonOrigine;
 	private Livraison livraisonDestination;
-	private ArrayList<Integer> noeudsItineraire;
+	private List<Integer> noeudsItineraire;
 	private List <Integer> listeNoeud;
 	
 	
-	public Itineraire() {
-		super();
-		listeNoeud= new ArrayList<Integer>();
-		//this.livraisonOrigine = livraisonOrigine;
-		//this.livraisonDestination = livraisonDestination;
-		noeudsItineraire = new ArrayList<Integer>();
+	public Itineraire(Livraison livraisonOrigine) {
+		listeNoeud= new LinkedList<Integer>();
+		this.livraisonOrigine = livraisonOrigine;
+		noeudsItineraire = new LinkedList<Integer>();
 	}
 	
-	/**
+	
 	public Livraison getLivraisonOrigine() {
 		return livraisonOrigine;
 	}
@@ -31,7 +30,7 @@ public class Itineraire {
 	}
 	public void setLivraisonDestination(Livraison livraisonDestination) {
 		this.livraisonDestination = livraisonDestination;
-	}**/
+	}
 	
 	public List<Integer> getNoeuds(){
 		return listeNoeud;

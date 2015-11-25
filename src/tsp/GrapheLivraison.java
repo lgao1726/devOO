@@ -2,11 +2,14 @@ package tsp;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+import modele.FenetreLivraison;
+import modele.Livraison;
 import modele.Noeud;
 import modele.Plan;
 import modele.Troncon;
@@ -14,26 +17,25 @@ import modele.Itineraire;
 public class GrapheLivraison implements Graphe {
 	
 	int nbSommets;
+	int nbLivraisons;
 	float[][] graphePlan;
 	float[][] grapheChemin;
-	Map<Integer, Itineraire> listItineraires;
+	Integer entrepot;
+	List<FenetreLivraison> listeFenetres;
+	List<Itineraire> listItineraires;
 	final int BLANC=0;
 	final int GRIS=1;
 	final int NOIR=2;
 	final float DUREE_MAX=100000; //en heure pour l'instant
 
 
-	public GrapheLivraison(Plan p){
-		listItineraires=new HashMap<Integer, Itineraire>();
+	public GrapheLivraison(Plan p, List<FenetreLivraison> listeFenetres){
+		entrepot=p.getAdresseEntrepot().getId();
+		listItineraires=new ArrayList<Itineraire>();
+		nbLivraisons=calculerNbLivraisons(listeFenetres);
 		nbSommets=p.getNbIntersections();
 		graphePlan = new float[nbSommets][nbSommets]; 
-		grapheChemin = new float[nbSommets][nbSommets]; 
-		for (int i=0; i<nbSommets; i++){
-		    for (int j=0; j<nbSommets; j++){
-		         grapheChemin[i][j] = DUREE_MAX;
-		         graphePlan[i][j] = -1;
-		    }
-		}
+		grapheChemin = new float[nbLivraisons][nbLivraisons]; 
 		initGraphe(p);
 	}
 
@@ -80,6 +82,18 @@ public class GrapheLivraison implements Graphe {
 	
 	private void initGraphe(Plan p)
 	{
+		for (int i=0; i<nbSommets; i++){
+		    for (int j=0; j<nbSommets; j++){
+		         
+		         graphePlan[i][j] = -1;
+		    }
+		}
+		for (int i=0; i<nbLivraisons; i++){
+		    for (int j=0; j<nbLivraisons; j++){
+		         
+		         grapheChemin[i][j] = -1;
+		    }
+		}
 		ArrayList<Noeud> intersections=p.getIntersections();
 		for (Noeud curNoeud:intersections)
 		{
@@ -98,16 +112,20 @@ public class GrapheLivraison implements Graphe {
 	}
 	
 	
-	public void dijkstra(Noeud noeudDebut)
+	public int[] dijkstra(Noeud noeudDebut)
 	{
 		//s0
 		Integer idDebut=noeudDebut.getId();
 		int[] couleurNoeud=initEtatNoeuds(); //pour chaque sommet,colorier si en blanc,
 		int[] predecesseurs=initPredecesseurs(); //pour chaque sommet,		 faire pi[si]=-1; 
-
+		float [] d=new float[nbLivraisons];
+		
+		for (int i=0; i<nbSommets; i++){         
+		         d[i] = DUREE_MAX;
+		}
 		List <Integer> gris=new ArrayList<Integer>();
 		
-		grapheChemin[idDebut][idDebut]=0; //d[si]=0
+		d[idDebut]=0; //d[si]=0
 		couleurNoeud[idDebut]=GRIS;
 		gris.add(idDebut);
 		
@@ -118,7 +136,7 @@ public class GrapheLivraison implements Graphe {
 			{
 				if(graphePlan[iNoeud][jNoeud]!=-1 && (couleurNoeud[jNoeud]!=NOIR) && jNoeud!=iNoeud)
 				{
-					relacher(idDebut, iNoeud, jNoeud, predecesseurs);
+					relacher(d, iNoeud, jNoeud, predecesseurs);
 					
 					if(couleurNoeud[jNoeud]==BLANC)
 					{
@@ -136,6 +154,7 @@ public class GrapheLivraison implements Graphe {
 		{
 			System.out.print("|"+predecesseurs[j]);
 		}
+		return predecesseurs;
 }
 	
 	private Integer choisirSommetGris(List<Integer> gris, int idDebut)
@@ -173,18 +192,38 @@ public class GrapheLivraison implements Graphe {
 		return predecesseurs;
 	}
 	
-	private void relacher(Integer idDebut, Integer iNoeud, Integer jNoeud, int[] predecesseurs)
+	private void relacher(float[]d, Integer iNoeud, Integer jNoeud, int[] predecesseurs)
 	{
-		if(grapheChemin[idDebut][jNoeud]>grapheChemin[idDebut][iNoeud]+graphePlan[iNoeud][jNoeud])
+		if(d[jNoeud]>d[iNoeud]+graphePlan[iNoeud][jNoeud])
 		{
-			grapheChemin[idDebut][jNoeud]=grapheChemin[idDebut][iNoeud]+graphePlan[iNoeud][jNoeud];
+			d[jNoeud]=d[iNoeud]+graphePlan[iNoeud][jNoeud];
 			predecesseurs[jNoeud]=iNoeud;
 		}
 	}
 	// va certainement nettoyer graphe chemin en passant
-	//private Itineraire ConstruireItineraireDePredecesseur(int[] predecesseurs, Livraison){
+	private Itineraire ConstruireItinerairesDePredecesseur(Integer debut, int[] predecesseurs, float[]d, FenetreLivraison fenetre, FenetreLivraison fenetreSuivante){
+		Iterator<Livraison> it=fenetre.getLivraisonIterator();
+		while(it.hasNext())
+		{
+			Livraison livraison=(Livraison)it.next();
+			Itineraire itineraire=new Itineraire()
+			int idNoeud=livraison.getAdresse().getId();
+			{
+				grapheChemin[debut][idNoeud]=d[idNoeud];
+			}
+		}
 		
-	//}
+		return null;
+	}
+	
+	private int calculerNbLivraisons(List<FenetreLivraison> listeFenetres){
+		int nbLivraisons=0;
+		for(FenetreLivraison fenetre:listeFenetres)
+		{
+			nbLivraisons+=fenetre.getNbLivraison();
+		}
+		return nbLivraisons;
+	}
 }
 	
 	

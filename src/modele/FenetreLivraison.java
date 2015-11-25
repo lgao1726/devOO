@@ -47,4 +47,15 @@ public class FenetreLivraison
 	{
 		return listeLivraisons.iterator();
 	}
+	
+	public HashMap<int,Livraison> getLivraisonIterator()
+	{
+		HashMap<int,Livraison>
+		return 
+	}
+	
+	public int getNbLivraison()
+	{
+		return listeLivraisons.size();
+	}
 }
