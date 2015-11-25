@@ -3,6 +3,7 @@ package modele;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 import tsp.GrapheLivraison;
@@ -15,20 +16,28 @@ public class Tournee {
 	private ArrayList<Itineraire> itineraires;
 
 	// constructeur temporaire pour facilier le dev de la vue
-	public Tournee(Plan plan, DemandeLivraison demande) {
+	public Tournee(Plan plan) {
 		itineraires = new ArrayList<Itineraire>();
 	}
 
 	public void calculTournee(Plan plan, ArrayList<FenetreLivraison> fenetreLivraisons) {
 		GrapheLivraison grapheLivraison = new GrapheLivraison(plan, fenetreLivraisons);
+		grapheLivraison.afficherMatrice();
 		TSP tsp = new TSP1();
 		tsp.chercheSolution(TEMPSLIMITE, grapheLivraison);
 		Queue<Integer> ordreLivraisons = new LinkedList<Integer>();
-		for (int i = 0; i < grapheLivraison.getNbSommets(); i++) {
+		int nbLivraisons=getNbLivraisons(fenetreLivraisons);
+		for (int i = 0; i <nbLivraisons ; i++) {
 			ordreLivraisons.add(tsp.getSolution(i));
 		}
-
-	}
+		System.out.println("Circuit");
+	    while(!ordreLivraisons.isEmpty())
+	    {
+              System.out.print("|"+ordreLivraisons.poll());
+         }
+            System.out.println("|");
+    }
+	
 
 	// méthode temporaire pour faciliter le dev de la vue
 	public void creerItineraires(Plan plan) {
@@ -54,5 +63,14 @@ public class Tournee {
 
 	public Iterator<Itineraire> getItineraireIterator() {
 		return itineraires.iterator();
+	}
+	
+	private int getNbLivraisons(ArrayList<FenetreLivraison> fenetreLivraisons)
+	{
+		int nb=0;
+		for(FenetreLivraison fenetre:fenetreLivraisons){
+			nb += fenetre.getNbLivraisons();
+		}
+		return nb;
 	}
 }

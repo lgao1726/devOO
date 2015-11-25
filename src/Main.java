@@ -2,6 +2,7 @@ import tsp.Graphe;
 import tsp.GrapheLivraison;
 import modele.Noeud;
 import modele.Plan;
+import modele.Tournee;
 import controleur.Controleur;
 
 public class Main 
@@ -20,13 +21,13 @@ public class Main
 		new Controleur(plan);
 		
 		try {
-			Thread.sleep(300000);
+			Thread.sleep(30000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		GrapheLivraison graphe=new GrapheLivraison(plan,plan.getDemandeLivraisons().getFenetres());
-		int index=0;
-		graphe.afficherMatrice();
+		Tournee tournee=new Tournee(plan);
+		tournee.calculTournee(plan, plan.getDemandeLivraisons().getFenetres());
+		
 	}
 
 }

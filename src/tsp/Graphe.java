@@ -12,7 +12,7 @@ public interface Graphe {
 	 * @param j 
 	 * @return le cout de l'arc (i,j) si (i,j) est un arc ; -1 sinon
 	 */
-	//public abstract int getCout(int i, int j);
+	public abstract float getCout(int i, int j);
 
 	/**
 	 * @param i 

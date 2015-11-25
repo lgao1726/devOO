@@ -48,12 +48,12 @@ public class GrapheLivraison implements Graphe {
 		return nbSommets;
 	}
 
-	/**@Override
+	@Override
 	public float getCout(int i, int j) {
 		if (i<0 || i>=nbSommets || j<0 || j>=nbSommets)
 			return -1;
 		return grapheChemin[i][j];
-	}**/
+	}
 
 	@Override
 	public boolean estArc(int i, int j) {
@@ -61,25 +61,16 @@ public class GrapheLivraison implements Graphe {
 			return false;
 		return i != j;
 	}
-	
-	/**@Override
-	public int getCout(int i, int j){
-		return (int) grapheChemin[i][j];
-		
-	}**/
-	
+
     public void afficherMatrice()
     {
         System.out.println("Matrice de chemin");
         for(int i=0; i<nbSommets; i++)
         {
-            for(int j=0; j<nbSommets; j++)
-            {
-            	
-                System.out.print("|"+grapheChemin[i][j]);
-            }
-            System.out.println("|");
+                System.out.print("|"+grapheChemin[14][i]);
         }
+            System.out.println("|");
+     
         System.out.println("Itineraires");
         Iterator it = listItineraires.entrySet().iterator();
         while (it.hasNext()) {

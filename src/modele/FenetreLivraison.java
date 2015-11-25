@@ -55,4 +55,5 @@ public class FenetreLivraison {
 	public int getNbLivraisons() {
 		return listeLivraisons.size();
 	}
-}
+	}
+

@@ -9,7 +9,6 @@ public class DemandeLivraison {
 	private Tournee tournee;
 
 	public DemandeLivraison() {
-		super();
 		listeFenetres = new ArrayList<FenetreLivraison>();
 	}
 
@@ -40,11 +39,11 @@ public class DemandeLivraison {
 		return listeFenetres;
 	}
 
-	public void calculTournee(Plan plan) {
-		tournee = new Tournee(plan, this);
-		tournee.creerItineraires(plan);
+	/**public void calculTournee(Plan plan) {
+		tournee = new Tournee(plan);
+		tournee.calculTournee(plan, listeFenetres);
 		plan.updatePlan();
-	}
+	}**/
 
 	public Tournee getTournee() {
 		return tournee;
