@@ -1,8 +1,8 @@
-
 import tsp.Graphe;
 import tsp.GrapheLivraison;
 import modele.Noeud;
 import modele.Plan;
+import modele.Tournee;
 import controleur.Controleur;
 
 public class Main 
@@ -22,6 +22,13 @@ public class Main
 		
 
 		//graphe.afficherMatrice();
+		try {
+			Thread.sleep(30000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		
 	}
 
 }

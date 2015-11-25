@@ -1,6 +1,7 @@
 package tsp;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -268,14 +269,17 @@ public class GrapheLivraison implements Graphe {
 		return resultat;		
 	}
 	
-	public int [] getItiniraire(int idNoeudOrigine, int idNoeudDestination)
+	public ArrayList<Integer> getItiniraire(int idNoeudOrigine, int idNoeudDestination)
 	{
+		ArrayList<Integer> resultat = new ArrayList<Integer>();
 		ArrayList<int[]> liste=listItineraires.get(idNoeudOrigine);
 		for(int[] i:liste)
 		{
 			if(i[i.length-1]==idNoeudDestination)
 			{
-				return i;
+				for(int j=0;j<i.length;j++){
+					resultat.add(i[j]);
+				}return resultat;
 			}
 		}
 		return null;
@@ -288,11 +292,12 @@ public class GrapheLivraison implements Graphe {
 			for(int j=0;j<nbSommets;j++){
 				if(grapheChemin[i][j] != -1){
 					indicesLivraisons.put(i,cpt);
+					
 					cpt++;
 					break;
 				}
 			}			
-		}System.out.println(cpt);
+		}
 		grapheTSP = new float[indicesLivraisons.size()][indicesLivraisons.size()]; 
 		for(int i=0;i<nbSommets;i++){
 			for(int j=0;j<nbSommets;j++){
@@ -304,12 +309,11 @@ public class GrapheLivraison implements Graphe {
 		
 	}
 	
-	public void mapTSP(int[] t){
-		for (int i=0;i<t.length;i++){
-			t[i] = indicesLivraisons.get(t[i]);
-		}
+	public int mapLivraison(int indice){
+		for(int i:indicesLivraisons.keySet()){
+			if(indicesLivraisons.get(i) == indice) return i;
+		}return -1;
 	}
-	
 	
 	
 }

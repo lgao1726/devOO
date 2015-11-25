@@ -18,7 +18,7 @@ public abstract class TemplateTSP implements TSP {
 		this.tpsLimite = tpsLimite;
 		this.g = g;
 		meilleureSolution = new Integer[g.getNbSommets()];
-		Collection<Integer> nonVus = new ArrayList<Integer>(g.getNbSommets()-1);
+		Collection<Integer> nonVus = new ArrayList<Integer>(g.getNbSommets());
 		for (int i=1; i<g.getNbSommets(); i++) nonVus.add(i);
 		Collection<Integer> vus = new ArrayList<Integer>(g.getNbSommets());
 		vus.add(0); // le premier sommet visite est 0

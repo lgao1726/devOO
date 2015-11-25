@@ -22,25 +22,38 @@ public class Tournee {
 
 	public void calculTournee(Plan plan, ArrayList<FenetreLivraison> fenetreLivraisons) {
 		GrapheLivraison grapheLivraison = new GrapheLivraison(plan, fenetreLivraisons);
+		System.out.println("xxx");
 		//grapheLivraison.afficherMatrice();
 		TSP tsp = new TSP1();
 		tsp.chercheSolution(TEMPSLIMITE, grapheLivraison);
 		Queue<Integer> ordreLivraisons = new LinkedList<Integer>();
 		int nbLivraisons=getNbLivraisons(fenetreLivraisons);
-		for (int i = 0; i <nbLivraisons ; i++) {
+		for (int i = 0; i <nbLivraisons-1 ; i++) {
 			ordreLivraisons.add(tsp.getSolution(i));
 		}
-		System.out.println("Circuit");
+		//entrepot
+		int entrepot = grapheLivraison.mapLivraison(ordreLivraisons.peek());
 	    while(!ordreLivraisons.isEmpty())
 	    {
-              System.out.print("|"+ordreLivraisons.poll());
+            int origine = grapheLivraison.mapLivraison(ordreLivraisons.poll());
+            if(ordreLivraisons.peek() != null){
+	            int destination = grapheLivraison.mapLivraison(ordreLivraisons.peek());
+	            ArrayList<Integer> noeudsItineraire = grapheLivraison.getItiniraire(origine, destination);
+		    	Itineraire iti = new Itineraire(noeudsItineraire);
+		    	itineraires.add(iti);
+	    	}else{
+	    		ArrayList<Integer> noeudsItineraire = grapheLivraison.getItiniraire(origine, entrepot);
+		    	Itineraire iti = new Itineraire(noeudsItineraire);
+		    	itineraires.add(iti);
+	    	}
+	    	
          }
-            System.out.println("|");
+           
     }
 	
 
 	// méthode temporaire pour faciliter le dev de la vue
-	public void creerItineraires(Plan plan) {
+	/*public void creerItineraires(Plan plan) {
 		Noeud racine = plan.getNoeud(0);
 		ArrayList<Integer> idNoeuds = new ArrayList<Integer>();
 
@@ -59,7 +72,7 @@ public class Tournee {
 		}
 		itineraires.add(iti);
 
-	}
+	}*/
 
 	public Iterator<Itineraire> getItineraireIterator() {
 		return itineraires.iterator();
