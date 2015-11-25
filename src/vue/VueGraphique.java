@@ -215,8 +215,8 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 
         // Draw horizontal arrow starting in (0, 0)
         g.drawLine(0, 0, len, 0);
-        g.fillPolygon(new int[] {len, len-4, len-4, len},
-                      new int[] {0, -4, 4, 0}, 4);
+        g.fillPolygon(new int[] {len, len-12, len-12, len},
+                      new int[] {0, -8, 8, 0}, 4);
     }
 
 
