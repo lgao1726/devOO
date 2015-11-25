@@ -11,19 +11,27 @@ public abstract class TemplateTSP implements TSP {
 	private float coutMeilleureSolution;
 	private int tpsLimite;
 	private long tpsDebut;
+	private int sommetDebut;
 	
 	public void chercheSolution(int tpsLimite, Graphe g){
 		if (tpsLimite <= 0) return;
 		tpsDebut = System.currentTimeMillis();	
 		this.tpsLimite = tpsLimite;
 		this.g = g;
-		meilleureSolution = new Integer[g.getNbSommets()];
-		Collection<Integer> nonVus = new ArrayList<Integer>(g.getNbSommets()-1);
-		for (int i=1; i<g.getNbSommets(); i++) nonVus.add(i);
-		Collection<Integer> vus = new ArrayList<Integer>(g.getNbSommets());
-		vus.add(0); // le premier sommet visite est 0
+		meilleureSolution = new Integer[g.getNbLivraisons()];
+		Collection<Integer> nonVus = new ArrayList<Integer>(g.getNbLivraisons()-1);
+		for (int i=0; i<g.getNbSommets(); i++) 
+		{
+			if(!nonVus.contains(i) && g.estLivraison(i))
+			{
+				if(nonVus.isEmpty()){sommetDebut=i;}
+				nonVus.add(i);
+			}
+		}
+		Collection<Integer> vus = new ArrayList<Integer>(g.getNbLivraisons());
+		// le premier sommet visite est sommetDebut
 		coutMeilleureSolution = Integer.MAX_VALUE;
-		branchAndBound(0, nonVus, vus, 0);
+		branchAndBound(sommetDebut, nonVus, vus, 0);
 	}
 	
 	public Integer getSolution(int i){
@@ -66,10 +74,10 @@ public abstract class TemplateTSP implements TSP {
 	private void branchAndBound(int sommetCrt, Collection<Integer> nonVus, Collection<Integer> vus, float f){
 		if (System.currentTimeMillis() - tpsDebut > tpsLimite) return;
 	    if (nonVus.size() == 0){ // tous les sommets ont ete visites
-	    	if (g.estArc(sommetCrt,0)){ // on peut retourner au sommet de depart (0)
-	    		if (f+g.getCout(sommetCrt,0) < coutMeilleureSolution){ // on a trouve une solution meilleure que meilleureSolution
+	    	if (g.estArc(sommetCrt,sommetDebut)){ // on peut retourner au sommet de depart (0)
+	    		if (f+g.getCout(sommetCrt,sommetDebut) < coutMeilleureSolution){ // on a trouve une solution meilleure que meilleureSolution
 	    			vus.toArray(meilleureSolution);
-	    			coutMeilleureSolution = f+g.getCout(sommetCrt,0);
+	    			coutMeilleureSolution = f+g.getCout(sommetCrt,sommetDebut);
 	    		}
 	    	}
 	    } else if (f+bound(sommetCrt,nonVus) < coutMeilleureSolution){

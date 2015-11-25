@@ -21,5 +21,8 @@ public interface Graphe {
 	 */
 	public abstract boolean estArc(int i, int j);
 
+	public abstract int getNbLivraisons();
+	
+	public abstract boolean estLivraison(int k);
 
 }

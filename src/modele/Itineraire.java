@@ -6,16 +6,13 @@ import java.util.List;
 public class Itineraire {
 
 	private Livraison livraisonOrigine;
-	private Livraison livraisonDestination;
-	private ArrayList<Integer> noeudsItineraire;
+    private Livraison livraisonDestination;
 	private List<Integer> listeNoeud;
 
-	public Itineraire() {
-		super();
-		listeNoeud = new ArrayList<Integer>();
-		// this.livraisonOrigine = livraisonOrigine;
-		// this.livraisonDestination = livraisonDestination;
-		noeudsItineraire = new ArrayList<Integer>();
+	public Itineraire(ArrayList<Integer> listeNoeud) {
+		this.listeNoeud = listeNoeud;
+		//this.livraisonOrigine = livraisonOrigine;
+		//this.livraisonDestination = livraisonDestination;
 	}
 
 	public Livraison getLivraisonOrigine() {
@@ -36,14 +33,6 @@ public class Itineraire {
 
 	public List<Integer> getNoeuds() {
 		return listeNoeud;
-	}
-
-	public ArrayList<Integer> getNoeudsItineraire() {
-		return noeudsItineraire;
-	}
-
-	public void setNoeudsItineraire(ArrayList<Integer> noeudsItineraire) {
-		this.noeudsItineraire = noeudsItineraire;
 	}
 
 	public List<Integer> getListeNoeud() {

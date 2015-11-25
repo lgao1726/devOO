@@ -12,12 +12,12 @@ import tsp.TSP1;
 
 public class Tournee {
 
-	private static final int TEMPSLIMITE = 60000;
-	private ArrayList<Itineraire> itineraires;
+	private static final int TEMPSLIMITE = 600000;
+	private LinkedList<Itineraire> itineraires;
 
 	// constructeur temporaire pour facilier le dev de la vue
 	public Tournee(Plan plan) {
-		itineraires = new ArrayList<Itineraire>();
+		itineraires = new LinkedList<Itineraire>();
 	}
 
 	public void calculTournee(Plan plan, ArrayList<FenetreLivraison> fenetreLivraisons) {
@@ -25,41 +25,25 @@ public class Tournee {
 		grapheLivraison.afficherMatrice();
 		TSP tsp = new TSP1();
 		tsp.chercheSolution(TEMPSLIMITE, grapheLivraison);
-		Queue<Integer> ordreLivraisons = new LinkedList<Integer>();
+		LinkedList<Integer> ordreLivraisons = new LinkedList<Integer>();
 		int nbLivraisons=getNbLivraisons(fenetreLivraisons);
-		for (int i = 0; i <nbLivraisons ; i++) {
-			ordreLivraisons.add(tsp.getSolution(i));
-		}
 		System.out.println("Circuit");
-	    while(!ordreLivraisons.isEmpty())
-	    {
-              System.out.print("|"+ordreLivraisons.poll());
-         }
-            System.out.println("|");
+		for (int i = 0; i <grapheLivraison.getNbLivraisons()-1; i++) { //On enleve un psq l'entrepot compte pour deux livraisons
+			ordreLivraisons.add(tsp.getSolution(i));
+			System.out.print("|"+tsp.getSolution(i));
+			
+		}
+		for(Integer j:ordreLivraisons){
+			creerItineraire(grapheLivraison, j, getLivraisonSuivante(j, ordreLivraisons));
+		}
+		
+	   
     }
 	
-
 	// méthode temporaire pour faciliter le dev de la vue
-	public void creerItineraires(Plan plan) {
-		Noeud racine = plan.getNoeud(0);
-		ArrayList<Integer> idNoeuds = new ArrayList<Integer>();
-
-		idNoeuds.add(racine.getId());
-
-		int nbNoeuds = plan.getIntersections().size();
-		for (int i = 0; i < 60; i++) {
-			int idNext = racine.getListeTronconsSortants().get(1).getIdNoeudDestination();
-			racine = plan.getNoeud(idNext);
-			idNoeuds.add(idNext);
-		}
-
-		Itineraire iti = new Itineraire();
-		for (int i : idNoeuds) {
-			iti.ajouterNoeud(i);
-		}
-		itineraires.add(iti);
-
-	}
+	private void creerItineraire(GrapheLivraison grapheLivraison, Integer idLivraisonOrigine, Integer idLivraisonDestination) {
+		itineraires.add(new Itineraire(grapheLivraison.getItiniraire(idLivraisonOrigine, idLivraisonDestination)));
+}
 
 	public Iterator<Itineraire> getItineraireIterator() {
 		return itineraires.iterator();
@@ -73,4 +57,17 @@ public class Tournee {
 		}
 		return nb;
 	}
+	
+	private Integer getLivraisonSuivante(Integer i, LinkedList<Integer> ordreLivraisons)
+	{
+		if(i==ordreLivraisons.getLast())
+		{
+			return  ordreLivraisons.getFirst();
+		}
+		else
+		{//A changer psq c moche
+			return ordreLivraisons.get(ordreLivraisons.indexOf(i)+1);
+		}
+	}
+	
 }

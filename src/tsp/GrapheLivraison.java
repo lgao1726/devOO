@@ -26,9 +26,12 @@ public class GrapheLivraison implements Graphe {
 	final int NOIR=2;
 	final float DUREE_MAX=100000; //en heure pour l'instant
 	static int grapheCheminLigne = 0; //utilisée pour l'écriture dans grapheChemin
-
+	int nbLivraisons=0;
 
 	public GrapheLivraison(Plan p,List<FenetreLivraison> fenetres){
+		for(FenetreLivraison fenetre:fenetres){
+			nbLivraisons += fenetre.getNbLivraisons();
+		}
 		listItineraires=new HashMap<Integer, ArrayList<int[]>>();
 		nbSommets=p.getNbIntersections();
 		graphePlan = new float[nbSommets][nbSommets]; 
@@ -47,6 +50,10 @@ public class GrapheLivraison implements Graphe {
 	public int getNbSommets() {
 		return nbSommets;
 	}
+	
+	public int getNbLivraisons() {
+		return nbLivraisons;
+	}
 
 	@Override
 	public float getCout(int i, int j) {
@@ -59,7 +66,25 @@ public class GrapheLivraison implements Graphe {
 	public boolean estArc(int i, int j) {
 		if (i<0 || i>=nbSommets || j<0 || j>=nbSommets)
 			return false;
-		return i != j;
+		else if(grapheChemin[i][j]!=-1)
+		{
+			return true;
+		}
+		else
+		{
+		return false;
+		}
+	}
+	
+	public boolean estLivraison(int k){
+		for(int i=0; i<nbSommets; i++)
+		{
+			if(grapheChemin[i][k]!=-1 ||grapheChemin[k][i]!=-1)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
     public void afficherMatrice()
@@ -259,14 +284,19 @@ public class GrapheLivraison implements Graphe {
 		return resultat;		
 	}
 	
-	public int [] getItiniraire(int idNoeudOrigine, int idNoeudDestination)
+	public ArrayList<Integer> getItiniraire(int idNoeudOrigine, int idNoeudDestination)
 	{
 		ArrayList<int[]> liste=listItineraires.get(idNoeudOrigine);
 		for(int[] i:liste)
 		{
 			if(i[i.length-1]==idNoeudDestination)
 			{
-				return i;
+				ArrayList<Integer> itineraire=new ArrayList<Integer>();
+				for(int j=0; j<i.length; j++)
+				{
+					itineraire.add(i[j]);
+				}
+				return itineraire;
 			}
 		}
 		return null;
