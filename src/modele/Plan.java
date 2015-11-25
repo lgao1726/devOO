@@ -14,10 +14,6 @@ import java.util.Observable;
  */
 public class Plan extends Observable
 {
-	// La dimenssion X
-	private int dimX;
-	// La dimession Y
-	private int dimY;
 	// Liste des noeud
 	private ArrayList<Noeud> intersections;
 	// Adresse d'Entrepot
@@ -25,38 +21,12 @@ public class Plan extends Observable
 	// Demandes de livraison
 	private DemandeLivraison demandeLivraisons;
 	
-	public Plan()
-	{
-		this.intersections = new ArrayList<Noeud>();
-	}
-	
 	/**
 	 * Constructor d'objet
-	 * @param Dimession d'axe X
-	 * @param Dimession d'axe Y
 	 */
-	public Plan(int dimX, int dimY) 
+	public Plan() 
 	{
-		this.dimX = dimX;
-		this.dimY = dimY;
-		
 		this.intersections = new ArrayList<Noeud>();
-	}
-
-	public int getDimX() {
-		return dimX;
-	}
-
-	public void setDimX(int dimX) {
-		this.dimX = dimX;
-	}
-
-	public int getDimY() {
-		return dimY;
-	}
-
-	public void setDimY(int dimY) {
-		this.dimY = dimY;
 	}
 	
 	public ArrayList<Noeud> getIntersections() {
@@ -107,13 +77,14 @@ public class Plan extends Observable
 	}
 	
 	/**
-	 * Re-initialise le plan : supprime les formes du plan courant et met a jour la taille
-	 * @param largeur
-	 * @param hauteur
+	 * Re-initialise le plan : supprime les noeud du plan courant et met a jour la taille
 	 */
-	public void reset(int taille) 
+	public void reset() 
 	{
 		Iterator<Noeud> it = intersections.iterator();
+		
+		adresseEntrepot = null;
+		demandeLivraisons = null;
 		
 		while (it.hasNext())
 		{
@@ -125,6 +96,6 @@ public class Plan extends Observable
 		notifyObservers();	
 		
 		// vidé la liste des noeuds
-		UsineNoeud.initPointFactory(taille);
+		UsineNoeud.initPointFactory(0);
 	}
 }

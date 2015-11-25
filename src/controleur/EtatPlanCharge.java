@@ -1,15 +1,7 @@
 package controleur;
 
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
 import vue.Fenetre;
 import xml.DeserialiseurXML;
-import xml.ExceptionXML;
-import modele.DemandeLivraison;
 import modele.Plan;
 
 public class EtatPlanCharge extends EtatDefaut
@@ -24,16 +16,28 @@ public class EtatPlanCharge extends EtatDefaut
 	{
 		try 
 		{
-			DeserialiseurXML.chargerDemandeLivraison(plan);
+			if (DeserialiseurXML.chargerDemandeLivraison(plan))
 			
-			Controleur.setEtatCourant(Controleur.etatLivraisonCharge);
+				Controleur.setEtatCourant(Controleur.etatLivraisonCharge);
 			
 		} 
 		catch (Exception e) 
 		{
-			fenetre.afficheMessageBox("Erreur au niveau de chargement du demande des livraisons");
+			fenetre.afficheMessageBox(e.getMessage());
 			plan.setDemandeLivraisons(null);
 		}
+	}
+	
+	/**
+	 * Méthode qui charger un plan
+	 * @param Plan de ville
+	 * @param Fenetre
+	 * @throws ExceptionEtat
+	 */
+	@Override
+	public void chargerPlan(Plan plan, Fenetre fenetre)
+	{
+		Controleur.etatInit.chargerPlan(plan, fenetre);
 	}
 	
 	

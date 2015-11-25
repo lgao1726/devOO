@@ -39,13 +39,13 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 		
 		this.echelle = e;
 		
-		hauteurVue = plan.getDimY()*e;
-		largeurVue = plan.getDimX()*e;
+		hauteurVue = 750*e;
+		largeurVue = 800*e;
 		
-		setLayout(null);
+		//setLayout(null);
 		setBackground(Color.white);
 		setSize(largeurVue, hauteurVue);
-		f.getContentPane().add(this);
+		//f.getContentPane().add(this);
 		this.plan = plan;
 	}
 	
@@ -148,11 +148,6 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 	@Override
 	public void update(Observable o, Object arg) 
 	{
-		hauteurVue = plan.getDimY()*this.echelle;
-		largeurVue = plan.getDimX()*this.echelle;
-		
-		setSize(largeurVue, hauteurVue);
-		
 		repaint();
 	}
 

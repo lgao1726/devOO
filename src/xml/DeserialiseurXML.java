@@ -35,18 +35,25 @@ public class DeserialiseurXML {
 	 * @throws IOException
 	 * @throws ExceptionXML
 	 */
-	public static void traiterPlan(Plan plan) throws ParserConfigurationException, SAXException, IOException, ExceptionXML{
+	public static boolean traiterPlan(Plan plan) throws ParserConfigurationException, SAXException, IOException, ExceptionXML
+	{
 		File xml = OuvreurDeFichierXML.getInstance().ouvre(true);
+		
+		if (xml == null) return false;
+		
         DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();	
         Document document = docBuilder.parse(xml);
         Element racine = document.getDocumentElement();
+        
         if (racine.getNodeName().equals("Reseau")) 
         {
+           plan.reset();
            construireAPartirDeDOMXML(racine, plan);
-           
         }
         else
         	throw new ExceptionXML("Document non conforme");
+        
+        return true;
 	}
 	
 	/**
@@ -57,33 +64,36 @@ public class DeserialiseurXML {
 	 * @throws IOException
 	 * @throws ExceptionXML
 	 */
-	public static void chargerDemandeLivraison(Plan plan) throws ParserConfigurationException, SAXException, 
+	public static boolean chargerDemandeLivraison(Plan plan) throws ParserConfigurationException, SAXException, 
 																	   IOException, ExceptionXML
     {
 		File xml = OuvreurDeFichierXML.getInstance().ouvre(true);
-        DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document document = docBuilder.parse(xml);
-        Element racine = document.getDocumentElement();
-        
-        DemandeLivraison demande = new DemandeLivraison();
-        
-        if (racine.getNodeName().equals("JourneeType")) 
-        {
-           getEntrepot(racine, plan);
-           contruireFenetresLivraison(racine, demande);
-           
-           plan.setDemandeLivraisons(demande);
-           plan.notifyObservers();
-        }
-        else
-        	throw new ExceptionXML("Document non conforme");
+		
+		if (xml == null) return false;
+		
+	    DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+	    Document document = docBuilder.parse(xml);
+	    Element racine = document.getDocumentElement();
+	        
+	    DemandeLivraison demande = new DemandeLivraison();
+	        
+	    if (racine.getNodeName().equals("JourneeType"))
+	    {
+	    	getEntrepot(racine, plan);
+	    	contruireFenetresLivraison(racine, demande);
+		           
+		    plan.setDemandeLivraisons(demande);
+		    plan.notifyObservers();
+		}
+		else
+		    throw new ExceptionXML("Document non conforme");
+	    
+	    return true;
 	}
 	
 	private static void getEntrepot(Element noeudDOMRacine, Plan plan) throws NumberFormatException, ExceptionXML
 	{    
        	int adresseEntrepot = Integer.parseInt(((Element)noeudDOMRacine.getElementsByTagName("Entrepot").item(0)).getAttribute("adresse"));
-       	
-       	System.out.println(adresseEntrepot);
        	
        	Noeud entrepotNoeud = UsineNoeud.getNoeud(adresseEntrepot);
        	
@@ -180,8 +190,6 @@ public class DeserialiseurXML {
            	plan.ajouterNoeud(noeud);
        	}
        	
-        plan.setDimX(maxX+5);
-        plan.setDimY(maxY+5);
         plan.notifyObservers();
     }
     

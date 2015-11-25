@@ -21,19 +21,20 @@ public class EtatInit extends EtatDefaut
 	 * @throws ExceptionEtat
 	 */
 	@Override
-	public void chargerPlan(Plan planDeVille, Fenetre fenetre)
+	public void chargerPlan(Plan plan, Fenetre fenetre)
 	{
 		try 
 		{
-			DeserialiseurXML.traiterPlan(planDeVille);
+			if (DeserialiseurXML.traiterPlan(plan))
 			
-			Controleur.setEtatCourant(Controleur.etatPlanCharge);
+				Controleur.setEtatCourant(Controleur.etatPlanCharge);
 			
 		} 
-		catch (Exception e) 
+		catch (Exception e)
 		{
-			fenetre.afficheMessageBox("Erreur au niveau de chargement de plan");
-			planDeVille.reset(0);
+			fenetre.afficheMessageBox(e.getMessage());
+			// A changé, normalement on va faire un undo pour revenir au plan précendent 
+			plan.reset();
 		}
 	}
 	
