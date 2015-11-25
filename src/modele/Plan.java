@@ -40,6 +40,8 @@ public class Plan extends Observable
 		this.dimX = dimX;
 		this.dimY = dimY;
 		
+		UsineNoeud.initPointFactory(dimY*dimX);
+		
 		this.intersections = new ArrayList<Noeud>();
 	}
 
@@ -73,9 +75,7 @@ public class Plan extends Observable
 	public void ajouterNoeud(Noeud noeud)
 	{
 		intersections.add(noeud);
-		
 		setChanged();
-		//notifyObservers(noeud);
 	}
 	
 	/**
@@ -130,7 +130,7 @@ public class Plan extends Observable
 	 * @param largeur
 	 * @param hauteur
 	 */
-	public void reset(int taille) 
+	public void reset() 
 	{
 		Iterator<Noeud> it = intersections.iterator();
 		
@@ -143,14 +143,16 @@ public class Plan extends Observable
 			it.remove();
 		}
 		
+		intersections.clear();
+		
 		setChanged();
 		notifyObservers();	
 		
 		// vidé la liste des noeuds
-		UsineNoeud.initPointFactory(taille);
+		UsineNoeud.initPointFactory(0);
 	}
 	
-	public void setTournee() 
+	public void updatePlan() 
 	{
 		setChanged();
 		notifyObservers();

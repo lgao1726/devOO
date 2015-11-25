@@ -33,7 +33,7 @@ public class EtatInit extends EtatDefaut
 		catch (Exception e) 
 		{
 			fenetre.afficheMessageBox("Erreur au niveau de chargement de plan");
-			planDeVille.reset(0);
+			planDeVille.reset();
 		}
 	}
 	
