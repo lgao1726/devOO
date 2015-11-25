@@ -9,11 +9,11 @@ import java.util.Observable;
 
 /**
  * Class plan qui décrit le plan de la ville
+ * 
  * @author interCorp
  *
  */
-public class Plan extends Observable
-{
+public class Plan extends Observable {
 	// La dimension X
 	private int dimX;
 	// La dimension Y
@@ -24,24 +24,25 @@ public class Plan extends Observable
 	private Noeud adresseEntrepot;
 	// Demandes de livraison
 	private DemandeLivraison demandeLivraisons;
-	
-	public Plan()
-	{
+
+	public Plan() {
 		this.intersections = new ArrayList<Noeud>();
 	}
-	
+
 	/**
 	 * Constructor d'objet
-	 * @param Dimession d'axe X
-	 * @param Dimession d'axe Y
+	 * 
+	 * @param Dimession
+	 *            d'axe X
+	 * @param Dimession
+	 *            d'axe Y
 	 */
-	public Plan(int dimX, int dimY) 
-	{
+	public Plan(int dimX, int dimY) {
 		this.dimX = dimX;
 		this.dimY = dimY;
-		
-		UsineNoeud.initPointFactory(dimY*dimX);
-		
+
+		UsineNoeud.initPointFactory(dimY * dimX);
+
 		this.intersections = new ArrayList<Noeud>();
 	}
 
@@ -60,103 +61,101 @@ public class Plan extends Observable
 	public void setDimY(int dimY) {
 		this.dimY = dimY;
 	}
-	
+
 	public ArrayList<Noeud> getIntersections() {
 		return intersections;
 	}
-	
-	public int getNbIntersections(){
+
+	public int getNbIntersections() {
 		return intersections.size();
 	}
+
 	/**
 	 * Méthode qui ajout la liste des intersection un noeud
+	 * 
 	 * @param noeud
 	 */
-	public void ajouterNoeud(Noeud noeud)
-	{
+	public void ajouterNoeud(Noeud noeud) {
 		intersections.add(noeud);
 		setChanged();
 	}
-	
+
 	/**
 	 * 
 	 * @param id
 	 * @return
 	 */
 	public Noeud getNoeud(int id) {
-		for(Noeud n:intersections){
-			if(n.getId() == id){
+		for (Noeud n : intersections) {
+			if (n.getId() == id) {
 				return n;
 			}
-			
+
 		}
 		return intersections.get(id);
 	}
-	
+
 	/**
 	 * @return L'adresse d'Entrepot
 	 */
 	public Noeud getAdresseEntrepot() {
 		return adresseEntrepot;
 	}
-	
+
 	/**
-	 * @param adresseEntrepot affecter l'adresseEntrepot
+	 * @param adresseEntrepot
+	 *            affecter l'adresseEntrepot
 	 */
 	public void setAdresseEntrepot(Noeud adresseEntrepot) {
 		this.adresseEntrepot = adresseEntrepot;
 	}
-	
+
 	/**
 	 * @param DemandeDeLivraison
 	 */
-	public void setDemandeLivraisons(DemandeLivraison demandes) 
-	{
+	public void setDemandeLivraisons(DemandeLivraison demandes) {
 		this.demandeLivraisons = demandes;
 		setChanged();
 	}
 
-	
 	/**
 	 * @param DemandeDeLivraison
 	 */
-	public DemandeLivraison getDemandeLivraisons() 
-	{
+	public DemandeLivraison getDemandeLivraisons() {
 		return this.demandeLivraisons;
 	}
-	
+
 	/**
-	 * Re-initialise le plan : supprime les formes du plan courant et met a jour la taille
+	 * Re-initialise le plan : supprime les formes du plan courant et met a jour
+	 * la taille
+	 * 
 	 * @param largeur
 	 * @param hauteur
 	 */
-	public void reset() 
-	{
+	public void reset() {
 		Iterator<Noeud> it = intersections.iterator();
-		
+
 		demandeLivraisons = null;
 		adresseEntrepot = null;
-		
-		while (it.hasNext())
-		{
+
+		while (it.hasNext()) {
 			it.next();
 			it.remove();
 		}
-		
+
 		intersections.clear();
-		
+
 		setChanged();
-		notifyObservers();	
-		
+		notifyObservers();
+
 		// vidé la liste des noeuds
 		UsineNoeud.initPointFactory(0);
 	}
-	
-	public void updatePlan() 
-	{
+
+	public void updatePlan() {
 		setChanged();
 		notifyObservers();
-		
+
 	}
-	
+
 }

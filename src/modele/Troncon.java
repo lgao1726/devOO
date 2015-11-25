@@ -2,21 +2,18 @@ package modele;
 
 /**
  * Classe troncon qui décrit un lien entre deux noeud
+ * 
  * @author interCorp
  *
  */
-public class Troncon 
-{
+public class Troncon {
 	private float vitesse;
 	private float longueur;
 	private String nomRue;
-	
 	private Noeud noeudOrigine;
 	private int idNoeudDestination;
 
-
-	public Troncon(float vitesse, float longueur, String nomRue, int idNoeudDestination) 
-	{
+	public Troncon(float vitesse, float longueur, String nomRue, int idNoeudDestination) {
 		this.vitesse = vitesse;
 		this.longueur = longueur;
 		this.nomRue = nomRue;
@@ -54,7 +51,7 @@ public class Troncon
 	public void setNoeudOrigine(Noeud noeudOrigine) {
 		this.noeudOrigine = noeudOrigine;
 	}
-	
+
 	public int getIdNoeudDestination() {
 		return idNoeudDestination;
 	}
@@ -63,6 +60,4 @@ public class Troncon
 		this.idNoeudDestination = idNoeudDestination;
 	}
 
-
 }
-	
