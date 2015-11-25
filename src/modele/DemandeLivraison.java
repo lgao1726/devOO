@@ -41,10 +41,11 @@ public class DemandeLivraison
 		return listeFenetres;
 	}
 	
-	public void calculTournee(Plan plan){
+	public Tournee calculerTournee(Plan plan){
 		tournee = new Tournee(plan);
-		tournee.creerItineraires(plan);
+		tournee.calculerTournee(plan, listeFenetres);
 		plan.updatePlan();
+		return tournee;
 	}
 	
 	public Tournee getTournee(){

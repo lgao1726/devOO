@@ -85,7 +85,6 @@ public class DeserialiseurXML {
 	           contruireFenetresLivraison(racine, demande);
 	           
 	           plan.setDemandeLivraisons(demande);
-	           plan.notifyObservers();
 	        }
 	        else
 	        	throw new ExceptionXML("Document livraison non conforme");

@@ -4,6 +4,7 @@
 package controleur;
 
 import modele.Plan;
+import modele.Tournee;
 import vue.Fenetre;
 
 /**
@@ -22,6 +23,12 @@ public class EtatLivraisonCharge extends EtatDefaut
 	public void chargerDemandes(Plan plan, Fenetre fenetre) 
 	{
 		Controleur.etatPlanCharge.chargerDemandes(plan, fenetre);
+	}
+	
+	@Override
+	public void calculerTournee(Plan plan, Fenetre fenetre) {
+		Controleur.setTournee(plan.getDemandeLivraisons().calculerTournee(plan));
+		plan.updatePlan();
 	}
 	
 	/**

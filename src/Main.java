@@ -18,16 +18,14 @@ public class Main
 		// Creation du plan
 		Plan plan = new Plan(dimX, dimY);
 		
-		new Controleur(plan);
+		Controleur controleur=new Controleur(plan);
 		
 		try {
 			Thread.sleep(30000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		Tournee tournee=new Tournee(plan);
-		tournee.calculTournee(plan, plan.getDemandeLivraisons().getFenetres());
-		tournee.afficherItineraires();
+		controleur.calculerTournee();
 		
 	}
 
