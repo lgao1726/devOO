@@ -5,6 +5,15 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
+
+import modele.Noeud;
+import modele.Plan;
+import modele.UsineNoeud;
+
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -13,15 +22,26 @@ import org.junit.Test;
  */
 public class PlanTest {
 
+	Observer observer;
+	boolean updateAppele;
 	
+	@Before
+	public void setUp(){
+		updateAppele = false;
+		observer = new Observer(){public void update(Observable o, Object arg){updateAppele = true;}};
+		UsineNoeud.initPointFactory(10);
+	}
 	
 	/**
 	 * Test method for {@link modele.Plan#ajouterNoeud(modele.Noeud)}.
 	 */
 	@Test
 	public void testAjouterNoeud() {
-		fail("Not yet implemented");
-		
+		Plan plan = new Plan(10,10);
+		plan.addObserver(observer);
+		Noeud noeud = UsineNoeud.creeNoeud(0, 5, 8);
+		plan.ajouterNoeud(noeud);
+		assert(updateAppele);
 	}
 
 	/**
@@ -29,15 +49,10 @@ public class PlanTest {
 	 */
 	@Test
 	public void testGetNoeud() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link modele.Plan#getAdresseEntrepot()}.
-	 */
-	@Test
-	public void testGetAdresseEntrepot() {
-		fail("Not yet implemented");
+		Plan plan = new Plan(10,10);
+		Noeud noeud = UsineNoeud.creeNoeud(0, 5, 8);
+		plan.ajouterNoeud(noeud);
+		assertEquals(noeud, plan.getNoeud(0));
 	}
 
 	/**
@@ -45,23 +60,12 @@ public class PlanTest {
 	 */
 	@Test
 	public void testSetAdresseEntrepot() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link modele.Plan#setDemandeLivraisons(modele.DemandeLivraison)}.
-	 */
-	@Test
-	public void testSetDemandeLivraisons() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link modele.Plan#getDemandeLivraisons()}.
-	 */
-	@Test
-	public void testGetDemandeLivraisons() {
-		fail("Not yet implemented");
+		Plan plan = new Plan(10,10);
+		plan.addObserver(observer);
+		Noeud noeud = UsineNoeud.creeNoeud(0, 3, 3);
+		plan.ajouterNoeud(noeud);
+		plan.setAdresseEntrepot(noeud);
+		assert(updateAppele);
 	}
 
 	/**
@@ -69,11 +73,26 @@ public class PlanTest {
 	 */
 	@Test
 	public void testReset() {
-		fail("Not yet implemented");
+		Plan plan = new Plan(10,10);
+		Plan planVide = new Plan(10,10);
+
+		Noeud noeud1 = UsineNoeud.creeNoeud(0, 3, 3);
+		Noeud noeud2 = UsineNoeud.creeNoeud(1, 2, 6);
+		Noeud noeud3 = UsineNoeud.creeNoeud(2, 8, 6);
+		
+		plan.ajouterNoeud(noeud1);
+		plan.ajouterNoeud(noeud2);
+		plan.ajouterNoeud(noeud3);
+		
+		plan.reset();
+		assertEquals(plan.getIntersections(),new ArrayList<Noeud>());
+		assertEquals(plan.getAdresseEntrepot(), null);
+		assertEquals(plan.getDemandeLivraisons(), null);
+		assertEquals(plan.getNbIntersections(), 0);
 	}
 
 	/**
-	 * Test method for {@link modele.Plan#setTournee()}.
+	 * Test method for {@link modele.Plan#updatePlan()}.
 	 */
 	@Test
 	public void testSetTournee() {
