@@ -20,7 +20,7 @@ public class Main
 		new Controleur(plan);
 		
 		try {
-			Thread.sleep(20000);
+			Thread.sleep(50000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
