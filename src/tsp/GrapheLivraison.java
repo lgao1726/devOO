@@ -20,6 +20,8 @@ public class GrapheLivraison implements Graphe {
 	int nbSommets;
 	float[][] graphePlan;
 	float[][] grapheChemin;//intialisé dans initGraphe
+	float[][] grapheTSP;
+	Map<Integer,Integer> indicesLivraisons;
 	Map<Integer, ArrayList<int[]>> listItineraires;
 	final int BLANC=0;
 	final int GRIS=1;
@@ -30,6 +32,7 @@ public class GrapheLivraison implements Graphe {
 
 	public GrapheLivraison(Plan p,List<FenetreLivraison> fenetres){
 		listItineraires=new HashMap<Integer, ArrayList<int[]>>();
+		indicesLivraisons = new HashMap<Integer,Integer>();
 		nbSommets=p.getNbIntersections();
 		graphePlan = new float[nbSommets][nbSommets]; 
 		grapheChemin = new float[nbSommets][nbSommets];
@@ -41,23 +44,24 @@ public class GrapheLivraison implements Graphe {
 		}
 		initGraphe(p,fenetres);
 		creerGrapheChemin(fenetres);
+		creerGrapheTSP();
 	}
 
 	@Override
 	public int getNbSommets() {
-		return nbSommets;
+		return indicesLivraisons.size();
 	}
 
 	@Override
 	public float getCout(int i, int j) {
-		if (i<0 || i>=nbSommets || j<0 || j>=nbSommets)
+		if (i<0 || i>=indicesLivraisons.size() || j<0 || j>=indicesLivraisons.size())
 			return -1;
-		return grapheChemin[i][j];
+		return grapheTSP[i][j];
 	}
 
 	@Override
 	public boolean estArc(int i, int j) {
-		if (i<0 || i>=nbSommets || j<0 || j>=nbSommets)
+		if (i<0 || i>=indicesLivraisons.size() || j<0 || j>=indicesLivraisons.size())
 			return false;
 		return i != j;
 	}
@@ -65,16 +69,16 @@ public class GrapheLivraison implements Graphe {
     public void afficherMatrice()
     {
         System.out.println("Matrice du chemin");
-        for(int i=0; i<nbSommets; i++)
+        for(int i=0; i<indicesLivraisons.size(); i++)
         {
-            for(int j=0; j<nbSommets; j++)
+            for(int j=0; j<indicesLivraisons.size(); j++)
             {
             	
-                System.out.print("|"+grapheChemin[i][j]);
+                System.out.print("|"+grapheTSP[i][j]);
             }
             System.out.println("|");
         }
-        System.out.println("Itineraires");
+        /*System.out.println("Itineraires");
         Iterator it = listItineraires.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
@@ -89,7 +93,7 @@ public class GrapheLivraison implements Graphe {
             	System.out.print(grapheChemin[14][i]+ "|");
             }
             
-        }
+        }*/
     }
         
 	
@@ -134,7 +138,6 @@ public class GrapheLivraison implements Graphe {
 	private void remplirGrapheChemin(int[] predecesseurs,int[] couts,Livraison livraison,
 			List<FenetreLivraison> fenetres){
 		int adresse = livraison.getAdresse().getId();
-		System.out.println(fenetres.size());
 		//trouver la fenetre à laquelle cette livraison appartient
 		//et trouver la fenetre suivante
 		FenetreLivraison fenetreCourante = null;
@@ -276,6 +279,35 @@ public class GrapheLivraison implements Graphe {
 			}
 		}
 		return null;
+	}
+	
+	private void creerGrapheTSP(){
+		int cpt = 0;
+		//remplir le map indicesLivraisons
+		for(int i=0;i<nbSommets;i++){
+			for(int j=0;j<nbSommets;j++){
+				if(grapheChemin[i][j] != -1){
+					indicesLivraisons.put(i,cpt);
+					cpt++;
+					break;
+				}
+			}			
+		}System.out.println(cpt);
+		grapheTSP = new float[indicesLivraisons.size()][indicesLivraisons.size()]; 
+		for(int i=0;i<nbSommets;i++){
+			for(int j=0;j<nbSommets;j++){
+				if(grapheChemin[i][j] != -1){
+					grapheTSP[indicesLivraisons.get(i)][indicesLivraisons.get(j)] = grapheChemin[i][j];
+				}
+			}
+		}
+		
+	}
+	
+	public void mapTSP(int[] t){
+		for (int i=0;i<t.length;i++){
+			t[i] = indicesLivraisons.get(t[i]);
+		}
 	}
 	
 	

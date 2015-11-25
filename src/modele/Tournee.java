@@ -22,7 +22,7 @@ public class Tournee {
 
 	public void calculTournee(Plan plan, ArrayList<FenetreLivraison> fenetreLivraisons) {
 		GrapheLivraison grapheLivraison = new GrapheLivraison(plan, fenetreLivraisons);
-		grapheLivraison.afficherMatrice();
+		//grapheLivraison.afficherMatrice();
 		TSP tsp = new TSP1();
 		tsp.chercheSolution(TEMPSLIMITE, grapheLivraison);
 		Queue<Integer> ordreLivraisons = new LinkedList<Integer>();

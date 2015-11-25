@@ -50,6 +50,7 @@ public class DemandeLivraison
 	public void calculTournee(Plan plan){
 		tournee = new Tournee(plan);
 		tournee.creerItineraires(plan);
+		tournee.calculTournee(plan, listeFenetres);
 		plan.updatePlan();
 	}
 	

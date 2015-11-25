@@ -20,16 +20,8 @@ public class Main
 		
 		new Controleur(plan);
 		
-		try {
-			Thread.sleep(20000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		GrapheLivraison graphe=new GrapheLivraison(plan,plan.getDemandeLivraisons().getFenetres());
-		int index=0;
-		Noeud noeud=plan.getIntersections().get(index);
-		graphe.dijkstra(noeud.getId());
-		graphe.afficherMatrice(noeud.getId());
+
+		//graphe.afficherMatrice();
 	}
 
 }

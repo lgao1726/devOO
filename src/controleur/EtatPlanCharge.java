@@ -31,12 +31,12 @@ public class EtatPlanCharge extends EtatDefaut
 			Controleur.setEtatCourant(Controleur.etatLivraisonCharge);
 			//temporaire pour faciliter le developpement de la vue	
 			plan.getDemandeLivraisons().calculTournee(plan);
-			
 	        plan.notifyObservers();
 			
 		} 
 		catch (Exception e) 
 		{
+			e.printStackTrace();
 			fenetre.afficheMessageBox("Erreur au niveau de chargement du demande des livraisons");
 			plan.setDemandeLivraisons(null);
 		}
