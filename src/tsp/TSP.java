@@ -21,5 +21,5 @@ public interface TSP {
 	 * @return la somme des couts des arcs de la solution calculee par <code>chercheSolution</code> 
 	 * (-1 si <code>chercheSolution</code> n'a pas encore ete appele).
 	 */
-	public int getCoutSolution();
+	public float getCoutSolution();
 }

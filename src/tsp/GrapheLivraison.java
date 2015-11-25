@@ -48,12 +48,12 @@ public class GrapheLivraison implements Graphe {
 		return nbSommets;
 	}
 
-	/**@Override
+	@Override
 	public float getCout(int i, int j) {
 		if (i<0 || i>=nbSommets || j<0 || j>=nbSommets)
 			return -1;
 		return grapheChemin[i][j];
-	}**/
+	}
 
 	@Override
 	public boolean estArc(int i, int j) {
@@ -61,14 +61,8 @@ public class GrapheLivraison implements Graphe {
 			return false;
 		return i != j;
 	}
-	
-	@Override
-	public int getCout(int i, int j){
-		return (int) grapheChemin[i][j];
-		
-	}
-	
-    public void afficherMatrice(Integer idDebut)
+
+    public void afficherMatrice()
     {
         System.out.println("Matrice du chemin");
         for(int i=0; i<nbSommets; i++)
@@ -116,7 +110,6 @@ public class GrapheLivraison implements Graphe {
 				graphePlan[idOrigine][idDestination]=duree;
 			}
 		}
-
 	}
 	
 	private void creerGrapheChemin(List<FenetreLivraison> fenetres){
@@ -272,6 +265,18 @@ public class GrapheLivraison implements Graphe {
 		return resultat;		
 	}
 	
+	public int [] getItiniraire(int idNoeudOrigine, int idNoeudDestination)
+	{
+		ArrayList<int[]> liste=listItineraires.get(idNoeudOrigine);
+		for(int[] i:liste)
+		{
+			if(i[i.length-1]==idNoeudDestination)
+			{
+				return i;
+			}
+		}
+		return null;
+	}
 	
 	
 	

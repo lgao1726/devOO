@@ -8,7 +8,7 @@ public abstract class TemplateTSP implements TSP {
 	
 	private Integer[] meilleureSolution;
 	protected Graphe g;
-	private int coutMeilleureSolution;
+	private float coutMeilleureSolution;
 	private int tpsLimite;
 	private long tpsDebut;
 	
@@ -32,7 +32,7 @@ public abstract class TemplateTSP implements TSP {
 		return -1;
 	}
 	
-	public int getCoutSolution(){
+	public float getCoutSolution(){
 		if (g != null)
 			return coutMeilleureSolution;
 		return -1;
@@ -61,24 +61,24 @@ public abstract class TemplateTSP implements TSP {
 	 * @param sommetCrt le dernier sommet visite
 	 * @param nonVus la liste des sommets qui n'ont pas encore ete visites
 	 * @param vus la liste des sommets deja visites (y compris sommetCrt)
-	 * @param coutVus la somme des couts des arcs du chemin passant par tous les sommets de vus dans l'ordre ou ils ont ete visites
+	 * @param f la somme des couts des arcs du chemin passant par tous les sommets de vus dans l'ordre ou ils ont ete visites
 	 */	
-	private void branchAndBound(int sommetCrt, Collection<Integer> nonVus, Collection<Integer> vus, int coutVus){
+	private void branchAndBound(int sommetCrt, Collection<Integer> nonVus, Collection<Integer> vus, float f){
 		if (System.currentTimeMillis() - tpsDebut > tpsLimite) return;
 	    if (nonVus.size() == 0){ // tous les sommets ont ete visites
 	    	if (g.estArc(sommetCrt,0)){ // on peut retourner au sommet de depart (0)
-	    		if (coutVus+g.getCout(sommetCrt,0) < coutMeilleureSolution){ // on a trouve une solution meilleure que meilleureSolution
+	    		if (f+g.getCout(sommetCrt,0) < coutMeilleureSolution){ // on a trouve une solution meilleure que meilleureSolution
 	    			vus.toArray(meilleureSolution);
-	    			coutMeilleureSolution = coutVus+g.getCout(sommetCrt,0);
+	    			coutMeilleureSolution = f+g.getCout(sommetCrt,0);
 	    		}
 	    	}
-	    } else if (coutVus+bound(sommetCrt,nonVus) < coutMeilleureSolution){
+	    } else if (f+bound(sommetCrt,nonVus) < coutMeilleureSolution){
 	        Iterator<Integer> it = iterator(sommetCrt, nonVus, g);
 	        while (it.hasNext()){
 	        	Integer prochainSommet = it.next();
 	        	vus.add(prochainSommet);
 	            nonVus.remove(prochainSommet);
-	            branchAndBound(prochainSommet, nonVus, vus, coutVus+g.getCout(sommetCrt, prochainSommet));
+	            branchAndBound(prochainSommet, nonVus, vus, f+g.getCout(sommetCrt, prochainSommet));
 	            vus.remove(prochainSommet);
 	            nonVus.add(prochainSommet);
 	        }	    

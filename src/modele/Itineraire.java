@@ -37,16 +37,32 @@ public class Itineraire {
 		return listeNoeud;
 	}
 
-	
-	public void ajouterNoeud(int id ) {
+	public ArrayList<Integer> getNoeudsItineraire() {
+		return noeudsItineraire;
+	}
+
+	public void setNoeudsItineraire(ArrayList<Integer> noeudsItineraire) {
+		this.noeudsItineraire = noeudsItineraire;
+	}
+
+	public List<Integer> getListeNoeud() {
+		return listeNoeud;
+	}
+
+	public void setListeNoeud(List<Integer> listeNoeud) {
+		this.listeNoeud = listeNoeud;
+	}
+
+	public void ajouterNoeud(int id) {
 		listeNoeud.add(id);
 	}
+
 	public void ajouterNoeud(int index, int id) {
 		listeNoeud.add(index, id);
 	}
-	
-	public void accepte(Visiteur v){
+
+	public void accepte(Visiteur v) {
 		v.visite(this);
 	}
-	
+
 }
