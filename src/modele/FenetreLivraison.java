@@ -47,4 +47,16 @@ public class FenetreLivraison
 	{
 		return listeLivraisons.iterator();
 	}
+	
+	public boolean appartient(Livraison livraison){
+		for(Livraison liv:listeLivraisons){
+			if(livraison.getAdresse().getId()==liv.getAdresse().getId()
+					&& livraison.getId()==liv.getId()) return true;
+		}
+		return false;		
+	}
+	
+	public int getNbLivraisons(){
+		return listeLivraisons.size();
+	}
 }

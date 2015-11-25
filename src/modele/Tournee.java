@@ -25,7 +25,6 @@ public class Tournee {
 		int nbNoeuds = plan.getIntersections().size();
 		for(int i = 0;i < 60; i++){
 			int idNext = racine.getListeTronconsSortants().get(1).getIdNoeudDestination();
-			System.out.println(idNext);
 			racine = plan.getNoeud(idNext);
 			idNoeuds.add(idNext);
 		}
