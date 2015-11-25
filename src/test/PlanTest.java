@@ -90,13 +90,4 @@ public class PlanTest {
 		assertEquals(plan.getDemandeLivraisons(), null);
 		assertEquals(plan.getNbIntersections(), 0);
 	}
-
-	/**
-	 * Test method for {@link modele.Plan#updatePlan()}.
-	 */
-	@Test
-	public void testSetTournee() {
-		fail("Not yet implemented");
-	}
-
 }
