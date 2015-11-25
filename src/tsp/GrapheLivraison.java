@@ -60,11 +60,11 @@ public class GrapheLivraison implements Graphe {
 		return i != j;
 	}
 	
-	@Override
+	/**@Override
 	public int getCout(int i, int j){
 		return (int) grapheChemin[i][j];
 		
-	}
+	}**/
 	
     public void afficherMatrice(Integer idDebut)
     {
@@ -113,7 +113,7 @@ public class GrapheLivraison implements Graphe {
 		//initialiser dimensions du grapheChemin
 		int dim = 0;
 		for(FenetreLivraison fenetre:fenetres){
-			dim += fenetre.getNbLivraisons();
+			dim += fenetre.getNbLivraison();
 		}
 		grapheChemin = new float[dim][dim];
 	}

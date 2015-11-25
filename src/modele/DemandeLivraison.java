@@ -43,6 +43,10 @@ public class DemandeLivraison
 		return listeFenetres.iterator();
 	}
 	
+	public ArrayList<FenetreLivraison> getFenetres(){
+		return listeFenetres;
+	}
+	
 	public void calculTournee(Plan plan){
 		tournee = new Tournee(plan,this);
 		tournee.creerItineraires(plan);

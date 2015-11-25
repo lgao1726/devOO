@@ -15,7 +15,7 @@ public class Tournee {
 		
 	}
 	
-	//mÃ©thode temporaire pour faciliter le dev de la vue
+	//méthode temporaire pour faciliter le dev de la vue
 	public void creerItineraires(Plan plan){
 		Noeud racine = plan.getNoeud(0);
 		ArrayList<Integer> idNoeuds = new ArrayList<Integer>();
@@ -25,13 +25,12 @@ public class Tournee {
 		int nbNoeuds = plan.getIntersections().size();
 		for(int i = 0;i < 60; i++){
 			int idNext = racine.getListeTronconsSortants().get(1).getIdNoeudDestination();
-			System.out.println(idNext);
 			racine = plan.getNoeud(idNext);
 			idNoeuds.add(idNext);
 		}
 		
 		Itineraire iti = new Itineraire();
-		for(int i:idNoeuds){iti.addNoeud(i);}
+		for(int i:idNoeuds){iti.ajouterNoeud(i);}
 		itineraires.add(iti);
 		
 		
