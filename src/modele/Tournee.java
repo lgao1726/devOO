@@ -33,6 +33,7 @@ public class Tournee {
 			System.out.print("|"+tsp.getSolution(i));
 			
 		}
+		System.out.println("|");
 		for(Integer j:ordreLivraisons){
 			creerItineraire(grapheLivraison, j, getLivraisonSuivante(j, ordreLivraisons));
 		}
@@ -40,10 +41,13 @@ public class Tournee {
 	   
     }
 	
-	// méthode temporaire pour faciliter le dev de la vue
-	private void creerItineraire(GrapheLivraison grapheLivraison, Integer idLivraisonOrigine, Integer idLivraisonDestination) {
-		itineraires.add(new Itineraire(grapheLivraison.getItiniraire(idLivraisonOrigine, idLivraisonDestination)));
-}
+	public void afficherItineraires()
+	{
+		for(Itineraire it:itineraires)
+		{
+			it.affichertIneraire();
+		}
+	}
 
 	public Iterator<Itineraire> getItineraireIterator() {
 		return itineraires.iterator();
@@ -69,5 +73,7 @@ public class Tournee {
 			return ordreLivraisons.get(ordreLivraisons.indexOf(i)+1);
 		}
 	}
-	
+	private void creerItineraire(GrapheLivraison grapheLivraison, Integer idLivraisonOrigine, Integer idLivraisonDestination) {
+		itineraires.add(new Itineraire(grapheLivraison.getItiniraire(idLivraisonOrigine, idLivraisonDestination)));
+}
 }

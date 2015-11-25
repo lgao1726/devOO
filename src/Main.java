@@ -27,6 +27,7 @@ public class Main
 		}
 		Tournee tournee=new Tournee(plan);
 		tournee.calculTournee(plan, plan.getDemandeLivraisons().getFenetres());
+		tournee.afficherItineraires();
 		
 	}
 

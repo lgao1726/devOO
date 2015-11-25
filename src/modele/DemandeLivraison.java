@@ -4,15 +4,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
-public class DemandeLivraison {
+public class DemandeLivraison
+{
 	private ArrayList<FenetreLivraison> listeFenetres;
 	private Tournee tournee;
 
 	public DemandeLivraison() {
 		listeFenetres = new ArrayList<FenetreLivraison>();
 	}
-
-	public void ajouterFenetre(FenetreLivraison fenetre) {
+	
+	public void ajouterFenetre(FenetreLivraison fenetre)
+	{
 		listeFenetres.add(fenetre);
 	}
 
@@ -38,15 +40,15 @@ public class DemandeLivraison {
 	public ArrayList<FenetreLivraison> getFenetres() {
 		return listeFenetres;
 	}
-
-	/**public void calculTournee(Plan plan) {
+	
+	public void calculTournee(Plan plan){
 		tournee = new Tournee(plan);
-		tournee.calculTournee(plan, listeFenetres);
+		tournee.creerItineraires(plan);
 		plan.updatePlan();
-	}**/
-
-	public Tournee getTournee() {
+	}
+	
+	public Tournee getTournee(){
 		return tournee;
 	}
-
+	
 }

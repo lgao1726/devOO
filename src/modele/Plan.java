@@ -131,7 +131,7 @@ public class Plan extends Observable
 	 * @param largeur
 	 * @param hauteur
 	 */
-	public void reset(int taille) 
+	public void reset() 
 	{
 		Iterator<Noeud> it = intersections.iterator();
 		
@@ -144,14 +144,17 @@ public class Plan extends Observable
 			it.remove();
 		}
 		
+		intersections.clear();
+		
 		setChanged();
 		notifyObservers();	
 		
 		// vidé la liste des noeuds
-		UsineNoeud.initPointFactory(taille);
+		UsineNoeud.initPointFactory(0);
 	}
 	
-	public void updatePlan() {
+	public void updatePlan() 
+	{
 		setChanged();
 		notifyObservers();
 		

@@ -291,7 +291,7 @@ public class GrapheLivraison implements Graphe {
 		{
 			if(i[i.length-1]==idNoeudDestination)
 			{
-				ArrayList<Integer> itineraire=new ArrayList<Integer>();
+				ArrayList itineraire=new ArrayList<Integer>();
 				for(int j=0; j<i.length; j++)
 				{
 					itineraire.add(i[j]);

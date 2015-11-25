@@ -6,7 +6,7 @@ import java.util.List;
 public class Itineraire {
 
 	private Livraison livraisonOrigine;
-    private Livraison livraisonDestination;
+	private Livraison livraisonDestination;
 	private List<Integer> listeNoeud;
 
 	public Itineraire(ArrayList<Integer> listeNoeud) {
@@ -53,6 +53,18 @@ public class Itineraire {
 
 	public void accepte(Visiteur v) {
 		v.visite(this);
+	}
+	
+	public void affichertIneraire()
+	{
+		System.out.print("Itinéraire entier de la tournée");
+		for(Integer i:listeNoeud)
+		{
+			System.out.print(i+"|");
+			
+		}
+		System.out.println("");
+
 	}
 
 }
