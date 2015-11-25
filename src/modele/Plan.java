@@ -73,9 +73,7 @@ public class Plan extends Observable
 	public void ajouterNoeud(Noeud noeud)
 	{
 		intersections.add(noeud);
-		
 		setChanged();
-		//notifyObservers(noeud);
 	}
 	
 	/**

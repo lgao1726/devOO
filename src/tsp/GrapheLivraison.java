@@ -32,9 +32,11 @@ public class GrapheLivraison implements Graphe {
 		listItineraires=new HashMap<Integer, ArrayList<int[]>>();
 		nbSommets=p.getNbIntersections();
 		graphePlan = new float[nbSommets][nbSommets]; 
+		grapheChemin = new float[nbSommets][nbSommets]; 
 		for (int i=0; i<nbSommets; i++){
 		    for (int j=0; j<nbSommets; j++){
 		         graphePlan[i][j] = -1;
+		         grapheChemin[i][j] = -1;
 		    }
 		}
 		initGraphe(p,fenetres);
@@ -66,18 +68,18 @@ public class GrapheLivraison implements Graphe {
 		
 	}**/
 	
-    public void afficherMatrice(Integer idDebut)
+    public void afficherMatrice()
     {
-        /**System.out.println("Matrice du plan");
+        System.out.println("Matrice de chemin");
         for(int i=0; i<nbSommets; i++)
         {
             for(int j=0; j<nbSommets; j++)
             {
             	
-                System.out.print("|"+graphePlan[i][j]);
+                System.out.print("|"+grapheChemin[i][j]);
             }
             System.out.println("|");
-        }**/
+        }
         System.out.println("Itineraires");
         Iterator it = listItineraires.entrySet().iterator();
         while (it.hasNext()) {
@@ -110,12 +112,7 @@ public class GrapheLivraison implements Graphe {
 				graphePlan[idOrigine][idDestination]=duree;
 			}
 		}
-		//initialiser dimensions du grapheChemin
-		int dim = 0;
-		for(FenetreLivraison fenetre:fenetres){
-			dim += fenetre.getNbLivraison();
-		}
-		grapheChemin = new float[dim][dim];
+		
 	}
 	
 	private void creerGrapheChemin(List<FenetreLivraison> fenetres){
@@ -140,7 +137,7 @@ public class GrapheLivraison implements Graphe {
 	private void remplirGrapheChemin(int[] predecesseurs,int[] couts,Livraison livraison,
 			List<FenetreLivraison> fenetres){
 		int adresse = livraison.getAdresse().getId();
-		
+		System.out.println(fenetres.size());
 		//trouver la fenetre à laquelle cette livraison appartient
 		//et trouver la fenetre suivante
 		FenetreLivraison fenetreCourante = null;
@@ -157,7 +154,7 @@ public class GrapheLivraison implements Graphe {
 		//cas d'entrept pas encore géré, du coup les dernières fenetres peuvent etre nuls
 		if(fenetreSuivante!=null &&fenetreCourante!=null){
 			itineraireFenetreCourante(fenetreCourante, predecesseurs,couts, adresse);		
-			itineraireFenetreCourante(fenetreSuivante, predecesseurs,couts, adresse);
+			itineraireFenetreSuivante(fenetreSuivante, predecesseurs,couts, adresse);
 		}
 		
 	}
@@ -193,6 +190,7 @@ public class GrapheLivraison implements Graphe {
 		while(it.hasNext()){
 			int adresseDestination = it.next().getAdresse().getId();
 			if(adresseOrigine!=adresseDestination){
+				grapheChemin[adresseOrigine][adresseDestination]=couts[adresseDestination];
 				int[] chemin = trouverChemin(predecesseurs,adresseOrigine,adresseDestination);
 				if(!listItineraires.containsKey(adresseOrigine)){
 					listItineraires.put(adresseOrigine, new ArrayList<int[]>());
@@ -208,6 +206,7 @@ public class GrapheLivraison implements Graphe {
 		while(it.hasNext()){
 			int adresseDestination = it.next().getAdresse().getId();
 			if(adresseOrigine!=adresseDestination){
+				grapheChemin[adresseOrigine][adresseDestination]=couts[adresseDestination];
 				int[] chemin = trouverChemin(predecesseurs,adresseOrigine,adresseDestination);
 				if(!listItineraires.containsKey(adresseOrigine)){
 					listItineraires.put(adresseOrigine, new ArrayList<int[]>());
@@ -269,7 +268,18 @@ public class GrapheLivraison implements Graphe {
 		return resultat;		
 	}
 	
-	
+	public int [] getItiniraire(int idNoeudOrigine, int idNoeudDestination)
+	{
+		ArrayList<int[]> liste=listItineraires.get(idNoeudOrigine);
+		for(int[] i:liste)
+		{
+			if(i[i.length-1]==idNoeudDestination)
+			{
+				return i;
+			}
+		}
+		return null;
+	}
 	
 }
 	
