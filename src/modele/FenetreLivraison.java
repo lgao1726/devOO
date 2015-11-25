@@ -47,15 +47,16 @@ public class FenetreLivraison
 	{
 		return listeLivraisons.iterator();
 	}
-	
-	public HashMap<int,Livraison> getLivraisonIterator()
-	{
-		HashMap<int,Livraison>
-		return 
-	}
-	
 	public int getNbLivraison()
 	{
 		return listeLivraisons.size();
+	}
+	
+	public boolean appartient(Livraison livraison){
+		for(Livraison liv:listeLivraisons){
+			if(livraison.getAdresse().getId()==liv.getAdresse().getId()
+					&& livraison.getId()==liv.getId()) return true;
+		}
+		return false;		
 	}
 }

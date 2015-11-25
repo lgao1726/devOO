@@ -8,35 +8,37 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-import modele.FenetreLivraison;
-import modele.Livraison;
+
 import modele.Noeud;
 import modele.Plan;
 import modele.Troncon;
+import modele.FenetreLivraison;
 import modele.Itineraire;
+import modele.Livraison;
 public class GrapheLivraison implements Graphe {
 	
 	int nbSommets;
-	int nbLivraisons;
 	float[][] graphePlan;
-	float[][] grapheChemin;
-	Integer entrepot;
-	List<FenetreLivraison> listeFenetres;
-	List<Itineraire> listItineraires;
+	float[][] grapheChemin;//intialisé dans initGraphe
+	Map<Integer, ArrayList<int[]>> listItineraires;
 	final int BLANC=0;
 	final int GRIS=1;
 	final int NOIR=2;
 	final float DUREE_MAX=100000; //en heure pour l'instant
+	static int grapheCheminLigne = 0; //utilisée pour l'écriture dans grapheChemin
 
 
-	public GrapheLivraison(Plan p, List<FenetreLivraison> listeFenetres){
-		entrepot=p.getAdresseEntrepot().getId();
-		listItineraires=new ArrayList<Itineraire>();
-		nbLivraisons=calculerNbLivraisons(listeFenetres);
+	public GrapheLivraison(Plan p,List<FenetreLivraison> fenetres){
+		listItineraires=new HashMap<Integer, ArrayList<int[]>>();
 		nbSommets=p.getNbIntersections();
 		graphePlan = new float[nbSommets][nbSommets]; 
-		grapheChemin = new float[nbLivraisons][nbLivraisons]; 
-		initGraphe(p);
+		for (int i=0; i<nbSommets; i++){
+		    for (int j=0; j<nbSommets; j++){
+		         graphePlan[i][j] = -1;
+		    }
+		}
+		initGraphe(p,fenetres);
+		creerGrapheChemin(fenetres);
 	}
 
 	@Override
@@ -58,6 +60,12 @@ public class GrapheLivraison implements Graphe {
 		return i != j;
 	}
 	
+	@Override
+	public int getCout(int i, int j){
+		return (int) grapheChemin[i][j];
+		
+	}
+	
     public void afficherMatrice(Integer idDebut)
     {
         /**System.out.println("Matrice du plan");
@@ -70,30 +78,23 @@ public class GrapheLivraison implements Graphe {
             }
             System.out.println("|");
         }**/
-        System.out.println("Matrice de chemin");
-        for(int j=0; j<nbSommets; j++)
-        {
-        	
-            System.out.print("|"+grapheChemin[idDebut][j]);
+        System.out.println("Itineraires");
+        Iterator it = listItineraires.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            System.out.println(pair.getKey() + " : " );
+            ArrayList<int[]> chemins = (ArrayList<int[]>)pair.getValue();
+            for(int[] chemin:chemins){
+	            for(int i=0;i<chemin.length;i++){System.out.print(chemin[i]+" ");}
+	            System.out.println();
+            }
+            
         }
-            System.out.println("|");
-        }
+    }
         
 	
-	private void initGraphe(Plan p)
+	private void initGraphe(Plan p,List<FenetreLivraison> fenetres)
 	{
-		for (int i=0; i<nbSommets; i++){
-		    for (int j=0; j<nbSommets; j++){
-		         
-		         graphePlan[i][j] = -1;
-		    }
-		}
-		for (int i=0; i<nbLivraisons; i++){
-		    for (int j=0; j<nbLivraisons; j++){
-		         
-		         grapheChemin[i][j] = -1;
-		    }
-		}
 		ArrayList<Noeud> intersections=p.getIntersections();
 		for (Noeud curNoeud:intersections)
 		{
@@ -106,124 +107,170 @@ public class GrapheLivraison implements Graphe {
 				float longueur=curTroncon.getLongueur();
 				float vitesse=curTroncon.getVitesse();
 				float duree= longueur/vitesse;
-				graphePlan[idOrigine][idDestination]=duree;				
+				graphePlan[idOrigine][idDestination]=duree;
+			}
+		}
+		//initialiser dimensions du grapheChemin
+		int dim = 0;
+		for(FenetreLivraison fenetre:fenetres){
+			dim += fenetre.getNbLivraisons();
+		}
+		grapheChemin = new float[dim][dim];
+	}
+	
+	private void creerGrapheChemin(List<FenetreLivraison> fenetres){
+		for(FenetreLivraison fenetre:fenetres){
+			Iterator<Livraison> it = fenetre.getLivraisonIterator();
+			while(it.hasNext()){
+				Livraison livraison = it.next();
+				int[] dijkstraResultat= dijkstra(livraison.getAdresse().getId());
+				
+				//il faut séparer les chemins et les couts
+				int[] predecesseurs = new int[nbSommets];
+				int[] couts = new int[nbSommets];
+				for(int i=0;i<nbSommets;i++){
+					predecesseurs[i] = dijkstraResultat[i];
+					couts[i] = dijkstraResultat[nbSommets+i];
+				}remplirGrapheChemin(predecesseurs,couts,livraison,fenetres);
+				
 			}
 		}
 	}
 	
-	
-	public int[] dijkstra(Noeud noeudDebut)
-	{
-		//s0
-		Integer idDebut=noeudDebut.getId();
-		int[] couleurNoeud=initEtatNoeuds(); //pour chaque sommet,colorier si en blanc,
-		int[] predecesseurs=initPredecesseurs(); //pour chaque sommet,		 faire pi[si]=-1; 
-		float [] d=new float[nbLivraisons];
+	private void remplirGrapheChemin(int[] predecesseurs,int[] couts,Livraison livraison,
+			List<FenetreLivraison> fenetres){
+		int adresse = livraison.getAdresse().getId();
 		
-		for (int i=0; i<nbSommets; i++){         
-		         d[i] = DUREE_MAX;
+		//trouver la fenetre à laquelle cette livraison appartient
+		//et trouver la fenetre suivante
+		FenetreLivraison fenetreCourante = null;
+		FenetreLivraison fenetreSuivante = null;
+		boolean done = false;
+		for(FenetreLivraison fenetre:fenetres){
+			if(done && fenetreSuivante==null) 
+				fenetreSuivante = fenetre;
+			if(fenetre.appartient(livraison)){
+				fenetreCourante = fenetre;
+				done = true;
+			}
 		}
-		List <Integer> gris=new ArrayList<Integer>();
+		//cas d'entrept pas encore géré, du coup les dernières fenetres peuvent etre nuls
+		if(fenetreSuivante!=null &&fenetreCourante!=null){
+			itineraireFenetreCourante(fenetreCourante, predecesseurs,couts, adresse);		
+			itineraireFenetreCourante(fenetreSuivante, predecesseurs,couts, adresse);
+		}
 		
-		d[idDebut]=0; //d[si]=0
-		couleurNoeud[idDebut]=GRIS;
-		gris.add(idDebut);
+	}
+	
+	//trouver chemin entre deux livraisons
+	private int[] trouverChemin(int[] predecesseurs,int origine,int destination){
+		int cpt = 0;
+		int[] tempResultat = new int[nbSommets]; //ce resultat est dans l'ordre invers de ce qu'on veut
+		int courant = destination;
+		tempResultat[cpt] = courant;
+		cpt++;
+		while(predecesseurs[courant] != origine){
+			tempResultat[cpt] = predecesseurs[courant];
+			cpt++;
+			courant = predecesseurs[courant];			
+		}
+		//ajouter l'origine
+		tempResultat[cpt] = predecesseurs[courant];
+		cpt++;
 		
-		while(!gris.isEmpty())
-		{
-			Integer iNoeud=choisirSommetGris(gris, idDebut); //choisir si tel que d[si]minimal
-			for(Integer jNoeud=0; jNoeud<nbSommets; jNoeud++)
-			{
-				if(graphePlan[iNoeud][jNoeud]!=-1 && (couleurNoeud[jNoeud]!=NOIR) && jNoeud!=iNoeud)
-				{
-					relacher(d, iNoeud, jNoeud, predecesseurs);
-					
-					if(couleurNoeud[jNoeud]==BLANC)
-					{
-						couleurNoeud[jNoeud]=GRIS;
-						gris.add(jNoeud);						
-					}
+		int[] resultat = new int[cpt];
+		//retourner un tableau avec les bonnes dimensions
+		//dans le bon sens
+		for(int i=0;i<cpt;i++){
+			resultat[i] = tempResultat[cpt-i-1];
+		}
+		return resultat;
+	}
+	
+	private void itineraireFenetreCourante(FenetreLivraison fenetre,int[] predecesseurs,
+			int[] couts,int adresseOrigine){
+		Iterator<Livraison> it = fenetre.getLivraisonIterator();
+		while(it.hasNext()){
+			int adresseDestination = it.next().getAdresse().getId();
+			if(adresseOrigine!=adresseDestination){
+				int[] chemin = trouverChemin(predecesseurs,adresseOrigine,adresseDestination);
+				if(!listItineraires.containsKey(adresseOrigine)){
+					listItineraires.put(adresseOrigine, new ArrayList<int[]>());
 				}
+				listItineraires.get(adresseOrigine).add(chemin);
 			}
-			couleurNoeud[iNoeud]=NOIR;
-			gris.remove(iNoeud);
+		}
+	}
+	
+	private void itineraireFenetreSuivante(FenetreLivraison fenetre,int[] predecesseurs,
+			int[] couts,int adresseOrigine){
+		Iterator<Livraison> it = fenetre.getLivraisonIterator();
+		while(it.hasNext()){
+			int adresseDestination = it.next().getAdresse().getId();
+			if(adresseOrigine!=adresseDestination){
+				int[] chemin = trouverChemin(predecesseurs,adresseOrigine,adresseDestination);
+				if(!listItineraires.containsKey(adresseOrigine)){
+					listItineraires.put(adresseOrigine, new ArrayList<int[]>());
+				}
+				listItineraires.get(adresseOrigine).add(chemin);
+			}
+		}
+	}
+	
+	public int[] dijkstra(int noeudDebut)
+	{
+		//on va mettre les plus courts chemins et distances dans le même tableau
+		//resultat
+		float[] distance = new float[nbSommets];
+		int[] predecesseur = new int[nbSommets];
+		boolean[] visite = new boolean[nbSommets];
+		int[] resultat = new int[nbSommets*2];
+		
+		for(int i=0;i<nbSommets;i++){
+			distance[i] = DUREE_MAX;
+			predecesseur[i] = -1;
+			visite[i] = false;
 		}
 		
-		System.out.println("predecesseurs");
-		for(int j=0; j<nbSommets; j++)
-		{
-			System.out.print("|"+predecesseurs[j]);
-		}
-		return predecesseurs;
-}
-	
-	private Integer choisirSommetGris(List<Integer> gris, int idDebut)
-	{
-		float dureeMin=DUREE_MAX;
-		int idNoeudChoisi=gris.get(0);
-		for(Integer id:gris)
-		{
-			if (grapheChemin[idDebut][id]<dureeMin)
-			{
-				idNoeudChoisi=id;
-				dureeMin=grapheChemin[idDebut][id];
+		distance[noeudDebut] = 0;
+		predecesseur[noeudDebut] = noeudDebut;
+		
+		//pour chaque sommet
+		for(int i=0;i<nbSommets;i++){
+			float minDist = DUREE_MAX;
+			int noeudCourant = noeudDebut;
+			//trouver le noeud où la distance est plus courte
+			for(int j=0;j<nbSommets;j++){
+				if(!visite[j] && distance[j]<minDist){
+					noeudCourant = j;
+					minDist = distance[j];
+					}
+			}
+			visite[noeudCourant] = true;			
+			
+			//regarder tous ses voisins
+			for(int j=0;j<nbSommets;j++){
+				//relacher arc
+				if(graphePlan[noeudCourant][j]+distance[noeudCourant]<distance[j] 
+						&& graphePlan[noeudCourant][j]!=-1){
+					distance[j] = graphePlan[noeudCourant][j]+distance[noeudCourant];
+					predecesseur[j] = noeudCourant;
+				}
+				
 			}
 		}
-		return idNoeudChoisi;
-	}
-	
-	private int[] initEtatNoeuds()
-	{
-		int[] etatNoeuds=new int [nbSommets] ;
-		for(int i=0; i<nbSommets; i++)
-		{
-			etatNoeuds[i]=BLANC;
-		}
-		return etatNoeuds;
-	}
-	
-	private int[] initPredecesseurs()
-	{
-		int[] predecesseurs=new int [nbSommets] ;
-		for(int i=0; i<nbSommets; i++)
-		{
-			predecesseurs[i]=-1;
-		}
-		return predecesseurs;
-	}
-	
-	private void relacher(float[]d, Integer iNoeud, Integer jNoeud, int[] predecesseurs)
-	{
-		if(d[jNoeud]>d[iNoeud]+graphePlan[iNoeud][jNoeud])
-		{
-			d[jNoeud]=d[iNoeud]+graphePlan[iNoeud][jNoeud];
-			predecesseurs[jNoeud]=iNoeud;
-		}
-	}
-	// va certainement nettoyer graphe chemin en passant
-	private Itineraire ConstruireItinerairesDePredecesseur(Integer debut, int[] predecesseurs, float[]d, FenetreLivraison fenetre, FenetreLivraison fenetreSuivante){
-		Iterator<Livraison> it=fenetre.getLivraisonIterator();
-		while(it.hasNext())
-		{
-			Livraison livraison=(Livraison)it.next();
-			Itineraire itineraire=new Itineraire()
-			int idNoeud=livraison.getAdresse().getId();
-			{
-				grapheChemin[debut][idNoeud]=d[idNoeud];
-			}
+		for(int i=0;i<nbSommets;i++){
+			resultat[i] = predecesseur[i];
 		}
 		
-		return null;
+		for(int i=0;i<nbSommets;i++){
+			resultat[predecesseur.length+i] = (int) distance[i];
+		}
+		return resultat;		
 	}
 	
-	private int calculerNbLivraisons(List<FenetreLivraison> listeFenetres){
-		int nbLivraisons=0;
-		for(FenetreLivraison fenetre:listeFenetres)
-		{
-			nbLivraisons+=fenetre.getNbLivraison();
-		}
-		return nbLivraisons;
-	}
+	
+	
 }
 	
 	

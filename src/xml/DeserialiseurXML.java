@@ -67,8 +67,12 @@ public class DeserialiseurXML {
 																	   IOException, ExceptionXML
     {
 		File xml = OuvreurDeFichierXML.getInstance().ouvre(true);
-        if (xml!=null){
-			DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+
+
+		
+		if (xml != null)
+		{
+	        DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 	        Document document = docBuilder.parse(xml);
 	        Element racine = document.getDocumentElement();
 	        

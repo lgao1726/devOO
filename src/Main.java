@@ -25,10 +25,10 @@ public class Main
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		/**GrapheLivraison graphe=new GrapheLivraison(plan);
+		GrapheLivraison graphe=new GrapheLivraison(plan);
 		int index=0;
 		Noeud noeud=plan.getIntersections().get(index);
-		graphe.dijkstra(noeud);
+		graphe.dijkstra(noeud.getId());
 		graphe.afficherMatrice(noeud.getId());**/
 	}
 
