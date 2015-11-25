@@ -118,17 +118,17 @@ public class DeserialiseurXML {
     }
 	
 	protected static void contruireFenetresLivraison(Element noeudDOMRacine, DemandeLivraison demande) throws ExceptionXML, NumberFormatException{
-        
-       	NodeList listeNoeuds = noeudDOMRacine.getElementsByTagName("Plage");
-       	
+		int adresseEntrepot = Integer.parseInt(((Element)noeudDOMRacine.
+       			getElementsByTagName("Entrepot").item(0)).getAttribute("adresse"));
+		FenetreLivraison entrepot = new FenetreLivraison(null,null);
+		entrepot.ajouterLivraison(new Livraison(0,UsineNoeud.getNoeud(adresseEntrepot),0));
+		demande.ajouterFenetre(entrepot);
+       	NodeList listeNoeuds = noeudDOMRacine.getElementsByTagName("Plage");       	
        	for (int i = 0; i < listeNoeuds.getLength(); i++) 
        	{
-       		Element plageActuel = (Element) listeNoeuds.item(i);
-       		
-       		FenetreLivraison plage = creerPlage(plageActuel);
-       		
-           	NodeList listeLivraison = plageActuel.getElementsByTagName("Livraison");
-           	
+       		Element plageActuel = (Element) listeNoeuds.item(i);       		
+       		FenetreLivraison plage = creerPlage(plageActuel);       		
+           	NodeList listeLivraison = plageActuel.getElementsByTagName("Livraison");           	
            	for (int j = 0; j < listeLivraison.getLength(); j++)
            	{
            		plage.ajouterLivraison(creerLivraison((Element) listeLivraison.item(j)));
@@ -136,6 +136,7 @@ public class DeserialiseurXML {
            	
            	demande.ajouterFenetre(plage);
        	}
+       	demande.ajouterFenetre(entrepot);  	
        	
     }
 	
@@ -158,7 +159,7 @@ public class DeserialiseurXML {
 	protected static FenetreLivraison creerPlage(Element elt) throws ExceptionXML
 	{
 		SimpleDateFormat formater = new SimpleDateFormat("HH:mm:ss");
-   		
+		
    		Date debut;
    		Date fin;
    		

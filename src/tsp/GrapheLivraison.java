@@ -140,7 +140,7 @@ public class GrapheLivraison implements Graphe {
 	private void remplirGrapheChemin(int[] predecesseurs,int[] couts,Livraison livraison,
 			List<FenetreLivraison> fenetres){
 		int adresse = livraison.getAdresse().getId();
-		
+		System.out.println(fenetres.size());
 		//trouver la fenetre à laquelle cette livraison appartient
 		//et trouver la fenetre suivante
 		FenetreLivraison fenetreCourante = null;
