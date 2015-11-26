@@ -113,7 +113,7 @@ public class Plan extends Observable
 	public void setDemandeLivraisons(DemandeLivraison demandes) 
 	{
 		this.demandeLivraisons = demandes;
-		setChanged();
+		this.updatePlan();
 	}
 
 	
