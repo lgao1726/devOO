@@ -23,11 +23,24 @@ public class Main
 
 		//graphe.afficherMatrice();
 		try {
-			Thread.sleep(30000);
+			Thread.sleep(50000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		
+		Tournee tournee = new Tournee(plan);
+		tournee.calculerTournee(plan, plan.getDemandeLivraisons().getFenetres());
+		
+		tournee.afficherListeItineraires();
+		
+		//System.out.println(tournee.supprimerLivraison(37));
+		
+		Noeud noeud = new Noeud(39, 315, 701);
+		System.out.println(tournee.ajouterLivraison(42, noeud, 999, 37));
+		
+		tournee.afficherListeItineraires();
+		
+
 	}
 
 }
