@@ -1,7 +1,7 @@
 package controleur;
 
-import modele.DemandeLivraison;
 import modele.Plan;
+import modele.Tournee;
 import vue.Fenetre;
 //import model.Tournee;
 
@@ -15,16 +15,14 @@ public class EtatDefaut implements Etat {
 	public void chargerDemandes(Plan plan, Fenetre fenetre)
 	{}
 
-	/**@Override
-	}
 
 	@Override
-	protected void calculerTournee(Plan plan) {
+	public void calculerTournee(Plan plan, Fenetre fenetre) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+/**	@Override
 	protected void genererFeuilleDeRoute(Tournee tournee) {
 		// TODO Auto-generated method stub
 		

@@ -1,5 +1,8 @@
-
+import tsp.Graphe;
+import tsp.GrapheLivraison;
+import modele.Noeud;
 import modele.Plan;
+import modele.Tournee;
 import controleur.Controleur;
 
 public class Main 
@@ -12,7 +15,16 @@ public class Main
 		// Creation du plan
 		Plan plan = new Plan();
 		
-		new Controleur(plan);
+		Controleur controleur=new Controleur(plan);
+		
+
+		//graphe.afficherMatrice();
+		try {
+			Thread.sleep(30000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

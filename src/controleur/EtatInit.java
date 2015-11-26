@@ -25,15 +25,14 @@ public class EtatInit extends EtatDefaut
 	{
 		try 
 		{
-			if (DeserialiseurXML.traiterPlan(plan))
-			
-				Controleur.setEtatCourant(Controleur.etatPlanCharge);
+			DeserialiseurXML.traiterPlan(plan);
+	        plan.notifyObservers();
+			Controleur.setEtatCourant(Controleur.etatPlanCharge);
 			
 		} 
 		catch (Exception e)
 		{
-			fenetre.afficheMessageBox(e.getMessage());
-			// A changé, normalement on va faire un undo pour revenir au plan précendent 
+			fenetre.afficheMessageBox("Erreur au niveau de chargement de plan");
 			plan.reset();
 		}
 	}

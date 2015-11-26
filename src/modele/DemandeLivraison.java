@@ -8,6 +8,7 @@ import java.util.Observable;
 public class DemandeLivraison
 {
 	private ArrayList<FenetreLivraison> listeFenetres;
+	private Tournee tournee;
 
 	public DemandeLivraison() 
 	{
@@ -40,6 +41,21 @@ public class DemandeLivraison
 	public Iterator<FenetreLivraison> getFenetreIterator()
 	{
 		return listeFenetres.iterator();
+	}
+	
+	public ArrayList<FenetreLivraison> getFenetres(){
+		return listeFenetres;
+	}
+	
+	public Tournee calculerTournee(Plan plan){
+		tournee = new Tournee(plan);
+		tournee.calculerTournee(plan, listeFenetres);
+		plan.updatePlan();
+		return tournee;
+	}
+	
+	public Tournee getTournee(){
+		return tournee;
 	}
 	
 }

@@ -1,20 +1,26 @@
 package vue;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import modele.DemandeLivraison;
 import modele.FenetreLivraison;
+import modele.Itineraire;
 import modele.Livraison;
 import modele.Noeud;
 import modele.Plan;
+import modele.Tournee;
 import modele.Visiteur;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
 
 import javax.swing.JPanel;
 
@@ -108,17 +114,22 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 		
 		if (dem != null)
 		{
-			Iterator<FenetreLivraison> itFen = dem.getFenetreIterator();
-			
+			Iterator<FenetreLivraison> itFen = dem.getFenetreIterator();			
 			while (itFen.hasNext())
 			{
-				FenetreLivraison fen = itFen.next();
-				
-				Iterator<Livraison> itLiv = fen.getLivraisonIterator();
-				
-				while (itLiv.hasNext())
-				
+				FenetreLivraison fen = itFen.next();				
+				Iterator<Livraison> itLiv = fen.getLivraisonIterator();				
+				while (itLiv.hasNext())				
 					itLiv.next().accepte(this);
+			}
+		}
+		
+		if(dem != null && dem.getTournee() != null){
+			Tournee tour = dem.getTournee();
+			Iterator<Itineraire> itIti = tour.getItineraireIterator();
+			while(itIti.hasNext()){
+				itIti.next().accepte(this);
+				
 			}
 		}
 	}
@@ -166,5 +177,42 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 		
 		g2.fillOval(x*echelle-5, y*echelle-5, 10, 10);
 	}
+	
+	@Override
+	public void visite(Itineraire iti) {
+		int i = 0;
+		List<Integer> idNoeuds = iti.getNoeuds();
+		while(i < idNoeuds.size() - 1){
+			Graphics2D g2 = (Graphics2D) g;
+			Noeud origine = plan.getNoeud(idNoeuds.get(i));
+			Noeud destination = plan.getNoeud(idNoeuds.get(i+1));		
+			g2.setColor(Color.green);
+			g2.setStroke(new BasicStroke(1));
+			drawArrow(g2,origine.getX(),origine.getY(),
+					destination.getX(),destination.getY());	
+			//g2.drawLine(origine.getX(),origine.getY(),
+			//			destination.getX(),destination.getY());			
+			i++;
+			
+		}
+		
+	}
+	
+	private void drawArrow(Graphics g1, int x1, int y1, int x2, int y2) {
+        Graphics2D g = (Graphics2D) g1.create();
+
+        double dx = x2 - x1, dy = y2 - y1;
+        double angle = Math.atan2(dy, dx);
+        int len = (int) Math.sqrt(dx*dx + dy*dy);
+        AffineTransform at = AffineTransform.getTranslateInstance(x1, y1);
+        at.concatenate(AffineTransform.getRotateInstance(angle));
+        g.transform(at);
+
+        // Draw horizontal arrow starting in (0, 0)
+        g.drawLine(0, 0, len, 0);
+        g.fillPolygon(new int[] {len, len-12, len-12, len},
+                      new int[] {0, -8, 8, 0}, 4);
+    }
+
 
 }

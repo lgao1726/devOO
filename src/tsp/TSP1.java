@@ -5,12 +5,12 @@ import java.util.Iterator;
 
 public class TSP1 extends TemplateTSP {
 
-	@Override
-<<<<<<< HEAD
 	protected int bound(Float sommetCourant, Collection<Float> nonVus) {
-=======
+		return 0;
+	}
+	
+	@Override
 	protected int bound(Integer sommetCourant, Collection<Integer> nonVus) {
->>>>>>> branch 'development' of https://github.com/lgao1726/devOO.git
 		return 0;
 	}
 

@@ -7,7 +7,7 @@ import modele.Plan;
 public class EtatPlanCharge extends EtatDefaut
 {	
 	/**
-	 * Méthode qui charge les demande des livraision et qui passe vers l'état LivraisonCharger
+	 * M�thode qui charge les demande des livraision et qui passe vers l'�tat LivraisonCharger
 	 * @param Plan
 	 * @param DemandeLivraison
 	 */
@@ -17,19 +17,25 @@ public class EtatPlanCharge extends EtatDefaut
 		try 
 		{
 			if (DeserialiseurXML.chargerDemandeLivraison(plan))
-			
+				
 				Controleur.setEtatCourant(Controleur.etatLivraisonCharge);
+			
+			Controleur.setEtatCourant(Controleur.etatLivraisonCharge);
+			//temporaire pour faciliter le developpement de la vue	
+			plan.getDemandeLivraisons().calculerTournee(plan);
+	        plan.notifyObservers();
 			
 		} 
 		catch (Exception e) 
 		{
-			fenetre.afficheMessageBox(e.getMessage());
+			e.printStackTrace();
+			fenetre.afficheMessageBox("Erreur au niveau de chargement du demande des livraisons");
 			plan.setDemandeLivraisons(null);
 		}
 	}
 	
 	/**
-	 * Méthode qui charger un plan
+	 * M�thode qui charger un plan
 	 * @param Plan de ville
 	 * @param Fenetre
 	 * @throws ExceptionEtat
@@ -39,6 +45,5 @@ public class EtatPlanCharge extends EtatDefaut
 	{
 		Controleur.etatInit.chargerPlan(plan, fenetre);
 	}
-	
 	
 }

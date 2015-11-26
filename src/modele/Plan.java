@@ -14,6 +14,10 @@ import java.util.Observable;
  */
 public class Plan extends Observable
 {
+	// La dimension X
+	private int dimX;
+	// La dimension Y
+	private int dimY;
 	// Liste des noeud
 	private ArrayList<Noeud> intersections;
 	// Adresse d'Entrepot
@@ -26,13 +30,21 @@ public class Plan extends Observable
 	 */
 	public Plan() 
 	{
+		this.dimX = dimX;
+		this.dimY = dimY;
+		
+		UsineNoeud.initPointFactory(dimY*dimX);
+		
 		this.intersections = new ArrayList<Noeud>();
 	}
 	
 	public ArrayList<Noeud> getIntersections() {
 		return intersections;
 	}
-
+	
+	public int getNbIntersections(){
+		return intersections.size();
+	}
 	/**
 	 * Méthode qui ajout la liste des intersection un noeud
 	 * @param noeud
@@ -40,9 +52,22 @@ public class Plan extends Observable
 	public void ajouterNoeud(Noeud noeud)
 	{
 		intersections.add(noeud);
-		
 		setChanged();
-		//notifyObservers(noeud);
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Noeud getNoeud(int id) {
+		for(Noeud n:intersections){
+			if(n.getId() == id){
+				return n;
+			}
+			
+		}
+		return intersections.get(id);
 	}
 	
 	/**
@@ -67,6 +92,7 @@ public class Plan extends Observable
 		this.demandeLivraisons = demandes;
 		setChanged();
 	}
+
 	
 	/**
 	 * @param DemandeDeLivraison
@@ -83,8 +109,8 @@ public class Plan extends Observable
 	{
 		Iterator<Noeud> it = intersections.iterator();
 		
-		adresseEntrepot = null;
 		demandeLivraisons = null;
+		adresseEntrepot = null;
 		
 		while (it.hasNext())
 		{
@@ -92,10 +118,20 @@ public class Plan extends Observable
 			it.remove();
 		}
 		
+		intersections.clear();
+		
 		setChanged();
 		notifyObservers();	
 		
 		// vidé la liste des noeuds
 		UsineNoeud.initPointFactory(0);
 	}
+	
+	public void updatePlan() 
+	{
+		setChanged();
+		notifyObservers();
+		
+	}
+	
 }

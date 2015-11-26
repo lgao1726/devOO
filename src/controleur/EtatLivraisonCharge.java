@@ -4,17 +4,18 @@
 package controleur;
 
 import modele.Plan;
+import modele.Tournee;
 import vue.Fenetre;
 
 /**
- * Etat des les livraisons chargées
+ * Etat des les livraisons charg�es
  * @author interCorp
  *
  */
 public class EtatLivraisonCharge extends EtatDefaut 
 {
 	/**
-	 * Méthode qui charge les demande des livraision et qui passe vers l'état LivraisonCharger
+	 * M�thode qui charge les demande des livraision et qui passe vers l'�tat LivraisonCharger
 	 * @param Plan
 	 * @param DemandeLivraison
 	 */
@@ -24,8 +25,14 @@ public class EtatLivraisonCharge extends EtatDefaut
 		Controleur.etatPlanCharge.chargerDemandes(plan, fenetre);
 	}
 	
+	@Override
+	public void calculerTournee(Plan plan, Fenetre fenetre) {
+		Controleur.setTournee(plan.getDemandeLivraisons().calculerTournee(plan));
+		plan.updatePlan();
+	}
+	
 	/**
-	 * Méthode qui charger un plan
+	 * M�thode qui charger un plan
 	 * @param Plan de ville
 	 * @param Fenetre
 	 * @throws ExceptionEtat
