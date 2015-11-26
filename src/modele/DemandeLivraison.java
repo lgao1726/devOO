@@ -90,6 +90,7 @@ public class DemandeLivraison
 				Noeud noeud=livraison.getAdresse();
 				if((xPoint>noeud.getX()-rayon) && (xPoint<noeud.getX()+rayon)  && (yPoint<noeud.getY()+rayon)  && (yPoint>noeud.getY()-rayon))
 				{
+					System.out.println(noeud.getId()+"|"+livraison.getId()+"|"+fenetre.getNbLivraisons());
 					return livraison;
 				}
 			}

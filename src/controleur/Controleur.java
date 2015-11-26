@@ -1,5 +1,6 @@
 package controleur;
 
+import modele.Livraison;
 import modele.Plan;
 import modele.Tournee;
 import vue.Fenetre;
@@ -50,6 +51,13 @@ public class Controleur
 	{
 		etatCourant.calculerTournee(plan, fenetre);
 	}
-
+	
+	public void selectionnerLivraison(Livraison livraison)
+	{
+		etatCourant.selectionnerLivraison(livraison);
+	}
+	public void supprimerLivraison(){
+		
+	}
 
 }

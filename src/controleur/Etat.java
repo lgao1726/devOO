@@ -1,5 +1,6 @@
 package controleur;
 
+import modele.Livraison;
 import modele.Plan;
 import modele.Tournee;
 import vue.Fenetre;
@@ -12,8 +13,11 @@ public interface Etat {
 	
 	public abstract void calculerTournee(Plan plan, Fenetre fenetre);
 	
-	public abstract void selectionnerLivraison(Plan plan, Fenetre fenetre);
-		// TODO Auto-generated method stub
+	public abstract void selectionnerLivraison(Livraison livraison);
+	
+	public abstract void supprimerLivraison();
+	
+	// TODO Auto-generated method stub
 		
 	/**public abstract void genererFeuilleDeRoute(Tournee tournee);
 	

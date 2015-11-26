@@ -1,9 +1,9 @@
 package controleur;
 
+import modele.Livraison;
 import modele.Plan;
-import modele.Tournee;
 import vue.Fenetre;
-//import model.Tournee;
+
 
 public class EtatDefaut implements Etat {
 
@@ -23,7 +23,13 @@ public class EtatDefaut implements Etat {
 	}
 	
 	@Override
-	public void selectionnerLivraison(Plan plan, Fenetre fenetre) {
+	public void selectionnerLivraison(Livraison livraison) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void supprimerLivraison() {
 		// TODO Auto-generated method stub
 		
 	}
