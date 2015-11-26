@@ -28,6 +28,16 @@ public class Main
 			e.printStackTrace();
 		}
 		
+		Tournee tournee = new Tournee(plan);
+		tournee.calculerTournee(plan, plan.getDemandeLivraisons().getFenetres());
+		
+		tournee.afficherListeItineraires();
+		
+		System.out.println(tournee.echangerLivraison(97, 87));
+		
+		tournee.afficherListeItineraires();
+		
+
 	}
 
 }

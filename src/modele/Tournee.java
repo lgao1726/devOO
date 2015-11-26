@@ -2,6 +2,7 @@ package modele;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -43,11 +44,13 @@ public class Tournee {
 	            int destination = grapheLivraison.mapLivraison(ordreLivraisons.peek());
 	            ArrayList<Integer> noeudsItineraire = grapheLivraison.getItiniraire(origine, destination);
 		    	Itineraire iti = new Itineraire(noeudsItineraire);
+		    	setLivraisonsPourItineraire(fenetreLivraisons, iti, origine, destination);
 		    	itineraires.add(iti);
 		    	
 	    	}else{
 	    		ArrayList<Integer> noeudsItineraire = grapheLivraison.getItiniraire(origine, entrepot);
 		    	Itineraire iti = new Itineraire(noeudsItineraire);
+		    	setLivraisonsPourItineraire(fenetreLivraisons, iti, origine, entrepot);
 		    	itineraires.add(iti);
 	    	}
 	    	//System.out.print("|"+grapheLivraison.mapLivraison(ordreLivraisons.poll()));
@@ -79,6 +82,24 @@ public class Tournee {
 
 	}*/
 
+	private void setLivraisonsPourItineraire(ArrayList<FenetreLivraison> fenetreLivraisons, Itineraire iti, int origine,
+			int destination) {
+		
+		for(FenetreLivraison fenetreLivraison: fenetreLivraisons)
+		{
+			Iterator<Livraison> it = fenetreLivraison.getLivraisonIterator();
+			while(it.hasNext()){
+				Livraison liv = it.next();
+				if(liv.getAdresse().getId()==origine){
+					iti.setLivraisonOrigine(liv);
+				}
+				else if(liv.getAdresse().getId() == destination){
+					iti.setLivraisonDestination(liv);
+				}
+			}
+		}
+	}
+
 	public Iterator<Itineraire> getItineraireIterator() {
 		return itineraires.iterator();
 	}
@@ -92,18 +113,21 @@ public class Tournee {
 		return nb;
 	}
 	
-	public boolean supprimerLivraison(int idLivraison ){
-		int nouvelOrigine;
-		int nouvelleDestination;
+	public boolean supprimerLivraison(int idLivraison){
+		Livraison nouvelOrigine = null;
+		Livraison nouvelleDestination = null;
 		Itineraire aSupprimer1 = null;
 		Itineraire aSupprimer2 = null;
-		for(Itineraire itineraire : itineraires){
-			if(itineraire.getLivraisonDestination().getId() == idLivraison){
-				nouvelOrigine = itineraire.getLivraisonOrigine().getId();
+		int positionInsertion = -1;
+		for(int i=0; i<itineraires.size(); i++){
+			Itineraire itineraire = itineraires.get(i);
+			if(itineraire.getLivraisonDestination().getAdresse().getId() == idLivraison){
+				nouvelOrigine = itineraire.getLivraisonOrigine();
 				aSupprimer1 = itineraire;
+				positionInsertion = i;
 			}
-			if(itineraire.getLivraisonOrigine().getId() == idLivraison){ 
-				nouvelleDestination = itineraire.getLivraisonDestination().getId();
+			if(itineraire.getLivraisonOrigine().getAdresse().getId() == idLivraison){ 
+				nouvelleDestination = itineraire.getLivraisonDestination();
 				aSupprimer2 = itineraire;
 			}
 		}
@@ -113,41 +137,106 @@ public class Tournee {
 		}else{
 			return false;
 		}
-		if(grapheLivraison != null) {
-			
+		if(grapheLivraison != null && nouvelleDestination != null && nouvelOrigine != null) {
+			ArrayList<Integer> plusCourtChemin =  grapheLivraison.obtenirPlusCourtChemin(nouvelOrigine.getAdresse().getId(), nouvelleDestination.getAdresse().getId());
+			Itineraire itineraireRemplacant = new Itineraire(plusCourtChemin);
+			itineraireRemplacant.setLivraisonOrigine(nouvelOrigine);
+			itineraireRemplacant.setLivraisonDestination(nouvelleDestination);
+			if(positionInsertion != -1) itineraires.add(positionInsertion, itineraireRemplacant);
 		}
 		else{
 			return false;
 		}
-		Itineraire itineraireRemplacant;
 		return true;
 	}
 	
 	//recalculer les 2 itinéraires autour des 2 itinéraires on veut échanger
 	//inverser l'itinéraire entre les 2 itinéraires qu'on veut échanger
-	public void echangerLivraison(int livraison1,int livraison2){
+	//livraison 1 est le livraison precedent
+	public boolean echangerLivraison(int livraison1,int livraison2){
 		Itineraire itiAInverser = null;
 		Itineraire itiAvant = null;//itineraire qui se trouve avant le changement
 		Itineraire itiApres = null;//itineraire qui se trouve apès le changement
 		
-		int posItiAvant;
-		int posItiApres;
+		int posItiAvant = -1;
+		int posItiApres = -1;
 		for(int i=0;i<itineraires.size();i++){
 			Itineraire iti = itineraires.get(i);
+			int itiSize = iti.getListeNoeud().size();
 			//trouver l'itineraire qui commence avec livraison 1
 			//et termine avec livraison2
 			if(iti.getListeNoeud().get(0)==livraison1 && 
-				iti.getListeNoeud().get(iti.getListeNoeud().size())==livraison2){
+				iti.getListeNoeud().get(itiSize - 1)==livraison2){
 				itiAInverser = iti;
-			}else if(iti.getListeNoeud().get(0)==livraison2){
+			}if(iti.getListeNoeud().get(0)==livraison2){
+				//itineraire - livraison après livraison2
 				itiApres = iti;
 				posItiApres = i; 
-			}else if(iti.getListeNoeud().size()==livraison1){
+			}if(iti.getListeNoeud().get(itiSize - 1)==livraison1){
+				//itineraire - livraison avant livraison2
 				itiAvant = iti;
 				posItiAvant = i;
 			}
 		}
-		Collections.reverse(itiAInverser.getListeNoeud());//inverser itineraire
+		if(itiAvant==null || itiApres==null || posItiAvant==-1 || posItiApres==-1 || itiAInverser==null){
+			return false;
+		}
 		
+		Collections.reverse(itiAInverser.getListeNoeud());//inverser itineraire
+		int avant = itiAvant.getLivraisonOrigine().getAdresse().getId();
+		int apres = itiApres.getLivraisonDestination().getAdresse().getId();
+		ArrayList<Integer> cheminAvant = grapheLivraison.obtenirPlusCourtChemin(avant, livraison2);
+		ArrayList<Integer> cheminApres = grapheLivraison.obtenirPlusCourtChemin(livraison1, apres);
+		
+		itiAvant.setListeNoeud(cheminAvant);
+		itiApres.setListeNoeud(cheminApres);
+		return true;
+	}
+	
+	public boolean ajouterLivraison(int id, Noeud noeud, int client, int adresseLivraisonAvant){
+		
+		Livraison livraison = new Livraison(id, noeud, client);
+		Livraison avant = null;
+		Livraison apres = null;
+		int posItineraireADiviser = -1;
+		
+		for(int i =0; i<itineraires.size(); i++){
+			Itineraire itineraire = itineraires.get(i);
+			if(itineraire.getLivraisonOrigine().getAdresse().getId() == adresseLivraisonAvant){
+				avant = itineraire.getLivraisonOrigine();
+				apres = itineraire.getLivraisonDestination();
+				posItineraireADiviser = i;
+			}
+		}
+		
+		if(posItineraireADiviser != -1){
+			itineraires.remove(posItineraireADiviser);
+		}else{
+			return false; 
+		}
+		
+		if(avant != null && apres != null){
+			ArrayList<Integer> plusCourtChemin1 =  grapheLivraison.obtenirPlusCourtChemin(avant.getAdresse().getId(), livraison.getAdresse().getId());
+			Itineraire itineraireRemplacant1 = new Itineraire(plusCourtChemin1);
+			ArrayList<Integer> plusCourtChemin2 =  grapheLivraison.obtenirPlusCourtChemin(livraison.getAdresse().getId(), apres.getAdresse().getId());
+			Itineraire itineraireRemplacant2 = new Itineraire(plusCourtChemin2);
+			
+			itineraires.add(posItineraireADiviser, itineraireRemplacant1);
+			itineraires.add(posItineraireADiviser+1, itineraireRemplacant2);	
+		}else{
+			return false;
+		}		
+	
+		return true;
+	}
+	
+	public void afficherListeItineraires(){
+		for( Itineraire itineraire : itineraires){
+			for(int noeud : itineraire.getListeNoeud()){
+				System.out.print(noeud + ", ");
+			}
+			System.out.println(";;");
+		}
+		System.out.println("]");
 	}
 }
