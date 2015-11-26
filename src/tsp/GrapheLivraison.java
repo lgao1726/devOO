@@ -327,6 +327,20 @@ public class GrapheLivraison implements Graphe {
 		return chemin;
 	}
 	
+	public float getCoutItineraire(List<Integer> itineraire){
+		float cout = 0;
+		int size = itineraire.size();
+		int courant = itineraire.get(0);
+		for(int i=1;i<size;i++){
+			cout += graphePlan[courant][itineraire.get(i)];
+			courant = itineraire.get(i);
+		}
+		//pour le retour à l'entrepot
+		cout += graphePlan[itineraire.get(size-1)][itineraire.get(0)];
+		
+		return cout;
+	}
+	
 }
 	
 	

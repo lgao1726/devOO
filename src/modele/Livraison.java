@@ -1,5 +1,6 @@
 package modele;
 
+import java.util.Date;
 import java.util.Observable;
 
 /**
@@ -12,6 +13,7 @@ public class Livraison
 	private int id;
 	private Noeud adresse;
 	private int client;
+	private Date heurePassage;
 	
 	public Livraison(int id, Noeud adresse, int client) 
 	{

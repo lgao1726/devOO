@@ -45,12 +45,14 @@ public class Tournee {
 	            ArrayList<Integer> noeudsItineraire = grapheLivraison.getItiniraire(origine, destination);
 		    	Itineraire iti = new Itineraire(noeudsItineraire);
 		    	setLivraisonsPourItineraire(fenetreLivraisons, iti, origine, destination);
+		    	setCout(iti);
 		    	itineraires.add(iti);
 		    	
 	    	}else{
 	    		ArrayList<Integer> noeudsItineraire = grapheLivraison.getItiniraire(origine, entrepot);
 		    	Itineraire iti = new Itineraire(noeudsItineraire);
 		    	setLivraisonsPourItineraire(fenetreLivraisons, iti, origine, entrepot);
+		    	setCout(iti);
 		    	itineraires.add(iti);
 	    	}
 	    	//System.out.print("|"+grapheLivraison.mapLivraison(ordreLivraisons.poll()));
@@ -162,17 +164,17 @@ public class Tournee {
 		int posItiApres = -1;
 		for(int i=0;i<itineraires.size();i++){
 			Itineraire iti = itineraires.get(i);
-			int itiSize = iti.getListeNoeud().size();
+			int itiSize = iti.getNoeuds().size();
 			//trouver l'itineraire qui commence avec livraison 1
 			//et termine avec livraison2
-			if(iti.getListeNoeud().get(0)==livraison1 && 
-				iti.getListeNoeud().get(itiSize - 1)==livraison2){
+			if(iti.getNoeuds().get(0)==livraison1 && 
+				iti.getNoeuds().get(itiSize - 1)==livraison2){
 				itiAInverser = iti;
-			}if(iti.getListeNoeud().get(0)==livraison2){
+			}if(iti.getNoeuds().get(0)==livraison2){
 				//itineraire - livraison après livraison2
 				itiApres = iti;
 				posItiApres = i; 
-			}if(iti.getListeNoeud().get(itiSize - 1)==livraison1){
+			}if(iti.getNoeuds().get(itiSize - 1)==livraison1){
 				//itineraire - livraison avant livraison2
 				itiAvant = iti;
 				posItiAvant = i;
@@ -182,7 +184,7 @@ public class Tournee {
 			return false;
 		}
 		
-		Collections.reverse(itiAInverser.getListeNoeud());//inverser itineraire
+		Collections.reverse(itiAInverser.getNoeuds());//inverser itineraire
 		int avant = itiAvant.getLivraisonOrigine().getAdresse().getId();
 		int apres = itiApres.getLivraisonDestination().getAdresse().getId();
 		ArrayList<Integer> cheminAvant = grapheLivraison.obtenirPlusCourtChemin(avant, livraison2);
@@ -230,9 +232,15 @@ public class Tournee {
 		return true;
 	}
 	
+	public void setCout(Itineraire itineraire){
+		float cout = grapheLivraison.getCoutItineraire(itineraire.getNoeuds());
+		itineraire.setCout(cout);
+	}
+	
+	//pour les tests
 	public void afficherListeItineraires(){
 		for( Itineraire itineraire : itineraires){
-			for(int noeud : itineraire.getListeNoeud()){
+			for(int noeud : itineraire.getNoeuds()){
 				System.out.print(noeud + ", ");
 			}
 			System.out.println(";;");
