@@ -1,25 +1,33 @@
 package controleur;
 
+import java.sql.Date;
+
+import modele.Livraison;
 import modele.Plan;
 
 public class CommandeSupprimer implements Commande {
 
 	private Plan plan;
-	private int idLivraison;
-	public CommandeSupprimer(Plan plan,int idLivraison){
+	private Livraison livraison;
+	private Date heureDebut;
+	private Date heureFin;
+	
+	public CommandeSupprimer(Plan plan,Livraison livraison,Date heureDebut, Date heureFin){
 		this.plan = plan;
-		this.idLivraison = idLivraison;
+		this.livraison = livraison;
+		this.heureDebut = heureDebut;
+		this.heureFin = heureFin;
 	}
 	
 	@Override
 	public void executer() {
-		plan.getDemandeLivraisons().getTournee().supprimerLivraison(idLivraison);
+		plan.getDemandeLivraisons().supprimerLivraison(livraison.getAdresse().getId());
 		
 	}
 
 	@Override
 	public void undo() {
-		// TODO Auto-generated method stub
+		plan.getDemandeLivraisons().ajouterLivraison(livraison, heureDebut, heureFin);
 		
 	}
 
