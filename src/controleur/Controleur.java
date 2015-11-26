@@ -42,13 +42,12 @@ public class Controleur
 	{
 		etatCourant.chargerDemandes(plan, fenetre);
 	}
-<<<<<<< HEAD
-=======
+
 	
 	public void calculerTournee()
 	{
 		etatCourant.calculerTournee(plan, fenetre);
 	}
->>>>>>> branch 'development' of https://github.com/lgao1726/devOO.git
+
 
 }

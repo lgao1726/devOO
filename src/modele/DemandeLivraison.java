@@ -49,11 +49,7 @@ public class DemandeLivraison
 	
 	public Tournee calculerTournee(Plan plan){
 		tournee = new Tournee(plan);
-<<<<<<< HEAD
-		tournee.calculTournee(plan, listeFenetres);
-=======
 		tournee.calculerTournee(plan, listeFenetres);
->>>>>>> branch 'development' of https://github.com/lgao1726/devOO.git
 		plan.updatePlan();
 		return tournee;
 	}

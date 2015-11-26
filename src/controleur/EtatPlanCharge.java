@@ -30,7 +30,7 @@ public class EtatPlanCharge extends EtatDefaut
 			
 			Controleur.setEtatCourant(Controleur.etatLivraisonCharge);
 			//temporaire pour faciliter le developpement de la vue	
-			plan.getDemandeLivraisons().calculTournee(plan);
+			plan.getDemandeLivraisons().calculerTournee(plan);
 	        plan.notifyObservers();
 			
 		} 

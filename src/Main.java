@@ -27,11 +27,6 @@ public class Main
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-<<<<<<< HEAD
-
-=======
-		controleur.calculerTournee();
->>>>>>> branch 'development' of https://github.com/lgao1726/devOO.git
 		
 	}
 

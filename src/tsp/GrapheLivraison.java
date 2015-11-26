@@ -41,11 +41,13 @@ public class GrapheLivraison implements Graphe {
 		    for (int j=0; j<nbSommets; j++){
 		         graphePlan[i][j] = -1;
 		         grapheChemin[i][j] = -1;
+		         
 		    }
 		}
 		initGraphe(p,fenetres);
 		creerGrapheChemin(fenetres);
 		creerGrapheTSP();
+		afficherMatrice();
 	}
 
 	@Override
@@ -79,22 +81,10 @@ public class GrapheLivraison implements Graphe {
             }
             System.out.println("|");
         }
-        /*System.out.println("Itineraires");
-        Iterator it = listItineraires.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            System.out.println(pair.getKey() + " : " );
-            ArrayList<int[]> chemins = (ArrayList<int[]>)pair.getValue();
-            for(int[] chemin:chemins){
-	            for(int i=0;i<chemin.length;i++){System.out.print(chemin[i]+" ");}
-	            System.out.println();
-            }
-            System.out.println("de 14 à 23: ");
-            for(int i=0;i<nbSommets;i++){            	
-            	System.out.print(grapheChemin[14][i]+ "|");
-            }
-            
-        }*/
+        
+        for(int i:indicesLivraisons.keySet()){
+        	System.out.println(indicesLivraisons.get(i)+" | "+ i);
+        }
     }
         
 	
@@ -272,9 +262,9 @@ public class GrapheLivraison implements Graphe {
 	public ArrayList<Integer> getItiniraire(int idNoeudOrigine, int idNoeudDestination)
 	{
 		ArrayList<Integer> resultat = new ArrayList<Integer>();
-		ArrayList<int[]> liste=listItineraires.get(idNoeudOrigine);
+		ArrayList<int[]> liste=listItineraires.get(idNoeudOrigine);		
 		for(int[] i:liste)
-		{
+		{	//for(int k=0;k<i.length;k++){System.out.print(i[k]+" | ");}System.out.println("");
 			if(i[i.length-1]==idNoeudDestination)
 			{
 				for(int j=0;j<i.length;j++){
@@ -299,6 +289,11 @@ public class GrapheLivraison implements Graphe {
 			}			
 		}
 		grapheTSP = new float[indicesLivraisons.size()][indicesLivraisons.size()]; 
+		for(int i=0;i<indicesLivraisons.size();i++){
+			for(int j=0;j<indicesLivraisons.size();j++){
+				grapheTSP[i][j] = 10000;
+			}
+		}
 		for(int i=0;i<nbSommets;i++){
 			for(int j=0;j<nbSommets;j++){
 				if(grapheChemin[i][j] != -1){

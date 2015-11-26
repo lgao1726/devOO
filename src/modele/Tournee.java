@@ -41,12 +41,14 @@ public class Tournee {
 	            ArrayList<Integer> noeudsItineraire = grapheLivraison.getItiniraire(origine, destination);
 		    	Itineraire iti = new Itineraire(noeudsItineraire);
 		    	itineraires.add(iti);
+		    	
 	    	}else{
 	    		ArrayList<Integer> noeudsItineraire = grapheLivraison.getItiniraire(origine, entrepot);
 		    	Itineraire iti = new Itineraire(noeudsItineraire);
 		    	itineraires.add(iti);
 	    	}
-	    	
+	    	//System.out.print("|"+grapheLivraison.mapLivraison(ordreLivraisons.poll()));
+            //System.out.print("|"+ordreLivraisons.poll());
          }
            
     }
