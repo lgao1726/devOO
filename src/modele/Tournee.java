@@ -1,6 +1,7 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -151,16 +152,45 @@ public class Tournee {
 	
 	//recalculer les 2 itinéraires autour des 2 itinéraires on veut échanger
 	//inverser l'itinéraire entre les 2 itinéraires qu'on veut échanger
-	public void echangerLivraison(int livraison1,int livraison2){
-		Itineraire itiAInverser;
-		for(Itineraire iti:itineraires){
+	//livraison 1 est le livraison precedent
+	public boolean echangerLivraison(int livraison1,int livraison2){
+		Itineraire itiAInverser = null;
+		Itineraire itiAvant = null;//itineraire qui se trouve avant le changement
+		Itineraire itiApres = null;//itineraire qui se trouve apès le changement
+		
+		int posItiAvant = -1;
+		int posItiApres = -1;
+		for(int i=0;i<itineraires.size();i++){
+			Itineraire iti = itineraires.get(i);
+			int itiSize = iti.getListeNoeud().size();
 			//trouver l'itineraire qui commence avec livraison 1
 			//et termine avec livraison2
 			if(iti.getListeNoeud().get(0)==livraison1 && 
-					iti.getListeNoeud().get(iti.getListeNoeud().size())==livraison2){
-				
+				iti.getListeNoeud().get(itiSize - 1)==livraison2){
+				itiAInverser = iti;
+			}if(iti.getListeNoeud().get(0)==livraison2){
+				//itineraire - livraison après livraison2
+				itiApres = iti;
+				posItiApres = i; 
+			}if(iti.getListeNoeud().get(itiSize - 1)==livraison1){
+				//itineraire - livraison avant livraison2
+				itiAvant = iti;
+				posItiAvant = i;
 			}
 		}
+		if(itiAvant==null || itiApres==null || posItiAvant==-1 || posItiApres==-1 || itiAInverser==null){
+			return false;
+		}
+		
+		Collections.reverse(itiAInverser.getListeNoeud());//inverser itineraire
+		int avant = itiAvant.getLivraisonOrigine().getAdresse().getId();
+		int apres = itiApres.getLivraisonDestination().getAdresse().getId();
+		ArrayList<Integer> cheminAvant = grapheLivraison.obtenirPlusCourtChemin(avant, livraison2);
+		ArrayList<Integer> cheminApres = grapheLivraison.obtenirPlusCourtChemin(livraison1, apres);
+		
+		itiAvant.setListeNoeud(cheminAvant);
+		itiApres.setListeNoeud(cheminApres);
+		return true;
 	}
 	
 	public boolean ajouterLivraison(int id, Noeud noeud, int client, int adresseLivraisonAvant){

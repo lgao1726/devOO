@@ -23,7 +23,7 @@ public class Main
 
 		//graphe.afficherMatrice();
 		try {
-			Thread.sleep(50000);
+			Thread.sleep(30000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -33,10 +33,7 @@ public class Main
 		
 		tournee.afficherListeItineraires();
 		
-		//System.out.println(tournee.supprimerLivraison(37));
-		
-		Noeud noeud = new Noeud(39, 315, 701);
-		System.out.println(tournee.ajouterLivraison(42, noeud, 999, 37));
+		System.out.println(tournee.echangerLivraison(97, 87));
 		
 		tournee.afficherListeItineraires();
 		
