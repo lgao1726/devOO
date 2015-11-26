@@ -26,13 +26,8 @@ public class EtatPlanCharge extends EtatDefaut
 		{
 			if (DeserialiseurXML.chargerDemandeLivraison(plan))
 				
-				Controleur.setEtatCourant(Controleur.etatLivraisonCharge);
-			
 			Controleur.setEtatCourant(Controleur.etatLivraisonCharge);
 			//temporaire pour faciliter le developpement de la vue	
-			plan.getDemandeLivraisons().calculerTournee(plan);
-	        plan.notifyObservers();
-			
 		} 
 		catch (Exception e) 
 		{

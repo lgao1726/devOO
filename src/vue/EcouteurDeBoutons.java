@@ -20,6 +20,7 @@ public class EcouteurDeBoutons implements ActionListener {
 		switch (e.getActionCommand()){
 		case Fenetre.CHARGER_PLAN: controleur.chargerPlan(); break;
 		case Fenetre.CHARGER_LIVRAISON: controleur.chargerLivraison(); break;
+		case Fenetre.CALCULER_TOURNEE: controleur.calculerTournee(); break;
 		}
 	}
 }

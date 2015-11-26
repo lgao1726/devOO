@@ -1,4 +1,4 @@
-/**package vue;
+package vue;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -6,9 +6,9 @@ import java.awt.event.MouseEvent;
 import javax.swing.SwingUtilities;
 
 import controleur.Controleur;
+import modele.DemandeLivraison;
+import modele.Livraison;
 
-import modele.Point;
-import modele.PointFactory;
 
 public class EcouteurDeSouris extends MouseAdapter {
 
@@ -29,7 +29,7 @@ public class EcouteurDeSouris extends MouseAdapter {
 		// S'il s'agit d'un clic droit, l'ecouteur envoie le message d'echappement au controleur
 		switch (evt.getButton()){
 		case MouseEvent.BUTTON1: 
-			Point p = coordonnees(evt);
+			Livraison livraison = coordonnees(evt);
 			if (p != null)
 				controleur.clicGauche(p); 
 			break;
@@ -48,7 +48,8 @@ public class EcouteurDeSouris extends MouseAdapter {
 			controleur.sourisBougee(p); 
 	}
 	
-	private Point coordonnees(MouseEvent evt){
+	private Livraison getLivraison(MouseEvent evt){
+		DemandeLivraison demandeLivraison=vueGraphique.getPlan().getDemandeLivraisons();
 		MouseEvent e = SwingUtilities.convertMouseEvent(fenetre, evt, vueGraphique);
 		int x = Math.round((float)e.getX()/(float)vueGraphique.getEchelle());
 		int y = Math.round((float)e.getY()/(float)vueGraphique.getEchelle());
@@ -56,4 +57,4 @@ public class EcouteurDeSouris extends MouseAdapter {
 	}
 
 
-}**/
+}

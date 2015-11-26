@@ -21,6 +21,12 @@ public class EtatDefaut implements Etat {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public void selectionnerLivraison(Plan plan, Fenetre fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
 
 /**	@Override
 	protected void genererFeuilleDeRoute(Tournee tournee) {

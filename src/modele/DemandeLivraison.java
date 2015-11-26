@@ -58,4 +58,22 @@ public class DemandeLivraison
 		return tournee;
 	}
 	
+	public Livraison getLivraison(int xPoint, int yPoint, int rayon)
+	{
+		for(FenetreLivraison fenetre:listeFenetres)
+		{
+			Iterator<Livraison>itLivraison=fenetre.getLivraisonIterator();
+			while(itLivraison.hasNext())
+			{
+				Livraison livraison=(Livraison)itLivraison.next();
+				Noeud noeud=livraison.getAdresse();
+				if((xPoint>noeud.getX()-rayon) && (xPoint<noeud.getX()+rayon)  && (yPoint<noeud.getY()+rayon)  && (yPoint>noeud.getY()-rayon))
+				{
+					return livraison;
+				}
+			}
+		}
+		return null;
+	}
+	
 }
