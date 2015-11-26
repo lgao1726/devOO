@@ -13,11 +13,11 @@ import tsp.TSP1;
 public class Tournee {
 
 	private static final int TEMPSLIMITE = 60000;
-	private ArrayList<Itineraire> itineraires;
+	private LinkedList<Itineraire> itineraires;
 
 	// constructeur temporaire pour facilier le dev de la vue
 	public Tournee(Plan plan) {
-		itineraires = new ArrayList<Itineraire>();
+		itineraires = new LinkedList<Itineraire>();
 	}
 
 	public void calculerTournee(Plan plan, ArrayList<FenetreLivraison> fenetreLivraisons) {
@@ -87,5 +87,19 @@ public class Tournee {
 			nb += fenetre.getNbLivraisons();
 		}
 		return nb;
+	}
+	
+	//recalculer les 2 itinéraires autour des 2 itinéraires on veut échanger
+	//inverser l'itinéraire entre les 2 itinéraires qu'on veut échanger
+	public void echangerLivraison(int livraison1,int livraison2){
+		Itineraire itiAInverser;
+		for(Itineraire iti:itineraires){
+			//trouver l'itineraire qui commence avec livraison 1
+			//et termine avec livraison2
+			if(iti.getListeNoeud().get(0)==livraison1 && 
+					iti.getListeNoeud().get(iti.getListeNoeud().size())==livraison2){
+				
+			}
+		}
 	}
 }
