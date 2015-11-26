@@ -13,15 +13,17 @@ import tsp.TSP1;
 public class Tournee {
 
 	private static final int TEMPSLIMITE = 60000;
-	private ArrayList<Itineraire> itineraires;
+	private LinkedList<Itineraire> itineraires;
+	private GrapheLivraison grapheLivraison;
 
 	// constructeur temporaire pour facilier le dev de la vue
 	public Tournee(Plan plan) {
-		itineraires = new ArrayList<Itineraire>();
+		itineraires = new LinkedList<Itineraire>();
+		grapheLivraison = null;
 	}
 
 	public void calculerTournee(Plan plan, ArrayList<FenetreLivraison> fenetreLivraisons) {
-		GrapheLivraison grapheLivraison = new GrapheLivraison(plan, fenetreLivraisons);
+		grapheLivraison = new GrapheLivraison(plan, fenetreLivraisons);
 		System.out.println("xxx");
 		//grapheLivraison.afficherMatrice();
 		TSP tsp = new TSP1();
@@ -87,5 +89,36 @@ public class Tournee {
 			nb += fenetre.getNbLivraisons();
 		}
 		return nb;
+	}
+	
+	public boolean supprimerLivraison(int idLivraison ){
+		int nouvelOrigine;
+		int nouvelleDestination;
+		Itineraire aSupprimer1 = null;
+		Itineraire aSupprimer2 = null;
+		for(Itineraire itineraire : itineraires){
+			if(itineraire.getLivraisonDestination().getId() == idLivraison){
+				nouvelOrigine = itineraire.getLivraisonOrigine().getId();
+				aSupprimer1 = itineraire;
+			}
+			if(itineraire.getLivraisonOrigine().getId() == idLivraison){ 
+				nouvelleDestination = itineraire.getLivraisonDestination().getId();
+				aSupprimer2 = itineraire;
+			}
+		}
+		if(aSupprimer1 != null && aSupprimer2 != null){
+			itineraires.remove(aSupprimer1);
+			itineraires.remove(aSupprimer2);
+		}else{
+			return false;
+		}
+		if(grapheLivraison != null) {
+			
+		}
+		else{
+			return false;
+		}
+		Itineraire itineraireRemplacant;
+		return true;
 	}
 }
