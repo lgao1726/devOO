@@ -38,7 +38,7 @@ public class DeserialiseurXMLTest extends DeserialiseurXML{
 	File xmlLivraison;
 	
 	/**
-	 * Test method for {@link xml.DeserialiseurXML#traitementFichier(modele.Plan, java.io.File)}.
+	 * Test method for {@link xml.DeserialiseurXML#traitementPlan(modele.Plan, java.io.File)}.
 	 */
 	@Before
 	public void setUp(){
@@ -47,7 +47,7 @@ public class DeserialiseurXMLTest extends DeserialiseurXML{
 	}
 	
 	/**
-	 * Test method for {@link xml.DeserialiseurXML#traitementFichier(modele.Plan, java.io.File)}.
+	 * Test method for {@link xml.DeserialiseurXML#traitementPlan(modele.Plan, java.io.File)}.
 	 */
 	@Test
 	public void testTraitementFichier() {
@@ -84,8 +84,19 @@ public class DeserialiseurXMLTest extends DeserialiseurXML{
 	 * Test method for {@link xml.DeserialiseurXML#chargerDemandeLivraison(modele.Plan)}.
 	 */
 	@Test
-	public void testChargerDemandeLivraison() {
-		fail("Not yet implemented");
+	public void testTraitementDemandeLivraison() {
+		xmlLivraison = new File("src/textXML/livraison10x10-1.xml");
+		
+		Plan planManu = new Plan();
+		
+		try {
+			DeserialiseurXML.traitementDemandeLivraison(planManu, xmlLivraison);
+		} catch (ParserConfigurationException | SAXException | IOException
+				| ExceptionXML e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assert (planManu.getDemandeLivraisons()) != null;
 	}
 
 	/**
@@ -99,7 +110,7 @@ public class DeserialiseurXMLTest extends DeserialiseurXML{
 		Plan planManu = new Plan();
 		
 		try {
-			DeserialiseurXML.traitementFichier(planManu, xmlPlan);
+			DeserialiseurXML.traitementPlan(planManu, xmlPlan);
 		} catch (ParserConfigurationException | SAXException | IOException
 				| ExceptionXML e) {
 			// TODO Auto-generated catch block

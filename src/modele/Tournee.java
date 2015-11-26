@@ -13,13 +13,19 @@ import tsp.TSP;
 import tsp.TSP1;
 
 public class Tournee {
+	
+	/**
+	 * Classe du modèle représentant une tournée.
+	 * 
+	 * 
+	 */
 
 	private static final int TEMPSLIMITE = 60000;
 	private LinkedList<Itineraire> itineraires;
 	private GrapheLivraison grapheLivraison;
 
 	// constructeur temporaire pour facilier le dev de la vue
-	public Tournee(Plan plan) {
+	public Tournee() {
 		itineraires = new LinkedList<Itineraire>();
 		grapheLivraison = null;
 	}

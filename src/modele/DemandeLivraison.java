@@ -14,6 +14,7 @@ public class DemandeLivraison
 	public DemandeLivraison() 
 	{
 		super();
+		tournee = new Tournee();
 		listeFenetres = new ArrayList<FenetreLivraison>();
 	}
 	
@@ -49,7 +50,6 @@ public class DemandeLivraison
 	}
 	
 	public Tournee calculerTournee(Plan plan){
-		tournee = new Tournee(plan);
 		tournee.calculerTournee(plan, listeFenetres);
 		plan.updatePlan();
 		return tournee;

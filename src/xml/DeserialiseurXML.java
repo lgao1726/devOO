@@ -36,11 +36,11 @@ public class DeserialiseurXML {
 	 * @throws ExceptionXML
 	 */
 	public static void traiterPlan(Plan plan) throws ParserConfigurationException, SAXException, IOException, ExceptionXML{
-		File xml = OuvreurDeFichierXML.getInstance().ouvre(true);
-        traitementFichier(plan, xml);
+		File xml = obtenirFichierXML();
+        traitementPlan(plan, xml);
 	}
 
-	protected static void traitementFichier(Plan plan, File xml)
+	protected static void traitementPlan(Plan plan, File xml)
 			throws ParserConfigurationException, SAXException, IOException,
 			ExceptionXML {
 		DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();	
@@ -67,9 +67,12 @@ public class DeserialiseurXML {
 																	   IOException, ExceptionXML
     {
 		File xml = OuvreurDeFichierXML.getInstance().ouvre(true);
+		return traitementDemandeLivraison(plan, xml);
+	}
 
-
-		
+	protected static boolean traitementDemandeLivraison(Plan plan, File xml)
+			throws ParserConfigurationException, SAXException, IOException,
+			ExceptionXML {
 		if (xml != null)
 		{
 	        DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -88,15 +91,10 @@ public class DeserialiseurXML {
 	        }
 	        else
 	        	throw new ExceptionXML("Document livraison non conforme");
-		
-	        
 	        return true;
 		}
 		else
-			
 			return false;
-
-
 	}
 	
 	protected static void getEntrepot(Element noeudDOMRacine, Plan plan) throws NumberFormatException, ExceptionXML
@@ -243,6 +241,7 @@ public class DeserialiseurXML {
    		return new Troncon(vitesse, longueur, nomRue, idNoeudDestination);
     }
     
-    
- 
+    protected static File obtenirFichierXML() throws ExceptionXML{
+		return OuvreurDeFichierXML.getInstance().ouvre(true);
+    }
 }

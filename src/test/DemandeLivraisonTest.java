@@ -4,9 +4,13 @@ import static org.junit.Assert.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import modele.DemandeLivraison;
 import modele.FenetreLivraison;
+import modele.Livraison;
+import modele.Noeud;
+import modele.Tournee;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,14 +40,14 @@ public class DemandeLivraisonTest {
 			e.printStackTrace();
 		}
 	}
-
+	
 	@Test
-	public void testGetFenetreIterator() {
+	public void testAjouterLivraison(){
 		fail("Not yet implemented");
 	}
-
+	
 	@Test
-	public void testGetFenetres() {
+	public void testSupprimerLivraison(){
 		fail("Not yet implemented");
 	}
 
@@ -51,10 +55,4 @@ public class DemandeLivraisonTest {
 	public void testCalculTournee() {
 		fail("Not yet implemented");
 	}
-
-	@Test
-	public void testGetTournee() {
-		fail("Not yet implemented");
-	}
-
 }
