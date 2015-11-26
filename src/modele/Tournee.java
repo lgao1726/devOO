@@ -121,4 +121,18 @@ public class Tournee {
 		Itineraire itineraireRemplacant;
 		return true;
 	}
+	
+	//recalculer les 2 itinéraires autour des 2 itinéraires on veut échanger
+	//inverser l'itinéraire entre les 2 itinéraires qu'on veut échanger
+	public void echangerLivraison(int livraison1,int livraison2){
+		Itineraire itiAInverser;
+		for(Itineraire iti:itineraires){
+			//trouver l'itineraire qui commence avec livraison 1
+			//et termine avec livraison2
+			if(iti.getListeNoeud().get(0)==livraison1 && 
+					iti.getListeNoeud().get(iti.getListeNoeud().size())==livraison2){
+				
+			}
+		}
+	}
 }

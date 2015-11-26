@@ -310,6 +310,22 @@ public class GrapheLivraison implements Graphe {
 		}return -1;
 	}
 	
+	public ArrayList<Integer> obtenirPlusCourtChemin(int origine, int destination){
+		ArrayList<Integer> chemin = new ArrayList<Integer>();
+		int[] dijkstraResultat = dijkstra(origine);
+		//il faut séparer les chemins et les couts
+		int[] predecesseurs = new int[nbSommets];
+		int[] couts = new int[nbSommets];
+		for(int i=0;i<nbSommets;i++){
+			predecesseurs[i] = dijkstraResultat[i];
+			couts[i] = dijkstraResultat[nbSommets+i];
+		}
+		int [] tabChemin = trouverChemin(predecesseurs,origine,destination);
+		for(int i=0;i<tabChemin.length;i++){
+			chemin.add(tabChemin[i]);
+		}
+		return chemin;
+	}
 	
 }
 	
