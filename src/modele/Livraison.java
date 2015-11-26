@@ -41,4 +41,12 @@ public class Livraison
 	{
 		v.visite(this);
 	}
+	
+	public Date getHeurePassage(){
+		return heurePassage;
+	}
+	
+	public void setHeurePassage(Date heure){
+		heurePassage = heure;
+	}
 }

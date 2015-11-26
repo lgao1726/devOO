@@ -52,12 +52,11 @@ public class Tournee {
 	    		ArrayList<Integer> noeudsItineraire = grapheLivraison.getItiniraire(origine, entrepot);
 		    	Itineraire iti = new Itineraire(noeudsItineraire);
 		    	setLivraisonsPourItineraire(fenetreLivraisons, iti, origine, entrepot);
-		    	setCout(iti);
 		    	itineraires.add(iti);
 	    	}
 	    	//System.out.print("|"+grapheLivraison.mapLivraison(ordreLivraisons.poll()));
             //System.out.print("|"+ordreLivraisons.poll());
-         }
+         }miseAJourCout();
            
     }
 	
@@ -149,6 +148,7 @@ public class Tournee {
 		else{
 			return false;
 		}
+		miseAJourCout();
 		return true;
 	}
 	
@@ -192,6 +192,7 @@ public class Tournee {
 		
 		itiAvant.setListeNoeud(cheminAvant);
 		itiApres.setListeNoeud(cheminApres);
+		miseAJourCout();
 		return true;
 	}
 	
@@ -228,13 +229,19 @@ public class Tournee {
 		}else{
 			return false;
 		}		
-	
+		miseAJourCout();
 		return true;
 	}
 	
-	public void setCout(Itineraire itineraire){
+	private void setCout(Itineraire itineraire){
 		float cout = grapheLivraison.getCoutItineraire(itineraire.getNoeuds());
 		itineraire.setCout(cout);
+	}
+	
+	public void miseAJourCout(){
+		for(Itineraire iti:itineraires){
+			setCout(iti);
+		}
 	}
 	
 	//pour les tests

@@ -1,6 +1,7 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Itineraire {
@@ -67,6 +68,15 @@ public class Itineraire {
 	
 	public void setCout(float cout){
 		this.cout = cout;
+		setHeurePassageDestination();
+	}
+	
+	public void setHeurePassageDestination(){
+		Date date = livraisonOrigine.getHeurePassage();
+		date.setSeconds(date.getSeconds() + (int) cout);
+		Date passage = date;
+		livraisonDestination.setHeurePassage(date);
+		
 	}
 
 }

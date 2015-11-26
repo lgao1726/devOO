@@ -119,10 +119,15 @@ public class DeserialiseurXML {
 	protected static void contruireFenetresLivraison(Element noeudDOMRacine, DemandeLivraison demande) throws ExceptionXML, NumberFormatException{
 		int adresseEntrepot = Integer.parseInt(((Element)noeudDOMRacine.
        			getElementsByTagName("Entrepot").item(0)).getAttribute("adresse"));
-		FenetreLivraison entrepot = new FenetreLivraison(null,null);
-		entrepot.ajouterLivraison(new Livraison(0,UsineNoeud.getNoeud(adresseEntrepot),0));
+		
+       	NodeList listeNoeuds = noeudDOMRacine.getElementsByTagName("Plage");
+       	//creation de entrepot comme livraison
+       	FenetreLivraison entrepot = creerPlage((Element)listeNoeuds.item(0));
+       	Livraison livEntrepot = new Livraison(0,UsineNoeud.getNoeud(adresseEntrepot),0);
+       	livEntrepot.setHeurePassage(entrepot.getHeureDebut());
+		entrepot.ajouterLivraison(livEntrepot);
 		demande.ajouterFenetre(entrepot);
-       	NodeList listeNoeuds = noeudDOMRacine.getElementsByTagName("Plage");       	
+       	
        	for (int i = 0; i < listeNoeuds.getLength(); i++) 
        	{
        		Element plageActuel = (Element) listeNoeuds.item(i);       		

@@ -1,6 +1,6 @@
 package controleur;
 
-import java.sql.Date;
+import java.util.Date;
 
 import modele.Livraison;
 import modele.Plan;
