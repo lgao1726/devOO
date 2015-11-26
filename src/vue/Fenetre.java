@@ -29,7 +29,7 @@ public class Fenetre extends JFrame
 	private VueGraphique vueGraphique;
 	//private VueTextuelle vueTextuelle;
 	private EcouteurDeBoutons ecouteurDeBoutons;
-	//private EcouteurDeSouris ecouteurDeSouris;
+	private EcouteurDeSouris ecouteurDeSouris;
 	//private EcouteurDeClavier ecouteurDeClavier;
 	
 	private final String[] intitulesBoutons = new String[]{CHARGER_PLAN,CHARGER_LIVRAISON, CALCULER_TOURNEE};
@@ -57,9 +57,9 @@ public class Fenetre extends JFrame
 		//getContentPane().add(cadreMessages);
 		vueGraphique = new VueGraphique(p, echelleFenetre, this);
 		//vueTextuelle = new VueTextuelle(p, this);
-		//ecouteurDeSouris = new EcouteurDeSouris(controleur,vueGraphique,this);
-		//addMouseListener(ecouteurDeSouris);
-		//addMouseMotionListener(ecouteurDeSouris);
+		ecouteurDeSouris = new EcouteurDeSouris(controleur,vueGraphique,this);
+		addMouseListener(ecouteurDeSouris);
+		addMouseMotionListener(ecouteurDeSouris);
 		//ecouteurDeClavier = new EcouteurDeClavier(controleur);
 		//addKeyListener(ecouteurDeClavier);
 		setTailleFenetre();
