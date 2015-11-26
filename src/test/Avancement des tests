@@ -2,7 +2,7 @@
 
 package modele :
 	DemandeLivraison : not yet implemented
-	FenetreLivraison : not yet implemented
+	FenetreLivraison : Implemented
 	Itineraire : no tests
 	Livraison : no tests
 	Noeud : no tests
