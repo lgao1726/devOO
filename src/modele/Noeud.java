@@ -64,5 +64,4 @@ public class Noeud {
 	public void ajouterTroncon(Troncon troncon) {
 		listeTronconsSortants.add(troncon);
 	}
-
 }

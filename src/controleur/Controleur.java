@@ -24,7 +24,7 @@ public class Controleur
 		//listeDeCdes = new ListeDeCdes();
 		etatCourant = etatInit;
 		this.fenetre = new Fenetre(p, this);
-		tournee= new Tournee(plan);
+		tournee= new Tournee();
 	}
 	
 	protected static void setEtatCourant(Etat etat){
