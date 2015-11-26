@@ -14,6 +14,8 @@ public class Controleur
 	protected static final EtatInit etatInit = new EtatInit();
 	protected static final EtatPlanCharge etatPlanCharge = new EtatPlanCharge();
 	protected static final EtatLivraisonCharge etatLivraisonCharge = new EtatLivraisonCharge();
+	protected static final EtatTourneeCalculee etatTourneeCalculee = new EtatTourneeCalculee();
+
 
 	public Controleur(Plan p) 
 	{

@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 
 public class VueGraphique extends JPanel implements Observer, Visiteur {
 
+	private final int RAYON_LIVRAISON=5;
 	private int echelle;
 	private int hauteurVue;
 	private int largeurVue;
@@ -152,7 +153,14 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 	public int getLargeur() {
 		return largeurVue;
 	}
+	
+	public Plan getPlan() {
+		return plan;
+	}
 
+	public int getRayonLivraison() {
+		return RAYON_LIVRAISON;
+	}
 	/**
 	 * Methode appelee par les objets observes par this a chaque fois qu'ils ont ete modifies
 	 */
@@ -180,7 +188,7 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.RED);
 		
-		g2.fillOval(x*echelle-5, y*echelle-5, 10, 10);
+		g2.fillOval(x*echelle-RAYON_LIVRAISON, y*echelle-RAYON_LIVRAISON, 2*RAYON_LIVRAISON, 2*RAYON_LIVRAISON);
 	}
 	
 	@Override
