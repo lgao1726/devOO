@@ -3,6 +3,7 @@ package modele;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Observable;
 
 public class DemandeLivraison
@@ -56,6 +57,26 @@ public class DemandeLivraison
 	
 	public Tournee getTournee(){
 		return tournee;
+	}
+	
+	public void ajouterLivraison(Livraison livraison,Date heureDebut,Date heureFin){
+		FenetreLivraison fenetre = getFenetre(heureDebut,heureFin);
+		fenetre.ajouterLivraison(livraison);
+		getTournee().ajouterLivraison(livraison.getId(), livraison.getAdresse(),
+				livraison.getClient(), fenetre.getLivraisons().size()-2);
+	}
+	
+	public void supprimerLivraison(int adresseLivraison){
+		getTournee().supprimerLivraison(adresseLivraison);
+		for(FenetreLivraison fenetre:getFenetres()){
+			List<Livraison> liste = fenetre.getLivraisons();
+			for(Livraison liv:liste){
+				if(liv.getAdresse().getId()==adresseLivraison){
+					int pos = liste.indexOf(liv);
+					liste.remove(pos);
+				}
+			}
+		}
 	}
 	
 	public Livraison getLivraison(int xPoint, int yPoint, int rayon)
