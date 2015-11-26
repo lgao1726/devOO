@@ -1,6 +1,7 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -125,14 +126,28 @@ public class Tournee {
 	//recalculer les 2 itinéraires autour des 2 itinéraires on veut échanger
 	//inverser l'itinéraire entre les 2 itinéraires qu'on veut échanger
 	public void echangerLivraison(int livraison1,int livraison2){
-		Itineraire itiAInverser;
-		for(Itineraire iti:itineraires){
+		Itineraire itiAInverser = null;
+		Itineraire itiAvant = null;//itineraire qui se trouve avant le changement
+		Itineraire itiApres = null;//itineraire qui se trouve apès le changement
+		
+		int posItiAvant;
+		int posItiApres;
+		for(int i=0;i<itineraires.size();i++){
+			Itineraire iti = itineraires.get(i);
 			//trouver l'itineraire qui commence avec livraison 1
 			//et termine avec livraison2
 			if(iti.getListeNoeud().get(0)==livraison1 && 
-					iti.getListeNoeud().get(iti.getListeNoeud().size())==livraison2){
-				
+				iti.getListeNoeud().get(iti.getListeNoeud().size())==livraison2){
+				itiAInverser = iti;
+			}else if(iti.getListeNoeud().get(0)==livraison2){
+				itiApres = iti;
+				posItiApres = i; 
+			}else if(iti.getListeNoeud().size()==livraison1){
+				itiAvant = iti;
+				posItiAvant = i;
 			}
 		}
+		Collections.reverse(itiAInverser.getListeNoeud());//inverser itineraire
+		
 	}
 }
