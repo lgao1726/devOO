@@ -24,10 +24,10 @@ public class EtatPlanCharge extends EtatDefaut
 	{
 		try 
 		{
-			if (DeserialiseurXML.chargerDemandeLivraison(plan))
-				
-			Controleur.setEtatCourant(Controleur.etatLivraisonCharge);
-			//temporaire pour faciliter le developpement de la vue	
+			if (DeserialiseurXML.chargerDemandeLivraison(plan)){				
+				Controleur.setEtatCourant(Controleur.etatLivraisonCharge);
+				plan.updatePlan();
+			}
 		} 
 		catch (Exception e) 
 		{

@@ -23,6 +23,7 @@ public class EtatLivraisonCharge extends EtatDefaut
 	public void chargerDemandes(Plan plan, Fenetre fenetre) 
 	{
 		Controleur.etatPlanCharge.chargerDemandes(plan, fenetre);
+		plan.updatePlan();
 	}
 	
 	@Override
