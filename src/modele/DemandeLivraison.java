@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 
@@ -87,9 +88,31 @@ public class DemandeLivraison
 		setHeuresPassage();
 	}
 	
-	//livraison 1 est le livraison precedent dans l'itinéraire
+	
+	//echanger deux livraison cotoyant
+	//les deux n'ont pas besoin d'être ordonné
 	public void echangerLivraison(int livraison1,int livraison2){
-		getTournee().echangerLivraison(livraison1, livraison2);
+		List<Itineraire> itineraires = getTournee().getItineraires();
+		//trouver qui est le livraison precedent entre les deux
+		int livAvant = -1;
+		int livApres = -1;
+		for(Itineraire iti:itineraires){
+			int courant = iti.getLivraisonOrigine().getAdresse().getId();
+			if(courant==livraison1){
+				livAvant = livraison1;
+				livApres = livraison2;
+				break;
+			}else if(courant==livraison2){
+				livAvant = livraison2;
+				livApres = livraison1;
+				break;
+			}
+		}
+		
+	    //echanger les livraisons
+		getTournee().echangerLivraison(livAvant, livApres);
+		System.out.println(livAvant+" : "+livApres);
+		
 		//si les livraisons appartiennent aux différentes fenêtres
 		//échanger les livraisons dans les fenêtres aussi
 		List<FenetreLivraison> fenetres = getFenetres();
@@ -108,14 +131,18 @@ public class DemandeLivraison
 				}
 			}
 		}
-		fenetre1.supprimerLivraison(liv1);
-		fenetre2.supprimerLivraison(liv2);
-		fenetre1.ajouterLivraison(liv2);
-		fenetre2.ajouterLivraison(liv2);
+		if(!fenetre1.equals(fenetre2)){
+			fenetre1.supprimerLivraison(liv1);
+			fenetre2.supprimerLivraison(liv2);
+			fenetre1.ajouterLivraison(liv2);
+			fenetre2.ajouterLivraison(liv1);
+			System.out.println("fenetres echanges");
+		}
 		
 		resetHeuresPassage();
 		setHeuresPassage();
 	}
+	
 	
 	public Livraison getLivraison(int xPoint, int yPoint, int rayon)
 	{
@@ -151,7 +178,7 @@ public class DemandeLivraison
 			Calendar passage = (Calendar) livOrigine.getHeurePassage().clone();
 			passage.add(Calendar.SECOND, (int) iti.getCout());
 			livDest.setHeurePassage(passage);
-			//on voit si l'heure de passage est avant ou apr�s la fen�tre
+			//on voit si l'heure de passage est avant ou apres la fenetre
 			if(passage.before(fenetre.getHeureDebut())){
 				long diff = fenetre.getHeureDebut().getTimeInMillis() - passage.getTimeInMillis();
 				passage.add(Calendar.MILLISECOND, (int) diff);
@@ -164,7 +191,7 @@ public class DemandeLivraison
 	//reset les heures de passage de toutes les itin�raires avant une nouvelle calculation
 	private void resetHeuresPassage(){
 		List<FenetreLivraison> fenetres = getFenetres();
-		for(int i=1;i<fenetres.size()-0;i++){
+		for(int i=1;i<fenetres.size();i++){
 			for(Livraison liv:fenetres.get(i).getLivraisons()){
 				liv.getHeurePassage().setTimeInMillis(0x1808580);
 			}

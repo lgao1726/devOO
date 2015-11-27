@@ -169,7 +169,6 @@ public class Tournee {
 		Itineraire itiAInverser = null;
 		Itineraire itiAvant = null;//itineraire qui se trouve avant le changement
 		Itineraire itiApres = null;//itineraire qui se trouve apès le changement
-		
 		int posItiAvant = -1;
 		int posItiApres = -1;
 		for(int i=0;i<itineraires.size();i++){
@@ -209,6 +208,7 @@ public class Tournee {
 		itiAvant.setLivraisonDestination(itiAInverser.getLivraisonOrigine());
 		itiApres.setLivraisonOrigine(itiAInverser.getLivraisonDestination());
 		miseAJourCout();
+		System.out.println("echange fait");
 		return true;
 	}
 	

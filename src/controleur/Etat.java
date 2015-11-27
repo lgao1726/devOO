@@ -17,6 +17,8 @@ public interface Etat {
 	
 	public abstract void supprimerLivraison(Plan plan, ListeCommandes listeDeCdes);
 	
+	public abstract void echangerLivraison(Plan plan,ListeCommandes listeDeCdes);
+	
 	// TODO Auto-generated method stub
 		
 	/**public abstract void genererFeuilleDeRoute(Tournee tournee);

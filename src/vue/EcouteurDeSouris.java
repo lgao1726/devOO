@@ -30,8 +30,9 @@ public class EcouteurDeSouris extends MouseAdapter {
 		switch (evt.getButton()){
 		case MouseEvent.BUTTON1: 
 			Livraison livraison = getLivraison(evt);
-			if (livraison != null)
+			if (livraison != null){
 				controleur.selectionnerLivraison(livraison); 
+			}
 			break;
 		case MouseEvent.BUTTON3: 
 			//controleur.clicDroit(); 
