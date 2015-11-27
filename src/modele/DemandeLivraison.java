@@ -87,9 +87,32 @@ public class DemandeLivraison
 		setHeuresPassage();
 	}
 	
-	//livraison 1 est le livraison precedent
+	//livraison 1 est le livraison precedent dans l'itinéraire
 	public void echangerLivraison(int livraison1,int livraison2){
 		getTournee().echangerLivraison(livraison1, livraison2);
+		//si les livraisons appartiennent aux différentes fenêtres
+		//échanger les livraisons dans les fenêtres aussi
+		List<FenetreLivraison> fenetres = getFenetres();
+		FenetreLivraison fenetre1 = null;
+		FenetreLivraison fenetre2 = null;
+		Livraison liv1 = null;
+		Livraison liv2 = null;
+		for(FenetreLivraison fenetre:fenetres){
+			for(Livraison liv:fenetre.getLivraisons() ){
+				if(liv.getAdresse().getId() == livraison1){
+					fenetre1 = fenetre;
+					liv1 = liv;
+				}else if(liv.getAdresse().getId() == livraison2){
+					fenetre2 = fenetre;
+					liv2 = liv;
+				}
+			}
+		}
+		fenetre1.supprimerLivraison(liv1);
+		fenetre2.supprimerLivraison(liv2);
+		fenetre1.ajouterLivraison(liv2);
+		fenetre2.ajouterLivraison(liv2);
+		
 		resetHeuresPassage();
 		setHeuresPassage();
 	}

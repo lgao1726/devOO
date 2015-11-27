@@ -13,6 +13,7 @@ public class EtatLivraisonSelectionnee extends EtatDefaut{
 	}
 	public void supprimerLivraison(Plan plan, ListeCommandes listeDeCdes){
 		listeDeCdes.ajoute(new CommandeSupprimer(plan, livraison, livraison.getHeureDebut(), livraison.getHeureFin()));
+		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 		plan.updatePlan();
 	}
 
