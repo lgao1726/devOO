@@ -3,6 +3,11 @@
  */
 package controleur;
 
+import java.util.Calendar;
+import java.util.List;
+
+import modele.FenetreLivraison;
+import modele.Livraison;
 import modele.Plan;
 import modele.Tournee;
 import vue.Fenetre;
@@ -31,6 +36,9 @@ public class EtatLivraisonCharge extends EtatDefaut
 		Controleur.setTournee(plan.getDemandeLivraisons().calculerTournee(plan));
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 		plan.updatePlan();
+			
+		
+		
 	}
 	
 	/**

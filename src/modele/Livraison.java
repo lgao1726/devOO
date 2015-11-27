@@ -1,5 +1,6 @@
 package modele;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Observable;
 
@@ -13,7 +14,7 @@ public class Livraison
 	private int id;
 	private Noeud adresse;
 	private int client;
-	private Date heurePassage;
+	private Calendar heurePassage;
 	
 	public Livraison(int id, Noeud adresse, int client) 
 	{
@@ -42,11 +43,11 @@ public class Livraison
 		v.visite(this);
 	}
 	
-	public Date getHeurePassage(){
+	public Calendar getHeurePassage(){
 		return heurePassage;
 	}
 	
-	public void setHeurePassage(Date heure){
+	public void setHeurePassage(Calendar heure){
 		heurePassage = heure;
 	}
 }

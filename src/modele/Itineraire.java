@@ -1,6 +1,7 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -67,16 +68,12 @@ public class Itineraire {
 	}
 	
 	public void setCout(float cout){
-		this.cout = cout;
-		setHeurePassageDestination();
+		this.cout = cout + 10*60;
 	}
 	
-	public void setHeurePassageDestination(){
-		Date date = livraisonOrigine.getHeurePassage();
-		date.setSeconds(date.getSeconds() + (int) cout);
-		Date passage = date;
-		livraisonDestination.setHeurePassage(date);
-		
+	public float getCout(){
+		return cout;
 	}
+	
 
 }

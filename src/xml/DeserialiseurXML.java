@@ -6,7 +6,9 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -119,11 +121,15 @@ public class DeserialiseurXML {
        			getElementsByTagName("Entrepot").item(0)).getAttribute("adresse"));
 		
        	NodeList listeNoeuds = noeudDOMRacine.getElementsByTagName("Plage");
-       	//creation de entrepot comme livraison
+       	//creation de entrepot comme livraison pour début et fin
        	FenetreLivraison entrepot = creerPlage((Element)listeNoeuds.item(0));
+       	FenetreLivraison entrepotDest = new FenetreLivraison(null,null);//pas besoin de plage horaire pour la fin 
        	Livraison livEntrepot = new Livraison(0,UsineNoeud.getNoeud(adresseEntrepot),0);
+       	Livraison livEntrepotDest = new Livraison(0,UsineNoeud.getNoeud(adresseEntrepot),0);
        	livEntrepot.setHeurePassage(entrepot.getHeureDebut());
+       	livEntrepotDest.setHeurePassage(entrepot.getHeureDebut());
 		entrepot.ajouterLivraison(livEntrepot);
+		entrepotDest.ajouterLivraison(livEntrepotDest);
 		demande.ajouterFenetre(entrepot);
        	
        	for (int i = 0; i < listeNoeuds.getLength(); i++) 
@@ -138,7 +144,7 @@ public class DeserialiseurXML {
            	
            	demande.ajouterFenetre(plage);
        	}
-       	demande.ajouterFenetre(entrepot);  	
+       	demande.ajouterFenetre(entrepotDest);  	
        	
     }
 	
@@ -162,13 +168,15 @@ public class DeserialiseurXML {
 	{
 		SimpleDateFormat formater = new SimpleDateFormat("HH:mm:ss");
 		
-   		Date debut;
-   		Date fin;
+		Calendar debut = new GregorianCalendar();
+		Calendar fin = new GregorianCalendar();
    		
 		try 
 		{
-			debut = formater.parse(elt.getAttribute("heureDebut"));
-			fin = formater.parse(elt.getAttribute("heureFin"));
+			debut.setTime(formater.parse(elt.getAttribute("heureDebut")));
+			fin.setTime(formater.parse(elt.getAttribute("heureFin")));
+			//debut = formater.parse(elt.getAttribute("heureDebut"));
+			//fin = formater.parse(elt.getAttribute("heureFin"));
 		} 
 		catch (ParseException e) 
 		{
