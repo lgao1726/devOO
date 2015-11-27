@@ -22,6 +22,7 @@ public class Fenetre extends JFrame
 	protected final static String CHARGER_PLAN = "Charger Plan";
 	protected final static String CHARGER_LIVRAISON = "Charger Livraison";
 	protected final static String CALCULER_TOURNEE = "Calculer Tournee";
+	protected static final String SUPPRIMER_LIVRAISON = "Supprimer livraison";
 	//protected static final String REDO = "Redo";
 	//protected static final String UNDO = "Undo";
 	private ArrayList<JButton> boutons;
@@ -32,7 +33,7 @@ public class Fenetre extends JFrame
 	private EcouteurDeSouris ecouteurDeSouris;
 	//private EcouteurDeClavier ecouteurDeClavier;
 	
-	private final String[] intitulesBoutons = new String[]{CHARGER_PLAN,CHARGER_LIVRAISON, CALCULER_TOURNEE};
+	private final String[] intitulesBoutons = new String[]{CHARGER_PLAN,CHARGER_LIVRAISON, CALCULER_TOURNEE, SUPPRIMER_LIVRAISON};
 	private final int hauteurBouton = 40;
 	private final int largeurBouton = 150;
 	private final int hauteurCadreMessages = 80;

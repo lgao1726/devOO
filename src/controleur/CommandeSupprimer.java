@@ -1,6 +1,7 @@
 package controleur;
 
-import java.sql.Date;
+import java.util.Calendar;
+import java.util.Date;
 
 import modele.Livraison;
 import modele.Plan;
@@ -9,19 +10,20 @@ public class CommandeSupprimer implements Commande {
 
 	private Plan plan;
 	private Livraison livraison;
-	private Date heureDebut;
-	private Date heureFin;
+	private Calendar heureDebut;
+	private Calendar heureFin;
 	
-	public CommandeSupprimer(Plan plan,Livraison livraison,Date heureDebut, Date heureFin){
+	public CommandeSupprimer(Plan plan,Livraison livraison,Calendar heureDebut, Calendar heureFin){
 		this.plan = plan;
 		this.livraison = livraison;
 		this.heureDebut = heureDebut;
-		this.heureFin = heureFin;n = heureFin;
+		this.heureFin = heureFin;
 	}
 	
 	@Override
 	public void executer() {
-		plan.getDemandeLivraisons().supprimerLivraison(livraison.getAdresse().getId());
+		plan.getDemandeLivraisons().supprimerLivraison(livraison.getId());
+		plan.notifyObservers();
 		
 	}
 

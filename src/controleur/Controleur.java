@@ -23,10 +23,10 @@ public class Controleur
 	public Controleur(Plan p) 
 	{
 		this.plan = p;
-		//listeDeCdes = new ListeDeCdes();
+		listeDeCdes = new ListeCommandes();
 		etatCourant = etatInit;
 		this.fenetre = new Fenetre(p, this);
-		tournee= new Tournee(plan);
+		tournee= new Tournee();
 	}
 	
 	protected static void setEtatCourant(Etat etat){
@@ -58,8 +58,8 @@ public class Controleur
 	{
 		etatCourant.selectionnerLivraison(livraison);
 	}
-	public void supprimerLivraison(ListeCommandes listeDeCdes){
-		etatCourant.supprimerLivraison(listeDeCdes);
+	public void supprimerLivraison(){
+		etatCourant.supprimerLivraison(plan, listeDeCdes);
 	}
 
 }

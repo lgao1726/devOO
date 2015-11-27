@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import controleur.Controleur;
+import controleur.ListeCommandes;
 
 public class EcouteurDeBoutons implements ActionListener {
 	
@@ -21,6 +22,8 @@ public class EcouteurDeBoutons implements ActionListener {
 		case Fenetre.CHARGER_PLAN: controleur.chargerPlan(); break;
 		case Fenetre.CHARGER_LIVRAISON: controleur.chargerLivraison(); break;
 		case Fenetre.CALCULER_TOURNEE: controleur.calculerTournee(); break;
+		case Fenetre.SUPPRIMER_LIVRAISON: controleur.supprimerLivraison(); break;
+		
 		}
 	}
 }

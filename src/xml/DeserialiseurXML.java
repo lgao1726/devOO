@@ -6,7 +6,9 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -36,11 +38,11 @@ public class DeserialiseurXML {
 	 * @throws ExceptionXML
 	 */
 	public static void traiterPlan(Plan plan) throws ParserConfigurationException, SAXException, IOException, ExceptionXML{
-		File xml = OuvreurDeFichierXML.getInstance().ouvre(true);
-        traitementFichier(plan, xml);
+		File xml = obtenirFichierXML();
+        traitementPlan(plan, xml);
 	}
 
-	protected static void traitementFichier(Plan plan, File xml)
+	protected static void traitementPlan(Plan plan, File xml)
 			throws ParserConfigurationException, SAXException, IOException,
 			ExceptionXML {
 		DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();	
@@ -67,9 +69,12 @@ public class DeserialiseurXML {
 																	   IOException, ExceptionXML
     {
 		File xml = OuvreurDeFichierXML.getInstance().ouvre(true);
+		return traitementDemandeLivraison(plan, xml);
+	}
 
-
-		
+	protected static boolean traitementDemandeLivraison(Plan plan, File xml)
+			throws ParserConfigurationException, SAXException, IOException,
+			ExceptionXML {
 		if (xml != null)
 		{
 	        DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -88,15 +93,10 @@ public class DeserialiseurXML {
 	        }
 	        else
 	        	throw new ExceptionXML("Document livraison non conforme");
-		
-	        
 	        return true;
 		}
 		else
-			
 			return false;
-
-
 	}
 	
 	protected static void getEntrepot(Element noeudDOMRacine, Plan plan) throws NumberFormatException, ExceptionXML
@@ -119,10 +119,19 @@ public class DeserialiseurXML {
 	protected static void contruireFenetresLivraison(Element noeudDOMRacine, DemandeLivraison demande) throws ExceptionXML, NumberFormatException{
 		int adresseEntrepot = Integer.parseInt(((Element)noeudDOMRacine.
        			getElementsByTagName("Entrepot").item(0)).getAttribute("adresse"));
-		FenetreLivraison entrepot = new FenetreLivraison(null,null);
-		entrepot.ajouterLivraison(new Livraison(0,UsineNoeud.getNoeud(adresseEntrepot),0));
+		
+       	NodeList listeNoeuds = noeudDOMRacine.getElementsByTagName("Plage");
+       	//creation de entrepot comme livraison pour début et fin
+       	FenetreLivraison entrepot = creerPlage((Element)listeNoeuds.item(0));
+       	FenetreLivraison entrepotDest = new FenetreLivraison(null,null);//pas besoin de plage horaire pour la fin 
+       	Livraison livEntrepot = new Livraison(0,UsineNoeud.getNoeud(adresseEntrepot),0,null,null);
+       	Livraison livEntrepotDest = new Livraison(0,UsineNoeud.getNoeud(adresseEntrepot),0, null, null);
+       	livEntrepot.setHeurePassage(entrepot.getHeureDebut());
+       	livEntrepotDest.setHeurePassage(entrepot.getHeureDebut());
+		entrepot.ajouterLivraison(livEntrepot);
+		entrepotDest.ajouterLivraison(livEntrepotDest);
 		demande.ajouterFenetre(entrepot);
-       	NodeList listeNoeuds = noeudDOMRacine.getElementsByTagName("Plage");       	
+       	
        	for (int i = 0; i < listeNoeuds.getLength(); i++) 
        	{
        		Element plageActuel = (Element) listeNoeuds.item(i);       		
@@ -130,16 +139,16 @@ public class DeserialiseurXML {
            	NodeList listeLivraison = plageActuel.getElementsByTagName("Livraison");           	
            	for (int j = 0; j < listeLivraison.getLength(); j++)
            	{
-           		plage.ajouterLivraison(creerLivraison((Element) listeLivraison.item(j)));
+           		plage.ajouterLivraison(creerLivraison((Element) listeLivraison.item(j), plage.getHeureDebut(), plage.getHeureFin()));
            	}
            	
            	demande.ajouterFenetre(plage);
        	}
-       	demande.ajouterFenetre(entrepot);  	
+       	demande.ajouterFenetre(entrepotDest);  	
        	
     }
 	
-	protected static Livraison creerLivraison(Element elt) throws ExceptionXML
+	protected static Livraison creerLivraison(Element elt, Calendar heureDebut, Calendar heureFin) throws ExceptionXML
 	{
 		int id = Integer.parseInt(elt.getAttribute("id"));
 		int client = Integer.parseInt(elt.getAttribute("client"));
@@ -152,20 +161,22 @@ public class DeserialiseurXML {
 			throw new ExceptionXML("L'adresse du livraison n'existe pas sur le plan");
 			
 		
-		return new Livraison(id, livraisonNoeud, client);
+		return new Livraison(id, livraisonNoeud, client, heureDebut, heureFin);
     }
 	
 	protected static FenetreLivraison creerPlage(Element elt) throws ExceptionXML
 	{
 		SimpleDateFormat formater = new SimpleDateFormat("HH:mm:ss");
 		
-   		Date debut;
-   		Date fin;
+		Calendar debut = new GregorianCalendar();
+		Calendar fin = new GregorianCalendar();
    		
 		try 
 		{
-			debut = formater.parse(elt.getAttribute("heureDebut"));
-			fin = formater.parse(elt.getAttribute("heureFin"));
+			debut.setTime(formater.parse(elt.getAttribute("heureDebut")));
+			fin.setTime(formater.parse(elt.getAttribute("heureFin")));
+			//debut = formater.parse(elt.getAttribute("heureDebut"));
+			//fin = formater.parse(elt.getAttribute("heureFin"));
 		} 
 		catch (ParseException e) 
 		{
@@ -243,6 +254,7 @@ public class DeserialiseurXML {
    		return new Troncon(vitesse, longueur, nomRue, idNoeudDestination);
     }
     
-    
- 
+    protected static File obtenirFichierXML() throws ExceptionXML{
+		return OuvreurDeFichierXML.getInstance().ouvre(true);
+    }
 }

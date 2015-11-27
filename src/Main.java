@@ -21,22 +21,7 @@ public class Main
 		Controleur controleur=new Controleur(plan);
 		
 
-		//graphe.afficherMatrice();
-		try {
-			Thread.sleep(30000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		Tournee tournee = new Tournee(plan);
-		tournee.calculerTournee(plan, plan.getDemandeLivraisons().getFenetres());
-		
-		tournee.afficherListeItineraires();
-		
-		System.out.println(tournee.echangerLivraison(97, 87));
-		
-		tournee.afficherListeItineraires();
-		
+	
 
 	}
 

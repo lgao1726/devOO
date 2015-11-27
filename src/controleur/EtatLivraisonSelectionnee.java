@@ -1,6 +1,7 @@
 package controleur;
 
 import modele.Livraison;
+import modele.Plan;
 
 public class EtatLivraisonSelectionnee extends EtatDefaut{
 	
@@ -10,8 +11,9 @@ public class EtatLivraisonSelectionnee extends EtatDefaut{
 		// TODO Auto-generated constructor stub
 		this.livraison=livraison;
 	}
-	public void supprimerLivraison(){
-		
+	public void supprimerLivraison(Plan plan, ListeCommandes listeDeCdes){
+		listeDeCdes.ajoute(new CommandeSupprimer(plan, livraison, livraison.getHeureDebut(), livraison.getHeureFin()));
+		plan.updatePlan();
 	}
 
 }

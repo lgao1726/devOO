@@ -15,7 +15,7 @@ public interface Etat {
 	
 	public abstract void selectionnerLivraison(Livraison livraison);
 	
-	public abstract void supprimerLivraison(ListeCommandes listeDeCdes);
+	public abstract void supprimerLivraison(Plan plan, ListeCommandes listeDeCdes);
 	
 	// TODO Auto-generated method stub
 		

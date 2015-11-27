@@ -13,13 +13,19 @@ import tsp.TSP;
 import tsp.TSP1;
 
 public class Tournee {
+	
+	/**
+	 * Classe du mod�le repr�sentant une tourn�e.
+	 * 
+	 * 
+	 */
 
 	private static final int TEMPSLIMITE = 60000;
 	private LinkedList<Itineraire> itineraires;
 	private GrapheLivraison grapheLivraison;
 
 	// constructeur temporaire pour facilier le dev de la vue
-	public Tournee(Plan plan) {
+	public Tournee() {
 		itineraires = new LinkedList<Itineraire>();
 		grapheLivraison = null;
 	}
@@ -45,6 +51,7 @@ public class Tournee {
 	            ArrayList<Integer> noeudsItineraire = grapheLivraison.getItiniraire(origine, destination);
 		    	Itineraire iti = new Itineraire(noeudsItineraire);
 		    	setLivraisonsPourItineraire(fenetreLivraisons, iti, origine, destination);
+		    	setCout(iti);
 		    	itineraires.add(iti);
 		    	
 	    	}else{
@@ -56,6 +63,7 @@ public class Tournee {
 	    	//System.out.print("|"+grapheLivraison.mapLivraison(ordreLivraisons.poll()));
             //System.out.print("|"+ordreLivraisons.poll());
          }
+	    miseAJourCout();
            
     }
 	
@@ -64,27 +72,22 @@ public class Tournee {
 	/*public void creerItineraires(Plan plan) {
 		Noeud racine = plan.getNoeud(0);
 		ArrayList<Integer> idNoeuds = new ArrayList<Integer>();
-
 		idNoeuds.add(racine.getId());
-
 		int nbNoeuds = plan.getIntersections().size();
 		for (int i = 0; i < 60; i++) {
 			int idNext = racine.getListeTronconsSortants().get(1).getIdNoeudDestination();
 			racine = plan.getNoeud(idNext);
 			idNoeuds.add(idNext);
 		}
-
 		Itineraire iti = new Itineraire();
 		for (int i : idNoeuds) {
 			iti.ajouterNoeud(i);
 		}
 		itineraires.add(iti);
-
 	}*/
 
 	private void setLivraisonsPourItineraire(ArrayList<FenetreLivraison> fenetreLivraisons, Itineraire iti, int origine,
 			int destination) {
-		
 		for(FenetreLivraison fenetreLivraison: fenetreLivraisons)
 		{
 			Iterator<Livraison> it = fenetreLivraison.getLivraisonIterator();
@@ -92,9 +95,11 @@ public class Tournee {
 				Livraison liv = it.next();
 				if(liv.getAdresse().getId()==origine){
 					iti.setLivraisonOrigine(liv);
+					
 				}
 				else if(liv.getAdresse().getId() == destination){
 					iti.setLivraisonDestination(liv);
+					
 				}
 			}
 		}
@@ -102,6 +107,10 @@ public class Tournee {
 
 	public Iterator<Itineraire> getItineraireIterator() {
 		return itineraires.iterator();
+	}
+	
+	public List<Itineraire> getItineraires(){
+		return itineraires;
 	}
 	
 	private int getNbLivraisons(ArrayList<FenetreLivraison> fenetreLivraisons)
@@ -114,6 +123,7 @@ public class Tournee {
 	}
 	
 	public boolean supprimerLivraison(int idLivraison){
+		System.out.println("idlivraison"+idLivraison);
 		Livraison nouvelOrigine = null;
 		Livraison nouvelleDestination = null;
 		Itineraire aSupprimer1 = null;
@@ -147,6 +157,7 @@ public class Tournee {
 		else{
 			return false;
 		}
+		miseAJourCout();
 		return true;
 	}
 	
@@ -162,17 +173,17 @@ public class Tournee {
 		int posItiApres = -1;
 		for(int i=0;i<itineraires.size();i++){
 			Itineraire iti = itineraires.get(i);
-			int itiSize = iti.getListeNoeud().size();
+			int itiSize = iti.getNoeuds().size();
 			//trouver l'itineraire qui commence avec livraison 1
 			//et termine avec livraison2
-			if(iti.getListeNoeud().get(0)==livraison1 && 
-				iti.getListeNoeud().get(itiSize - 1)==livraison2){
+			if(iti.getNoeuds().get(0)==livraison1 && 
+				iti.getNoeuds().get(itiSize - 1)==livraison2){
 				itiAInverser = iti;
-			}if(iti.getListeNoeud().get(0)==livraison2){
+			}if(iti.getNoeuds().get(0)==livraison2){
 				//itineraire - livraison après livraison2
 				itiApres = iti;
 				posItiApres = i; 
-			}if(iti.getListeNoeud().get(itiSize - 1)==livraison1){
+			}if(iti.getNoeuds().get(itiSize - 1)==livraison1){
 				//itineraire - livraison avant livraison2
 				itiAvant = iti;
 				posItiAvant = i;
@@ -182,7 +193,11 @@ public class Tournee {
 			return false;
 		}
 		
-		Collections.reverse(itiAInverser.getListeNoeud());//inverser itineraire
+		//changer les liasons entre les itinéraires;
+		Collections.reverse(itiAInverser.getNoeuds());//inverser itineraire
+		Livraison tmp = itiAInverser.getLivraisonDestination();
+		itiAInverser.setLivraisonDestination(itiAInverser.getLivraisonOrigine());
+		itiAInverser.setLivraisonOrigine(tmp);
 		int avant = itiAvant.getLivraisonOrigine().getAdresse().getId();
 		int apres = itiApres.getLivraisonDestination().getAdresse().getId();
 		ArrayList<Integer> cheminAvant = grapheLivraison.obtenirPlusCourtChemin(avant, livraison2);
@@ -190,12 +205,14 @@ public class Tournee {
 		
 		itiAvant.setListeNoeud(cheminAvant);
 		itiApres.setListeNoeud(cheminApres);
+		itiAvant.setLivraisonDestination(itiAInverser.getLivraisonOrigine());
+		itiApres.setLivraisonOrigine(itiAInverser.getLivraisonDestination());
+		miseAJourCout();
 		return true;
 	}
 	
-	public boolean ajouterLivraison(int id, Noeud noeud, int client, int adresseLivraisonAvant){
+	public boolean ajouterLivraison(Livraison livraison, int adresseLivraisonAvant){
 		
-		Livraison livraison = new Livraison(id, noeud, client);
 		Livraison avant = null;
 		Livraison apres = null;
 		int posItineraireADiviser = -1;
@@ -212,6 +229,7 @@ public class Tournee {
 		if(posItineraireADiviser != -1){
 			itineraires.remove(posItineraireADiviser);
 		}else{
+			System.out.println("yyy");
 			return false; 
 		}
 		
@@ -222,20 +240,38 @@ public class Tournee {
 			Itineraire itineraireRemplacant2 = new Itineraire(plusCourtChemin2);
 			
 			itineraires.add(posItineraireADiviser, itineraireRemplacant1);
-			itineraires.add(posItineraireADiviser+1, itineraireRemplacant2);	
-		}else{
+			itineraires.add(posItineraireADiviser+1, itineraireRemplacant2);
+			
+			itineraireRemplacant1.setLivraisonOrigine(avant);
+			itineraireRemplacant1.setLivraisonDestination(livraison);
+			itineraireRemplacant2.setLivraisonOrigine(livraison);
+			itineraireRemplacant2.setLivraisonDestination(apres);
+			
+		}else{System.out.println("zzz");
 			return false;
 		}		
-	
+		miseAJourCout();
 		return true;
 	}
 	
+	private void setCout(Itineraire itineraire){
+		float cout = grapheLivraison.getCoutItineraire(itineraire.getNoeuds());
+		itineraire.setCout(cout);
+	}
+	
+	public void miseAJourCout(){
+		for(Itineraire iti:itineraires){
+			setCout(iti);
+		}
+	}
+	
+	//pour les tests
 	public void afficherListeItineraires(){
 		for( Itineraire itineraire : itineraires){
-			for(int noeud : itineraire.getListeNoeud()){
+			for(int noeud : itineraire.getNoeuds()){
 				System.out.print(noeud + ", ");
 			}
-			System.out.println(";;");
+			System.out.println(";;"+itineraire.getCout()/60);
 		}
 		System.out.println("]");
 	}
