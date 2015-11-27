@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class Itineraire {
+public class Itineraire{
 
 	private Livraison livraisonOrigine;
 	private Livraison livraisonDestination;
@@ -55,9 +55,9 @@ public class Itineraire {
 		v.visite(this);
 	}
 	
-	public void affichertIneraire()
+	public void affichertItineraire()
 	{
-		System.out.print("Itinéraire entier de la tournée");
+		System.out.print("Itinï¿½raire entier de la tournï¿½e");
 		for(Integer i:listeNoeud)
 		{
 			System.out.print(i+"|");
@@ -74,6 +74,8 @@ public class Itineraire {
 	public float getCout(){
 		return cout;
 	}
+
+
 	
 
 }

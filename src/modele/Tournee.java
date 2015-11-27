@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import javax.swing.plaf.synth.SynthSeparatorUI;
+
 import tsp.GrapheLivraison;
 import tsp.TSP;
 import tsp.TSP1;
@@ -32,8 +34,6 @@ public class Tournee {
 
 	public void calculerTournee(Plan plan, ArrayList<FenetreLivraison> fenetreLivraisons) {
 		grapheLivraison = new GrapheLivraison(plan, fenetreLivraisons);
-		System.out.println("xxx");
-		//grapheLivraison.afficherMatrice();
 		TSP tsp = new TSP1();
 		tsp.chercheSolution(TEMPSLIMITE, grapheLivraison);
 		Queue<Integer> ordreLivraisons = new LinkedList<Integer>();
@@ -123,7 +123,7 @@ public class Tournee {
 	}
 	
 	public boolean supprimerLivraison(int idLivraison){
-		System.out.println("idlivraison"+idLivraison);
+		System.out.println("idlivraison a supprimer"+idLivraison);
 		Livraison nouvelOrigine = null;
 		Livraison nouvelleDestination = null;
 		Itineraire aSupprimer1 = null;
@@ -157,6 +157,7 @@ public class Tournee {
 		else{
 			return false;
 		}
+		System.out.println("deleted");
 		miseAJourCout();
 		return true;
 	}

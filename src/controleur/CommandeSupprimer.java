@@ -22,7 +22,7 @@ public class CommandeSupprimer implements Commande {
 	
 	@Override
 	public void executer() {
-		plan.getDemandeLivraisons().supprimerLivraison(livraison.getId());
+		plan.getDemandeLivraisons().supprimerLivraison(livraison.getAdresse().getId());
 		plan.notifyObservers();
 		
 	}

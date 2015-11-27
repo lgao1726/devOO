@@ -20,7 +20,7 @@ public class GrapheLivraison implements Graphe {
 	
 	int nbSommets;
 	float[][] graphePlan;
-	float[][] grapheChemin;//intialisé dans initGraphe
+	float[][] grapheChemin;//intialisï¿½ dans initGraphe
 	float[][] grapheTSP;
 	Map<Integer,Integer> indicesLivraisons;
 	Map<Integer, ArrayList<int[]>> listItineraires;
@@ -28,7 +28,7 @@ public class GrapheLivraison implements Graphe {
 	final int GRIS=1;
 	final int NOIR=2;
 	final float DUREE_MAX=100000; //en heure pour l'instant
-	static int grapheCheminLigne = 0; //utilisée pour l'écriture dans grapheChemin
+	static int grapheCheminLigne = 0; //utilisï¿½e pour l'ï¿½criture dans grapheChemin
 
 
 	public GrapheLivraison(Plan p,List<FenetreLivraison> fenetres){
@@ -47,7 +47,6 @@ public class GrapheLivraison implements Graphe {
 		initGraphe(p,fenetres);
 		creerGrapheChemin(fenetres);
 		creerGrapheTSP();
-		afficherMatrice();
 	}
 
 	@Override
@@ -114,7 +113,7 @@ public class GrapheLivraison implements Graphe {
 				Livraison livraison = it.next();
 				int[] dijkstraResultat= dijkstra(livraison.getAdresse().getId());
 				
-				//il faut séparer les chemins et les couts
+				//il faut sï¿½parer les chemins et les couts
 				int[] predecesseurs = new int[nbSommets];
 				int[] couts = new int[nbSommets];
 				for(int i=0;i<nbSommets;i++){
@@ -129,7 +128,7 @@ public class GrapheLivraison implements Graphe {
 	private void remplirGrapheChemin(int[] predecesseurs,int[] couts,Livraison livraison,
 			List<FenetreLivraison> fenetres){
 		int adresse = livraison.getAdresse().getId();
-		//trouver la fenetre à laquelle cette livraison appartient
+		//trouver la fenetre ï¿½ laquelle cette livraison appartient
 		//et trouver la fenetre suivante
 		FenetreLivraison fenetreCourante = null;
 		FenetreLivraison fenetreSuivante = null;
@@ -142,7 +141,7 @@ public class GrapheLivraison implements Graphe {
 				done = true;
 			}
 		}
-		//cas d'entrept pas encore géré, du coup les dernières fenetres peuvent etre nuls
+		//cas d'entrept pas encore gï¿½rï¿½, du coup les derniï¿½res fenetres peuvent etre nuls
 		if(fenetreSuivante!=null &&fenetreCourante!=null){
 			itineraireFenetreCourante(fenetreCourante, predecesseurs,couts, adresse);		
 			itineraireFenetreSuivante(fenetreSuivante, predecesseurs,couts, adresse);
@@ -209,7 +208,7 @@ public class GrapheLivraison implements Graphe {
 	
 	public int[] dijkstra(int noeudDebut)
 	{
-		//on va mettre les plus courts chemins et distances dans le même tableau
+		//on va mettre les plus courts chemins et distances dans le mï¿½me tableau
 		//resultat
 		float[] distance = new float[nbSommets];
 		int[] predecesseur = new int[nbSommets];
@@ -229,7 +228,7 @@ public class GrapheLivraison implements Graphe {
 		for(int i=0;i<nbSommets;i++){
 			float minDist = DUREE_MAX;
 			int noeudCourant = noeudDebut;
-			//trouver le noeud où la distance est plus courte
+			//trouver le noeud oï¿½ la distance est plus courte
 			for(int j=0;j<nbSommets;j++){
 				if(!visite[j] && distance[j]<minDist){
 					noeudCourant = j;
@@ -313,7 +312,7 @@ public class GrapheLivraison implements Graphe {
 	public ArrayList<Integer> obtenirPlusCourtChemin(int origine, int destination){
 		ArrayList<Integer> chemin = new ArrayList<Integer>();
 		int[] dijkstraResultat = dijkstra(origine);
-		//il faut séparer les chemins et les couts
+		//il faut sï¿½parer les chemins et les couts
 		int[] predecesseurs = new int[nbSommets];
 		int[] couts = new int[nbSommets];
 		for(int i=0;i<nbSommets;i++){
@@ -335,7 +334,7 @@ public class GrapheLivraison implements Graphe {
 			cout += graphePlan[courant][itineraire.get(i)];
 			courant = itineraire.get(i);
 		}
-		//pour le retour à l'entrepot
+		//pour le retour ï¿½ l'entrepot
 		cout += graphePlan[itineraire.get(size-1)][itineraire.get(0)];
 		
 		return cout;

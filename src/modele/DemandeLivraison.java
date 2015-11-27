@@ -67,7 +67,6 @@ public class DemandeLivraison
 		FenetreLivraison fenetre = getFenetre(heureDebut,heureFin);
 		fenetre.ajouterLivraison(livraison);
 		int size = fenetre.getLivraisons().size();
-		System.out.println(fenetre.getLivraisons().get(size-1).getAdresse().getId());
 		getTournee().ajouterLivraison(livraison, fenetre.getLivraisons().get(size-2).getAdresse().getId());
 		resetHeuresPassage();
 		setHeuresPassage();
@@ -129,7 +128,7 @@ public class DemandeLivraison
 			Calendar passage = (Calendar) livOrigine.getHeurePassage().clone();
 			passage.add(Calendar.SECOND, (int) iti.getCout());
 			livDest.setHeurePassage(passage);
-			//on voit si l'heure de passage est avant ou après la fenêtre
+			//on voit si l'heure de passage est avant ou aprï¿½s la fenï¿½tre
 			if(passage.before(fenetre.getHeureDebut())){
 				long diff = fenetre.getHeureDebut().getTimeInMillis() - passage.getTimeInMillis();
 				passage.add(Calendar.MILLISECOND, (int) diff);
@@ -139,7 +138,7 @@ public class DemandeLivraison
 		}
 	}
 	
-	//reset les heures de passage de toutes les itinéraires avant une nouvelle calculation
+	//reset les heures de passage de toutes les itinï¿½raires avant une nouvelle calculation
 	private void resetHeuresPassage(){
 		List<FenetreLivraison> fenetres = getFenetres();
 		for(int i=1;i<fenetres.size()-0;i++){
