@@ -29,7 +29,7 @@ public class EtatDefaut implements Etat {
 	}
 	
 	@Override
-	public void supprimerLivraison() {
+	public void supprimerLivraison(ListeCommandes listeDeCdes){
 		// TODO Auto-generated method stub
 		
 	}

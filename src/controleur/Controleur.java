@@ -11,6 +11,8 @@ public class Controleur
 	private static Tournee tournee;
 	private Fenetre fenetre;
 	private static Etat etatCourant;
+	private ListeCommandes listeDeCdes;
+
 	
 	protected static final EtatInit etatInit = new EtatInit();
 	protected static final EtatPlanCharge etatPlanCharge = new EtatPlanCharge();
@@ -56,8 +58,8 @@ public class Controleur
 	{
 		etatCourant.selectionnerLivraison(livraison);
 	}
-	public void supprimerLivraison(){
-		
+	public void supprimerLivraison(ListeCommandes listeDeCdes){
+		etatCourant.supprimerLivraison(listeDeCdes);
 	}
 
 }
