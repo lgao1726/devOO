@@ -57,7 +57,7 @@ public class Itineraire {
 	
 	public void affichertIneraire()
 	{
-		System.out.print("ItinÃ©raire entier de la tournÃ©e");
+		System.out.print("Itinéraire entier de la tournée");
 		for(Integer i:listeNoeud)
 		{
 			System.out.print(i+"|");

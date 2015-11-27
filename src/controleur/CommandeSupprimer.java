@@ -16,7 +16,7 @@ public class CommandeSupprimer implements Commande {
 		this.plan = plan;
 		this.livraison = livraison;
 		this.heureDebut = heureDebut;
-		this.heureFin = heureFin;
+		this.heureFin = heureFin;n = heureFin;
 	}
 	
 	@Override
