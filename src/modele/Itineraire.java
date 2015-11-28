@@ -1,13 +1,16 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-public class Itineraire {
+public class Itineraire{
 
 	private Livraison livraisonOrigine;
 	private Livraison livraisonDestination;
-	private List<Integer> listeNoeud;
+	private ArrayList<Integer> listeNoeud;
+	float cout;
 
 	public Itineraire(ArrayList<Integer> listeNoeud) {
 		this.listeNoeud = listeNoeud;
@@ -31,15 +34,12 @@ public class Itineraire {
 		this.livraisonDestination = livraisonDestination;
 	}
 
-	public List<Integer> getNoeuds() {
+	public ArrayList<Integer> getNoeuds() {
 		return listeNoeud;
 	}
 
-	public List<Integer> getListeNoeud() {
-		return listeNoeud;
-	}
 
-	public void setListeNoeud(List<Integer> listeNoeud) {
+	public void setListeNoeud(ArrayList<Integer> listeNoeud) {
 		this.listeNoeud = listeNoeud;
 	}
 
@@ -55,9 +55,9 @@ public class Itineraire {
 		v.visite(this);
 	}
 	
-	public void affichertIneraire()
+	public void affichertItineraire()
 	{
-		System.out.print("Itinéraire entier de la tournée");
+		System.out.print("Itin�raire entier de la tourn�e");
 		for(Integer i:listeNoeud)
 		{
 			System.out.print(i+"|");
@@ -66,5 +66,16 @@ public class Itineraire {
 		System.out.println("");
 
 	}
+	
+	public void setCout(float cout){
+		this.cout = cout + 10*60;
+	}
+	
+	public float getCout(){
+		return cout;
+	}
+
+
+	
 
 }

@@ -1,17 +1,26 @@
 package controleur;
 
+import modele.Livraison;
 import modele.Plan;
 import modele.Tournee;
 import vue.Fenetre;
 
 public interface Etat {
 	
-	public void chargerPlan(Plan planDeVille, Fenetre fenetre);
+	public abstract void chargerPlan(Plan planDeVille, Fenetre fenetre);
 	
-	public void chargerDemandes(Plan plan, Fenetre fenetre);
+	public abstract void chargerDemandes(Plan plan, Fenetre fenetre);
 	
 	public abstract void calculerTournee(Plan plan, Fenetre fenetre);
 	
+	public abstract void selectionnerLivraison(Livraison livraison);
+	
+	public abstract void supprimerLivraison(Plan plan, ListeCommandes listeDeCdes);
+	
+	public abstract void echangerLivraison(Plan plan,ListeCommandes listeDeCdes);
+	
+	// TODO Auto-generated method stub
+		
 	/**public abstract void genererFeuilleDeRoute(Tournee tournee);
 	
 	public abstract void supprimerLivraison(Tournee tournee, Livraison livraison);

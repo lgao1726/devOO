@@ -28,6 +28,7 @@ public class EtatLivraisonCharge extends EtatDefaut
 	@Override
 	public void calculerTournee(Plan plan, Fenetre fenetre) {
 		Controleur.setTournee(plan.getDemandeLivraisons().calculerTournee(plan));
+		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 		plan.updatePlan();
 	}
 	

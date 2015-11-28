@@ -22,11 +22,13 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
 public class VueGraphique extends JPanel implements Observer, Visiteur {
 
+	private final int RAYON_LIVRAISON=5;
 	private int echelle;
 	private int hauteurVue;
 	private int largeurVue;
@@ -45,13 +47,13 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 		
 		this.echelle = e;
 		
-		hauteurVue = 750*e;
-		largeurVue = 800*e;
+		hauteurVue = plan.getDimY()*e;
+		largeurVue = plan.getDimX()*e;
 		
-		//setLayout(null);
+		setLayout(null);
 		setBackground(Color.white);
 		setSize(largeurVue, hauteurVue);
-		//f.getContentPane().add(this);
+		f.getContentPane().add(this);
 		this.plan = plan;
 	}
 	
@@ -152,13 +154,25 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 	public int getLargeur() {
 		return largeurVue;
 	}
+	
+	public Plan getPlan() {
+		return plan;
+	}
 
+	public int getRayonLivraison() {
+		return RAYON_LIVRAISON;
+	}
 	/**
 	 * Methode appelee par les objets observes par this a chaque fois qu'ils ont ete modifies
 	 */
 	@Override
 	public void update(Observable o, Object arg) 
 	{
+		hauteurVue = plan.getDimY()*this.echelle;
+		largeurVue = plan.getDimX()*this.echelle;
+		
+		setSize(largeurVue, hauteurVue);
+		
 		repaint();
 	}
 
@@ -175,7 +189,7 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.RED);
 		
-		g2.fillOval(x*echelle-5, y*echelle-5, 10, 10);
+		g2.fillOval(x*echelle-RAYON_LIVRAISON, y*echelle-RAYON_LIVRAISON, 2*RAYON_LIVRAISON, 2*RAYON_LIVRAISON);
 	}
 	
 	@Override
@@ -185,7 +199,9 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 		while(i < idNoeuds.size() - 1){
 			Graphics2D g2 = (Graphics2D) g;
 			Noeud origine = plan.getNoeud(idNoeuds.get(i));
-			Noeud destination = plan.getNoeud(idNoeuds.get(i+1));		
+			Noeud destination = plan.getNoeud(idNoeuds.get(i+1));
+			g2.setColor(Color.blue);
+			g2.drawString(""+origine.getId(), origine.getX()+5, origine.getY()-10);
 			g2.setColor(Color.green);
 			g2.setStroke(new BasicStroke(1));
 			drawArrow(g2,origine.getX(),origine.getY(),

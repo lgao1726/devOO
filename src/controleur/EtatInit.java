@@ -3,6 +3,7 @@ package controleur;
 import vue.Fenetre;
 import xml.ExceptionXML;
 import xml.DeserialiseurXML;
+ 
 
 import java.io.IOException;
 
@@ -30,7 +31,7 @@ public class EtatInit extends EtatDefaut
 			Controleur.setEtatCourant(Controleur.etatPlanCharge);
 			
 		} 
-		catch (Exception e)
+		catch (Exception e) 
 		{
 			fenetre.afficheMessageBox("Erreur au niveau de chargement de plan");
 			plan.reset();

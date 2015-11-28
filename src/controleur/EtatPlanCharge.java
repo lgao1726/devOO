@@ -16,15 +16,11 @@ public class EtatPlanCharge extends EtatDefaut
 	{
 		try 
 		{
-			if (DeserialiseurXML.chargerDemandeLivraison(plan))
+			if (DeserialiseurXML.chargerDemandeLivraison(plan)){
 				
 				Controleur.setEtatCourant(Controleur.etatLivraisonCharge);
-			
-			Controleur.setEtatCourant(Controleur.etatLivraisonCharge);
-			//temporaire pour faciliter le developpement de la vue	
-			plan.getDemandeLivraisons().calculerTournee(plan);
-	        plan.notifyObservers();
-			
+				plan.updatePlan();
+			}
 		} 
 		catch (Exception e) 
 		{

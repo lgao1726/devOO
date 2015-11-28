@@ -1,18 +1,16 @@
 package vue;
 
+import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
-import modele.Livraison;
 import modele.Plan;
-import modele.Visiteur;
 
-public class VueTextuelle extends JPanel implements Observer, Visiteur
-{
+public class VueTextuelle extends JLabel implements Observer{
+
 	private String texte;
 	private Plan plan;
 
@@ -23,15 +21,11 @@ public class VueTextuelle extends JPanel implements Observer, Visiteur
 	 */
 	public VueTextuelle(Plan plan, Fenetre fenetre){
 		super();
-		//setBorder(BorderFactory.createTitledBorder(" La demande des livraisons "));
-		/*this.setVerticalTextPosition(TOP);
+		setBorder(BorderFactory.createTitledBorder("Liste des formes :"));
+		this.setVerticalTextPosition(TOP);
 		this.setVerticalAlignment(TOP);
-		fenetre.getContentPane().add(this);*/
-		plan.addObserver(this);
-		
-		// Ajout table grid
-		
-		
+		fenetre.getContentPane().add(this);
+		plan.addObserver(this); // this observe plan
 		this.plan = plan;
 	}
 	
@@ -39,17 +33,51 @@ public class VueTextuelle extends JPanel implements Observer, Visiteur
 	 * Methode appelee par les objets observes par this a chaque fois qu'ils ont ete modifies
 	 */
 	@Override
-	public void update(Observable o, Object arg) 
-	{
-		
+	public void update(Observable o, Object arg) {
+		if (arg != null){ // arg est une forme qui vient d'etre ajoutee a plan
+			Forme f = (Forme)arg;
+			f.addObserver(this);
+		}
+		Iterator<Forme> it = plan.getIterateurFormes();
+		texte = "<html><ul>";
+		while (it.hasNext())
+			it.next().accepte(this);
+		texte = texte+"</ul></html>";
+		setText(texte);
+	}
+
+
+	/**
+	 * Methode appelee par l'objet visite (un cercle) a chaque fois qu'il recoit le message accepte
+	 */
+	@Override
+	public void visiteForme(Cercle c) {
+		texte = texte+"<li>";
+		if (c.getEstSelectionne())
+			texte = texte+"<b><i>";
+		texte = texte+"Cercle : centre=(" + c.getCentre().getX() 
+				+ "," + c.getCentre().getY()
+				+ ") rayon=" + c.getRayon();
+		if (c.getEstSelectionne())
+				texte = texte+"</i></b>";
+		texte = texte+"</li>";
 	}
 	
 	/**
-	 * Methode appelee par l'objet visite (un livraison) a chaque fois qu'il recoit le message accepte
+	 * Methode appelee par l'objet visite (un rectangle) a chaque fois qu'il recoit le message accepte
 	 */
 	@Override
-	public void visite(Livraison liv) 
-	{
-		
+	public void visiteForme(Rectangle r) {
+		texte = texte+"<li>";
+		if (r.getEstSelectionne())
+			texte = texte+"<b><i>";
+		texte = texte+"Rectangle : coin=(" + r.getCoin().getX() 
+				+ "," + r.getCoin().getY() + ") largeur="
+				+ r.getLargeur() + " hauteur=" + r.getHauteur();
+		if (r.getEstSelectionne())
+			texte = texte+"</i></b>";
+		texte = texte+"</li>";
 	}
+
+
 }

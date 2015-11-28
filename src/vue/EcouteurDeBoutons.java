@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import controleur.Controleur;
+import controleur.ListeCommandes;
 
 public class EcouteurDeBoutons implements ActionListener {
 	
@@ -14,16 +15,16 @@ public class EcouteurDeBoutons implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) 
-	{ 
+	public void actionPerformed(ActionEvent e) { 
 		// Methode appelee par l'ecouteur de boutons a chaque fois qu'un bouton est clique
 		// Envoi au controleur du message correspondant au bouton clique
-		if (e.getActionCommand().equals(Fenetre.CHARGER_PLAN))
-				controleur.chargerPlan(); 
-		else
-			
-			if (e.getActionCommand().equals(Fenetre.CHARGER_LIVRAISON))
-					
-					controleur.chargerLivraison();
+		switch (e.getActionCommand()){
+		case Fenetre.CHARGER_PLAN: controleur.chargerPlan(); break;
+		case Fenetre.CHARGER_LIVRAISON: controleur.chargerLivraison(); break;
+		case Fenetre.CALCULER_TOURNEE: controleur.calculerTournee(); break;
+		case Fenetre.SUPPRIMER_LIVRAISON: controleur.supprimerLivraison(); break;
+		case Fenetre.ECHANGER_LIVRAISON: controleur.echangerLivraison();break;
+		
+		}
 	}
 }

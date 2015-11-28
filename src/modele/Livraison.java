@@ -1,5 +1,7 @@
 package modele;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Observable;
 
 /**
@@ -12,13 +14,18 @@ public class Livraison
 	private int id;
 	private Noeud adresse;
 	private int client;
+	private Calendar heurePassage;
+	private Calendar heureDebut;
+	private Calendar heureFin;
 	
-	public Livraison(int id, Noeud adresse, int client) 
+	public Livraison(int id, Noeud adresse, int client, Calendar heureDebut, Calendar heureFin) 
 	{
 		super();
 		this.id = id;
 		this.adresse = adresse;
 		this.client = client;
+		this.heureDebut=heureDebut;
+		this.heureFin=heureFin;
 	
 	}
 
@@ -29,6 +36,14 @@ public class Livraison
 	public Noeud getAdresse() {
 		return adresse;
 	}
+	
+	public Calendar getHeureDebut() {
+		return heureDebut;
+	}
+	
+	public Calendar getHeureFin() {
+		return heureFin;
+	}
 
 	public int getClient() {
 		return client;
@@ -38,5 +53,13 @@ public class Livraison
 	public void accepte(Visiteur v)
 	{
 		v.visite(this);
+	}
+	
+	public Calendar getHeurePassage(){
+		return heurePassage;
+	}
+	
+	public void setHeurePassage(Calendar heure){
+		heurePassage = heure;
 	}
 }
