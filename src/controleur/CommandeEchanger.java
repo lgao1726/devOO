@@ -15,13 +15,16 @@ public class CommandeEchanger implements Commande{
 	
 	@Override
 	public void executer() {
-		plan.getDemandeLivraisons().echangerLivraison(livraison1, livraison2);
+		//plan.getDemandeLivraisons().echangerLivraison(livraison1, livraison2);
+		plan.getDemandeLivraisons().echangerLivraisonSepares(livraison1, livraison2);
+		
 		
 	}
 
 	@Override
 	public void undo() {
-		plan.getDemandeLivraisons().echangerLivraison(livraison2, livraison1);
+		//plan.getDemandeLivraisons().echangerLivraison(livraison2, livraison1);
+		plan.getDemandeLivraisons().echangerLivraisonSepares(livraison2, livraison1);
 		
 	}
 

@@ -199,7 +199,9 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 		while(i < idNoeuds.size() - 1){
 			Graphics2D g2 = (Graphics2D) g;
 			Noeud origine = plan.getNoeud(idNoeuds.get(i));
-			Noeud destination = plan.getNoeud(idNoeuds.get(i+1));		
+			Noeud destination = plan.getNoeud(idNoeuds.get(i+1));
+			g2.setColor(Color.blue);
+			g2.drawString(""+origine.getId(), origine.getX()+5, origine.getY()-10);
 			g2.setColor(Color.green);
 			g2.setStroke(new BasicStroke(1));
 			drawArrow(g2,origine.getX(),origine.getY(),

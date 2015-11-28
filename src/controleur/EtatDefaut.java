@@ -34,6 +34,12 @@ public class EtatDefaut implements Etat {
 		
 	}
 
+	@Override
+	public void echangerLivraison(Plan plan, ListeCommandes listeDeCdes) {
+		// TODO Auto-generated method stub
+		
+	}
+
 /**	@Override
 	protected void genererFeuilleDeRoute(Tournee tournee) {
 		// TODO Auto-generated method stub

@@ -88,6 +88,54 @@ public class DemandeLivraison
 		setHeuresPassage();
 	}
 	
+	//echanger 2 livraisons, ils ont pas besoin d'etre im a cotre de l'autre
+	public void echangerLivraisonSepares(int livraison1,int livraison2){
+		List<Itineraire> itineraires = getTournee().getItineraires();
+		//trouver qui est le livraison precedent entre les deux
+		int posLiv1 = -1;
+		int posLiv2 = -1;
+		//positions des livraisons selectionnees
+		int livAvant = -1;
+		int livApres = -1;
+		//position des livraisons precedent et suivant
+		int posLivAvant = -1;
+		int posLivApres = -1;
+		//trouver les positions des livraisons donnees
+		for(int i=0;i<itineraires.size();i++){
+			Itineraire iti = itineraires.get(i);
+			int courant = iti.getLivraisonOrigine().getAdresse().getId();
+			if(courant==livraison1){
+				posLiv1 = i;
+			}else if(courant==livraison2){
+				posLiv2 = i;
+			}
+		}
+		//determiner quel livraison est precedent/suivant
+		if(posLiv1<posLiv2){
+			livAvant = livraison1;
+			livApres = livraison2;
+			posLivAvant = posLiv1;
+			posLivApres = posLiv2;
+		}else{
+			livAvant = livraison2;
+			livApres = livraison1;
+			posLivAvant = posLiv2;
+			posLivApres = posLiv1;
+		}
+		//on fait les echanges jusqu'a la position du livraison suivant
+		for(int i=posLivAvant;i<posLivApres;i++){
+			int avant = itineraires.get(i).getLivraisonOrigine().getAdresse().getId();
+			int apres = itineraires.get(i+1).getLivraisonOrigine().getAdresse().getId();
+			echangerLivraison(avant,apres);
+		}
+		//on fait les echanges jusqu'a la position du livraison precedent
+		for(int i=posLivApres-1;i>posLivAvant;i--){
+			int avant = itineraires.get(i).getLivraisonOrigine().getAdresse().getId();
+			int apres = itineraires.get(i-1).getLivraisonOrigine().getAdresse().getId();
+			echangerLivraison(avant,apres);
+		}
+	}
+	
 	
 	//echanger deux livraison cotoyant
 	//les deux n'ont pas besoin d'être ordonné
