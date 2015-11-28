@@ -1,34 +1,66 @@
 package controleur;
 
+import vue.Fenetre;
 import modele.Livraison;
 import modele.Plan;
 
 public class EtatLivraisonSelectionnee extends EtatDefaut{
 	
 	Livraison livraison;
-	Livraison livraison2;
+	
 	public EtatLivraisonSelectionnee(){
 		// TODO Auto-generated constructor stub
 	}
-	public void supprimerLivraison(Plan plan, ListeCommandes listeDeCdes){
-		listeDeCdes.ajoute(new CommandeSupprimer(plan, livraison, livraison.getHeureDebut(), livraison.getHeureFin()));
-		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
-		plan.updatePlan();
+	
+	/**
+	 * M�thode qui charger un plan
+	 * @param Plan de ville
+	 * @param Fenetre
+	 * @throws ExceptionEtat
+	 */
+	@Override
+	public void chargerPlan(Plan plan, Fenetre fenetre)
+	{
+		Controleur.etatInit.chargerPlan(plan, fenetre);
+	}
+	/**
+	 * M�thode qui charge les demande des livraision et qui passe vers l'�tat LivraisonCharger
+	 * @param Plan
+	 * @param DemandeLivraison
+	 */
+	@Override
+	public void chargerDemandes(Plan plan, Fenetre fenetre) 
+	{
+		Controleur.etatPlanCharge.chargerDemandes(plan, fenetre);
+	}
+	
+	public void supprimerLivraison(Plan plan, ListeCommandes listeDeCdes, Fenetre fenetre){
+		if(plan.getDemandeLivraisons().getTournee().getLivraisonPrecedente(livraison)!=null)
+		{
+			listeDeCdes.ajoute(new CommandeSupprimer(plan, livraison));
+			Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
+		}
+		else
+			fenetre.afficheMessageBox("Vous essayez de supprimer l'entrepot");
+	}
+	
+	@Override
+	public void selectionnerLivraison(Plan plan, Livraison livraison, ListeCommandes listeDeCdes) {
+		Controleur.etatLivraisonSelectionnee.setLivraison(livraison);
 	}
 	
 	public void setLivraison(Livraison liv){
 		this.livraison = liv;
+	}	
+	
+	@Override
+	public void undo(ListeCommandes listeDeCdes) {
+		listeDeCdes.undo();
 	}
 	
-	
-	public void selectionnerLivraison(Livraison liv){
-		this.livraison2 = liv;
-	}
-	
-	public void echangerLivraison(Plan plan,ListeCommandes listeDeCdes){
-		listeDeCdes.ajoute(new CommandeEchanger(plan, livraison.getAdresse().getId(), livraison2.getAdresse().getId()));
-		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
-		plan.updatePlan();
+	@Override
+	public void redo(ListeCommandes listeDeCdes) {
+		listeDeCdes.redo();
 	}
 
 }
