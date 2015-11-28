@@ -93,6 +93,17 @@ public class Plan extends Observable
 		return intersections.get(id);
 	}
 	
+	//pour l'ecouteur de mouvement souris
+	public boolean isNoeud(int x,int y,int rayon){
+		boolean isNoeud = false;
+		for(Noeud n:intersections){
+			if((x>n.getX()-rayon) && (x<n.getX()+rayon)  && (y<n.getY()+rayon)  && (y>n.getY()-rayon)){
+				isNoeud = true;
+			}
+			
+		}return isNoeud;
+	}
+	
 	/**
 	 * @return L'adresse d'Entrepot
 	 */

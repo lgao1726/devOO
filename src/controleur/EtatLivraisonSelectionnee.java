@@ -26,7 +26,6 @@ public class EtatLivraisonSelectionnee extends EtatDefaut{
 	}
 	
 	public void echangerLivraison(Plan plan,ListeCommandes listeDeCdes){
-		plan.getDemandeLivraisons().getTournee().afficherListeItineraires();
 		listeDeCdes.ajoute(new CommandeEchanger(plan, livraison.getAdresse().getId(), livraison2.getAdresse().getId()));
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 		plan.updatePlan();

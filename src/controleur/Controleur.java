@@ -70,6 +70,14 @@ public class Controleur
 		
 	}
 	
+	public void sourisSurNoeud(){
+		fenetre.sourisSurNoeud();
+	}
+	
+	public void sourisPasSurNoeud(){
+		fenetre.sourisPasSurNoeud();
+	}
+	
 	
 	//pour voir si etat courant est selectionner
 	private boolean isSelectionnerLivraison(){

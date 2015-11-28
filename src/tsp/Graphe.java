@@ -2,6 +2,7 @@ package tsp;
 
 public interface Graphe {
 
+
 	/**
 	 * @return le nombre de sommets de <code>this</code>
 	 */
@@ -20,6 +21,5 @@ public interface Graphe {
 	 * @return true si <code>(i,j)</code> est un arc de <code>this</code>
 	 */
 	public abstract boolean estArc(int i, int j);
-
 
 }

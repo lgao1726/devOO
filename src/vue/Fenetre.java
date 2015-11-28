@@ -1,5 +1,6 @@
 package vue;
 
+import java.awt.Cursor;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -32,6 +33,7 @@ public class Fenetre extends JFrame
 	//private VueTextuelle vueTextuelle;
 	private EcouteurDeBoutons ecouteurDeBoutons;
 	private EcouteurDeSouris ecouteurDeSouris;
+	private EcouterDeMvtSouris ecouteurDeMvtSouris;
 	//private EcouteurDeClavier ecouteurDeClavier;
 	
 	private final String[] intitulesBoutons = new String[]{CHARGER_PLAN,CHARGER_LIVRAISON, CALCULER_TOURNEE, SUPPRIMER_LIVRAISON,ECHANGER_LIVRAISON};
@@ -60,8 +62,9 @@ public class Fenetre extends JFrame
 		vueGraphique = new VueGraphique(p, echelleFenetre, this);
 		//vueTextuelle = new VueTextuelle(p, this);
 		ecouteurDeSouris = new EcouteurDeSouris(controleur,vueGraphique,this);
+		ecouteurDeMvtSouris = new EcouterDeMvtSouris(controleur, vueGraphique, this);
 		addMouseListener(ecouteurDeSouris);
-		addMouseMotionListener(ecouteurDeSouris);
+		addMouseMotionListener(ecouteurDeMvtSouris);
 		//ecouteurDeClavier = new EcouteurDeClavier(controleur);
 		//addKeyListener(ecouteurDeClavier);
 		setTailleFenetre();
@@ -142,5 +145,13 @@ public class Fenetre extends JFrame
 	public void setEchelle(int echelle){
 		vueGraphique.setEchelle(echelle);
 		setTailleFenetre();
+	}
+	
+	public void sourisSurNoeud(){
+		vueGraphique.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+	}
+	
+	public void sourisPasSurNoeud(){
+		vueGraphique.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 }

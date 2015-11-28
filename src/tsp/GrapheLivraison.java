@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+import javax.swing.plaf.synth.SynthSeparatorUI;
 
 import modele.Noeud;
 import modele.Plan;
@@ -25,6 +26,7 @@ public class GrapheLivraison implements Graphe {
 	Map<Integer,Integer> indicesLivraisons;
 	Map<Integer, ArrayList<int[]>> listItineraires;
 	final int BLANC=0;
+	int premierSommet;
 	final int GRIS=1;
 	final int NOIR=2;
 	final float DUREE_MAX=100000; //en heure pour l'instant
@@ -35,6 +37,8 @@ public class GrapheLivraison implements Graphe {
 		listItineraires=new HashMap<Integer, ArrayList<int[]>>();
 		indicesLivraisons = new HashMap<Integer,Integer>();
 		nbSommets=p.getNbIntersections();
+		premierSommet = fenetres.get(0).getLivraisons().get(0).getAdresse().getId();
+		indicesLivraisons.put(premierSommet, 0);
 		graphePlan = new float[nbSommets][nbSommets]; 
 		grapheChemin = new float[nbSommets][nbSommets];
 		for (int i=0; i<nbSommets; i++){
@@ -47,6 +51,7 @@ public class GrapheLivraison implements Graphe {
 		initGraphe(p,fenetres);
 		creerGrapheChemin(fenetres);
 		creerGrapheTSP();
+		afficherMatrice();
 	}
 
 	@Override
@@ -67,6 +72,7 @@ public class GrapheLivraison implements Graphe {
 			return false;
 		return i != j;
 	}
+	
 
     public void afficherMatrice()
     {
@@ -275,13 +281,12 @@ public class GrapheLivraison implements Graphe {
 	}
 	
 	private void creerGrapheTSP(){
-		int cpt = 0;
+		int cpt = 1;
 		//remplir le map indicesLivraisons
 		for(int i=0;i<nbSommets;i++){
 			for(int j=0;j<nbSommets;j++){
-				if(grapheChemin[i][j] != -1){
+				if(grapheChemin[i][j] != -1 && i!=premierSommet){
 					indicesLivraisons.put(i,cpt);
-					
 					cpt++;
 					break;
 				}

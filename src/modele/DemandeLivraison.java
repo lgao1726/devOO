@@ -25,6 +25,10 @@ public class DemandeLivraison
 	public void ajouterFenetre(FenetreLivraison fenetre)
 	{
 		listeFenetres.add(fenetre);
+		System.out.println("fenetre: ");
+		for(Livraison liv:fenetre.getLivraisons()){
+			System.out.print(liv.getAdresse().getId()+";;");
+		}System.out.println();
 	}
 	
 	public FenetreLivraison getFenetre(Calendar debut, Calendar fin)
@@ -55,6 +59,7 @@ public class DemandeLivraison
 	
 	public Tournee calculerTournee(Plan plan){
 		tournee.calculerTournee(plan, listeFenetres);
+		tournee.afficherListeItineraires();
 		setHeuresPassage();
 		plan.updatePlan();
 		return tournee;
@@ -81,6 +86,7 @@ public class DemandeLivraison
 				if(liv.getAdresse().getId()==adresseLivraison){
 					int pos = liste.indexOf(liv);
 					liste.remove(pos);
+					break;
 				}
 			}
 		}
