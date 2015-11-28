@@ -1,6 +1,7 @@
 package controleur;
 
 import modele.Livraison;
+import modele.Noeud;
 import modele.Plan;
 import modele.Tournee;
 import vue.Fenetre;
@@ -13,11 +14,21 @@ public interface Etat {
 	
 	public abstract void calculerTournee(Plan plan, Fenetre fenetre);
 	
-	public abstract void selectionnerLivraison(Livraison livraison);
+	public abstract void selectionnerLivraison(Plan plan, Livraison livraison, ListeCommandes listeDeCdes, Fenetre fenetre);
 	
-	public abstract void supprimerLivraison(Plan plan, ListeCommandes listeDeCdes);
+	public abstract void supprimerLivraison(Plan plan, ListeCommandes listeDeCdes, Fenetre fenetre);
 	
 	public abstract void echangerLivraison(Plan plan,ListeCommandes listeDeCdes);
+
+	public abstract void undo(ListeCommandes listeDeCdes);
+	
+	public abstract void redo(ListeCommandes listeDeCdes);
+
+	public abstract void selectionnerNoeud(Noeud noeud, Fenetre fenetre);
+
+	public abstract void ajouterLivraison(Fenetre fenetre);
+		
+	public abstract void annuler(Fenetre fenetre);
 	
 	// TODO Auto-generated method stub
 		

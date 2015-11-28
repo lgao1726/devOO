@@ -26,14 +26,17 @@ public class EtatInit extends EtatDefaut
 	{
 		try 
 		{
-			DeserialiseurXML.traiterPlan(plan);
-	        plan.notifyObservers();
-			Controleur.setEtatCourant(Controleur.etatPlanCharge);
-			
+			if(DeserialiseurXML.traiterPlan(plan))
+			{
+				plan.notifyObservers();
+				Controleur.setEtatCourant(Controleur.etatPlanCharge);
+				fenetre.afficheMessage("Vous pouvez désormais charger une livraison");
+			}
 		} 
 		catch (Exception e) 
 		{
-			fenetre.afficheMessageBox("Erreur au niveau de chargement de plan");
+			fenetre.afficheMessageBox(e.getMessage());
+			fenetre.afficheMessage("Ressayez de charger un plan");
 			plan.reset();
 		}
 	}

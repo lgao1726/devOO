@@ -29,6 +29,7 @@ import javax.swing.JPanel;
 public class VueGraphique extends JPanel implements Observer, Visiteur {
 
 	private final int RAYON_LIVRAISON=5;
+	private final int RAYON_NOEUD=3;
 	private int echelle;
 	private int hauteurVue;
 	private int largeurVue;
@@ -82,7 +83,7 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 		for(int i = 0; i < this.plan.getIntersections().size(); i++)
 		{
 			Noeud noeudOrigine = this.plan.getIntersections().get(i);
-			g2.fillOval(noeudOrigine.getX()*echelle-3, noeudOrigine.getY()*echelle-3, 6,6);
+			g2.fillOval(noeudOrigine.getX()*echelle-RAYON_NOEUD, noeudOrigine.getY()*echelle-RAYON_NOEUD, 2*RAYON_NOEUD, 2*RAYON_NOEUD);
 			
 			for(int j = 0; j < noeudOrigine.getListeTronconsSortants().size(); j++) 
 			{
@@ -161,6 +162,10 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 
 	public int getRayonLivraison() {
 		return RAYON_LIVRAISON;
+	}
+	
+	public int getRayonNoeud() {
+		return RAYON_NOEUD;
 	}
 	/**
 	 * Methode appelee par les objets observes par this a chaque fois qu'ils ont ete modifies

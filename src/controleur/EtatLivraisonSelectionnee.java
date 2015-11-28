@@ -45,13 +45,16 @@ public class EtatLivraisonSelectionnee extends EtatDefaut{
 	}
 	
 	@Override
-	public void selectionnerLivraison(Plan plan, Livraison livraison, ListeCommandes listeDeCdes) {
+	public void selectionnerLivraison(Plan plan, Livraison livraison, ListeCommandes listeDeCdes, Fenetre fenetre) {
 		Controleur.etatLivraisonSelectionnee.setLivraison(livraison);
+		fenetre.afficheMessage("Vous avez selectionné la livraison ("+livraison.getId()+") à l'adresse ("+livraison.getAdresse().getId()+")");
 	}
 	
-	public void setLivraison(Livraison liv){
-		this.livraison = liv;
-	}	
+	@Override
+	public void ajouterLivraison(Fenetre fenetre) {
+		Controleur.setEtatCourant(Controleur.etatModeAjout);
+		fenetre.afficheMessage("Cliquer sur un noeud pour selectionner le lieu de votre livraison");
+	}
 	
 	@Override
 	public void undo(ListeCommandes listeDeCdes) {
@@ -62,5 +65,14 @@ public class EtatLivraisonSelectionnee extends EtatDefaut{
 	public void redo(ListeCommandes listeDeCdes) {
 		listeDeCdes.redo();
 	}
-
+	
+	@Override
+	public void annuler(Fenetre fenetre)
+	{
+		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
+	}
+	
+	public void setLivraison(Livraison liv){
+			this.livraison = liv;
+		}	
 }

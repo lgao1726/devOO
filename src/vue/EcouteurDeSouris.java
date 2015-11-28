@@ -8,6 +8,7 @@ import javax.swing.SwingUtilities;
 import controleur.Controleur;
 import modele.DemandeLivraison;
 import modele.Livraison;
+import modele.Noeud;
 
 
 public class EcouteurDeSouris extends MouseAdapter {
@@ -30,8 +31,13 @@ public class EcouteurDeSouris extends MouseAdapter {
 		switch (evt.getButton()){
 		case MouseEvent.BUTTON1: 
 			Livraison livraison = getLivraison(evt);
+			Noeud noeud= getNoeud(evt);
 			if (livraison != null){
 				controleur.selectionnerLivraison(livraison); 
+			}
+			else if(noeud!=null)
+			{
+				controleur.selectionnerNoeud(noeud);
 			}
 			break;
 		case MouseEvent.BUTTON3: 
@@ -57,5 +63,13 @@ public class EcouteurDeSouris extends MouseAdapter {
 		return demandeLivraison.getLivraison(x, y, vueGraphique.getRayonLivraison());
 	}
 
+	private Noeud getNoeud(MouseEvent evt)
+	{
+		DemandeLivraison demandeLivraison=vueGraphique.getPlan().getDemandeLivraisons();
+		MouseEvent e = SwingUtilities.convertMouseEvent(fenetre, evt, vueGraphique);
+		int x = Math.round((float)e.getX()/(float)vueGraphique.getEchelle());
+		int y = Math.round((float)e.getY()/(float)vueGraphique.getEchelle());
+		return vueGraphique.getPlan().getNoeud(x, y, vueGraphique.getRayonNoeud());
+	}
 
 }

@@ -276,4 +276,12 @@ public class Tournee {
 		}
 		System.out.println("]");
 	}
+	
+	public Livraison getLivraisonPrecedente(Livraison livraison){
+		for( Itineraire itineraire : itineraires){
+			if(itineraire.getLivraisonDestination()==livraison)
+				return itineraire.getLivraisonOrigine();
+			}
+		return null;
+	}
 }

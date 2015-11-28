@@ -22,11 +22,11 @@ import java.util.LinkedList;
 			System.out.println(indiceCrt) ;
 		for (int i=indiceCrt+1; i<liste.size(); i++)
 			liste.remove(i);
-		System.out.println(indiceCrt) ;
 		indiceCrt++;
-		System.out.println(indiceCrt) ;
 		liste.add(indiceCrt, c);
 		c.executer();
+		System.out.println("indice a l'execution"+indiceCrt);
+
 	}
 		
 	
@@ -34,13 +34,12 @@ import java.util.LinkedList;
 		public void undo(){
 			if(indiceCrt>=0){
 				liste.get(indiceCrt--).undo();
-				indiceCrt--;
+				System.out.println("indice apres undo"+indiceCrt);
 			}
 		}
 		
 		public void redo(){
 			if(indiceCrt<liste.size()-1){
-				indiceCrt++;
 				liste.get(++indiceCrt).executer();
 			}
 		}

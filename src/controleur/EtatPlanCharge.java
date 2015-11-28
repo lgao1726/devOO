@@ -32,8 +32,7 @@ public class EtatPlanCharge extends EtatDefaut
 		} 
 		catch (Exception e) 
 		{
-			e.printStackTrace();
-			fenetre.afficheMessageBox("Erreur au niveau de chargement du demande des livraisons");
+			fenetre.afficheMessageBox(e.getMessage());
 			plan.setDemandeLivraisons(null);
 		}
 	}

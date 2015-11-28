@@ -69,11 +69,20 @@ public class DemandeLivraison
 		return tournee;
 	}
 	
-	public void ajouterLivraison(Livraison livraison,Calendar heureDebut,Calendar heureFin){
-		FenetreLivraison fenetre = getFenetre(heureDebut,heureFin);
+	public void ajouterLivraison(Livraison livraison, Livraison livraisonPrecedente){
+		Calendar heureDebutPrecedente=livraisonPrecedente.getHeureDebut();
+		Calendar heureFinPrecedente=livraisonPrecedente.getHeureFin();
+		FenetreLivraison fenetre;
+		if(heureDebutPrecedente==null && heureFinPrecedente==null)
+		{
+			fenetre=listeFenetres.get(1);
+		}
+		else
+		{
+			fenetre = getFenetre(heureDebutPrecedente,heureFinPrecedente);
+		}
 		fenetre.ajouterLivraison(livraison);
-		int size = fenetre.getLivraisons().size();
-		getTournee().ajouterLivraison(livraison, fenetre.getLivraisons().get(size-2).getAdresse().getId());
+		getTournee().ajouterLivraison(livraison, livraisonPrecedente.getAdresse().getId());
 		resetHeuresPassage();
 		setHeuresPassage();
 	}
