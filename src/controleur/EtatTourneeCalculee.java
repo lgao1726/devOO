@@ -57,5 +57,11 @@ public class EtatTourneeCalculee extends EtatDefaut{
 		System.out.print("etatModeEchange");
 		fenetre.afficheMessage("Cliquer sur la première livraison");
 	}
+	
+	@Override
+	public void genererFeuilleDeRoute(Plan plan){
+		plan.getDemandeLivraisons().genererFeuilleDeRoute(plan);
+		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
+	}
 
 }

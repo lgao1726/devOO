@@ -34,7 +34,7 @@ public interface Etat {
 
 	public abstract void deselectionner(Fenetre fenetre);
 	
-	//public abstract void genererFeuilleDeRoute(Tournee tournee);
+	public abstract void genererFeuilleDeRoute(Plan plan);
 		
 	//public abstract void deplacerLivraison(Plan plan, Livraison livraison, Livraison livraisonPrecedente);
 		

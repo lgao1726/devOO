@@ -80,6 +80,12 @@ public class EtatDefaut implements Etat {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void genererFeuilleDeRoute(Plan plan) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 /**	@Override
 	protected void genererFeuilleDeRoute(Tournee tournee) {

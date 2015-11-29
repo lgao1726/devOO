@@ -104,5 +104,10 @@ public class Controleur
 	public void deselectionner() {
 		etatCourant.deselectionner(fenetre);
 	}
+	
+	public void genererFeuilleDeRoute()
+	{
+		etatCourant.genererFeuilleDeRoute(plan);
+	}
 
 }

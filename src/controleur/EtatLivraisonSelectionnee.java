@@ -83,6 +83,12 @@ public class EtatLivraisonSelectionnee extends EtatDefaut{
 		livraison=null;
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 	}
+
+	@Override
+	public void genererFeuilleDeRoute(Plan plan){
+		plan.getDemandeLivraisons().genererFeuilleDeRoute(plan);
+		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
+	}
 	
 	public void setLivraison(Livraison liv){
 			this.livraison = liv;

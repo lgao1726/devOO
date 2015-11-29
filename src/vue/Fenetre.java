@@ -30,6 +30,7 @@ public class Fenetre extends JFrame
 	protected static final String AJOUTER_LIVRAISON = "Ajouter livraison";
 	protected static final String ANNULER = "Annuler";
 	protected static final String VALIDER = "Valider";
+	public static final String GENERER_FEUILLE = "Generer feuille de route";
 	private ArrayList<JButton> boutons;
 	private JLabel cadreMessages;
 	private VueGraphique vueGraphique;
@@ -39,7 +40,7 @@ public class Fenetre extends JFrame
 	//private EcouterDeMvtSouris ecouteurDeMvtSouris;
 	//private EcouteurDeClavier ecouteurDeClavier;
 	
-	private final String[] intitulesBoutons = new String[]{CHARGER_PLAN,CHARGER_LIVRAISON, CALCULER_TOURNEE, SUPPRIMER_LIVRAISON,ECHANGER_LIVRAISON,AJOUTER_LIVRAISON, UNDO, REDO, ANNULER, VALIDER};
+	private final String[] intitulesBoutons = new String[]{CHARGER_PLAN,CHARGER_LIVRAISON, CALCULER_TOURNEE, SUPPRIMER_LIVRAISON,ECHANGER_LIVRAISON,AJOUTER_LIVRAISON, UNDO, REDO, ANNULER, VALIDER, GENERER_FEUILLE};
 	private final int hauteurBouton = 40;
 	private final int largeurBouton = 150;
 	private final int hauteurCadreMessages = 80;
