@@ -36,7 +36,7 @@ public class EtatDefaut implements Etat {
 	}
 
 	@Override
-	public void echangerLivraison(Plan plan, ListeCommandes listeDeCdes) {
+	public void echangerLivraison(Plan plan, ListeCommandes listeDeCdes, Fenetre fenetre) {
 		// TODO Auto-generated method stub
 		
 	}

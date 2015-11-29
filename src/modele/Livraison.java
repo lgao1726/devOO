@@ -62,4 +62,22 @@ public class Livraison
 	public void setHeurePassage(Calendar heure){
 		heurePassage = heure;
 	}
+	
+	public void setHeureDebut(Calendar heure){
+		heureDebut = heure;
+	}
+	
+	public void setHeureFin(Calendar heure){
+		heureFin = heure;
+	}
+
+	public void setId(int idLivraison) {
+		id=idLivraison;
+	}
+	
+	public void setIdClient(int idClient) {
+		this.client=idClient;
+	}
+	
+	
 }

@@ -23,7 +23,9 @@ public class Controleur
 	protected static final EtatTourneeCalculee etatTourneeCalculee = new EtatTourneeCalculee();
 	protected static EtatLivraisonSelectionnee etatLivraisonSelectionnee = new EtatLivraisonSelectionnee();
 	protected static final EtatModeAjout etatModeAjout = new EtatModeAjout();
-	public static EtatNoeudSelectionne etatNoeudSelectionne=new EtatNoeudSelectionne();
+	protected static final Etat etatModeEchange = null;
+	protected static EtatNoeudSelectionne etatNoeudSelectionne=new EtatNoeudSelectionne();
+	public static EtatLivraisonSelectionneeEchange etatLivraisonSelectionneeEchange=new EtatLivraisonSelectionneeEchange();
 
 	public Controleur(Plan p) 
 	{
@@ -69,7 +71,7 @@ public class Controleur
 	}
 	
 	public void echangerLivraison(){
-		etatCourant.echangerLivraison(plan, listeDeCdes);
+		etatCourant.echangerLivraison(plan, listeDeCdes, fenetre);
 		
 	}
 	
@@ -97,6 +99,11 @@ public class Controleur
 
 	public void ajouterLivraison() {
 		etatCourant.ajouterLivraison(fenetre);
+		
+	}
+	
+	public void annuler() {
+		etatCourant.annuler(fenetre);
 		
 	}
 

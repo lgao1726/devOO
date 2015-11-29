@@ -10,7 +10,7 @@ public class EtatModeAjout extends EtatDefaut{
 	{
 		Controleur.etatNoeudSelectionne.setNoeud(noeud);
 		Controleur.setEtatCourant(Controleur.etatNoeudSelectionne);
-		fenetre.afficheMessage("Selectionnez la livraison après la livraison après laquelle vous voulez insérer une nouvelle");
+		fenetre.afficheMessage("Selectionnez la livraison après laquelle vous voulez insérer la nouvelle");
 	}
 	
 	@Override

@@ -81,8 +81,16 @@ public class DemandeLivraison
 		{
 			fenetre = getFenetre(heureDebutPrecedente,heureFinPrecedente);
 		}
+		if(livraison.getId()==0)
+		{
+			livraison.setId(fenetre.getNbLivraisons()+1);
+			livraison.setIdClient(fenetre.getLivraisons().get(fenetre.getNbLivraisons()-1).getClient()+1);
+			livraison.setHeureDebut(fenetre.getHeureDebut());
+			livraison.setHeureFin(fenetre.getHeureFin());
+		}
+		
 		fenetre.ajouterLivraison(livraison);
-		getTournee().ajouterLivraison(livraison, livraisonPrecedente.getAdresse().getId());
+		tournee.ajouterLivraison(livraison, livraisonPrecedente.getAdresse().getId());
 		resetHeuresPassage();
 		setHeuresPassage();
 	}
@@ -233,7 +241,7 @@ public class DemandeLivraison
 	}
 	
 	private void setHeuresPassage(){
-		List<Itineraire> itineraires = getTournee().getItineraires();
+		List<Itineraire> itineraires = tournee.getItineraires();
 		for(Itineraire iti:itineraires){
 			Livraison livOrigine = iti.getLivraisonOrigine();
 			Livraison livDest = iti.getLivraisonDestination();
@@ -256,6 +264,7 @@ public class DemandeLivraison
 		List<FenetreLivraison> fenetres = getFenetres();
 		for(int i=1;i<fenetres.size();i++){
 			for(Livraison liv:fenetres.get(i).getLivraisons()){
+				System.out.println("Fenetre id"+i + " id Livraison: "+liv.getId() );
 				liv.getHeurePassage().setTimeInMillis(0x1808580);
 			}
 		}

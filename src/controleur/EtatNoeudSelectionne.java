@@ -17,12 +17,7 @@ public class EtatNoeudSelectionne extends EtatDefaut{
 	}
 	@Override
 	public void selectionnerLivraison(Plan plan, Livraison livraisonPrecedente, ListeCommandes listeDeCdes, Fenetre fenetre){
-		DemandeLivraison demandeLivraison=plan.getDemandeLivraisons();
-		int idLivraison=demandeLivraison.getFenetre(livraisonPrecedente).getNbLivraisons();
-		System.out.println("idLivraison: "+idLivraison);
-		int idClient=demandeLivraison.getFenetre(livraisonPrecedente).getLivraisons().get(idLivraison-1).getClient()+1;
-		System.out.println("idClient: "+idClient);
-		Livraison livraison = new Livraison (idLivraison, noeud, idClient , livraisonPrecedente.getHeureDebut(), livraisonPrecedente.getHeureFin());
+		Livraison livraison = new Livraison (0, noeud, 0 , null, null);
 		listeDeCdes.ajoute(new CommandeAjouter(plan, livraison, livraisonPrecedente));
 		plan.updatePlan();
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);

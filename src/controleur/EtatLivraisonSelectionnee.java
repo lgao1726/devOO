@@ -57,6 +57,12 @@ public class EtatLivraisonSelectionnee extends EtatDefaut{
 	}
 	
 	@Override
+	public void echangerLivraison(Plan plan, ListeCommandes listeDeCdes, Fenetre fenetre) {
+		Controleur.setEtatCourant(Controleur.etatModeEchange);
+		fenetre.afficheMessage("Cliquer sur un noeud pour selectionner le lieu de votre livraison");
+	}
+	
+	@Override
 	public void undo(ListeCommandes listeDeCdes) {
 		listeDeCdes.undo();
 	}
