@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
 import modele.DemandeLivraison;
 import modele.FenetreLivraison;
@@ -61,6 +62,8 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 		setLayout(null);
 		setBackground(Color.white);
 		setSize(largeurVue, hauteurVue);
+		
+		
 		f.getContentPane().add(this);
 		this.plan = plan;
 	}
@@ -208,13 +211,15 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 	public void visite(Itineraire iti) {
 		int i = 0;
 		List<Integer> idNoeuds = iti.getNoeuds();
+		Random r = new Random();
+		Color c = new Color(r.nextInt(256), r.nextInt(200), r.nextInt(130));
 		while(i < idNoeuds.size() - 1){
 			Graphics2D g2 = (Graphics2D) g;
 			Noeud origine = plan.getNoeud(idNoeuds.get(i));
 			Noeud destination = plan.getNoeud(idNoeuds.get(i+1));
 			g2.setColor(Color.blue);
-			g2.drawString(""+origine.getId(), origine.getX()+5, origine.getY()-10);
-			g2.setColor(Color.green);
+			g2.drawString(""+origine.getId(), origine.getX()+5, origine.getY()-10);			
+			g2.setColor(c);
 			g2.setStroke(new BasicStroke(1));
 			drawArrow(g2,origine.getX(),origine.getY(),
 					destination.getX(),destination.getY());	

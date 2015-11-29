@@ -229,7 +229,6 @@ public class DemandeLivraison
 				Noeud noeud=livraison.getAdresse();
 				if((xPoint>noeud.getX()-rayon) && (xPoint<noeud.getX()+rayon)  && (yPoint<noeud.getY()+rayon)  && (yPoint>noeud.getY()-rayon))
 				{
-					System.out.println(noeud.getId()+"|"+livraison.getId()+"|"+fenetre.getNbLivraisons());
 					return livraison;
 				}
 			}
@@ -280,7 +279,7 @@ public class DemandeLivraison
 	    try {
 			fw = new FileWriter(file);
 			for(String string:strings){
-				fw.write(string);
+				fw.write(string+"\n");
 			}
 		      fw.close();
 

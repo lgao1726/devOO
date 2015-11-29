@@ -40,6 +40,7 @@ public class Controleur
 	public void chargerPlan() 
 	{
 		etatCourant.chargerPlan(plan, fenetre);
+		fenetre.setEchelle(fenetre.getEchelle());
 	}
 	
 	public void chargerLivraison()
