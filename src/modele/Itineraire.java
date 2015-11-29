@@ -75,7 +75,50 @@ public class Itineraire{
 		return cout;
 	}
 
-
+	public String getFeuilleString(Plan plan){
+		String itineraire= "";
+		Calendar passage = livraisonDestination.getHeurePassage();
+		itineraire += "Etape pour aller de: "+livraisonOrigine.getAdresse().getId()+
+						" a "+livraisonDestination.getAdresse().getId()+"\n";
+		itineraire += "Duree: "+(int) cout/60+" mins\n";
+		itineraire += "Heure d'arrive: "+passage.get(Calendar.HOUR_OF_DAY)+"h"+passage.get(Calendar.MINUTE)+"\n";
+		
+		Troncon tronconPrecedent = null;
+		float distance = 0;
+		int nbInstruction = 1;
+		for(int i=0;i<listeNoeud.size()-1;i++){
+			//itineraire += (i+1) +") "+ listeNoeud.get(i)+" - "+listeNoeud.get(i+1)+"\n";
+			Noeud noeudOrigine = plan.getNoeud(listeNoeud.get(i));
+			Noeud noeudDestination = plan.getNoeud(listeNoeud.get(i+1));
+			Troncon troncon = noeudOrigine.getToncon(noeudDestination.getId());
+			//itineraire += (i+1) +") "+"Prendre "+troncon.getNomRue()+" et continuer "
+			//				+troncon.getLongueur()+"m\n";
+			if(tronconPrecedent==null){
+				tronconPrecedent = troncon;						
+			}
+			
+			boolean memeTroncon = tronconPrecedent.getNomRue().equals(troncon.getNomRue());
+			
+			if(memeTroncon){
+				tronconPrecedent = troncon;
+				distance += troncon.getLongueur();
+			}else if(memeTroncon==false){
+				itineraire += (nbInstruction) +") "+"Prendre "+tronconPrecedent.getNomRue()+" et continuer "
+								+distance+"m\n";
+				tronconPrecedent = troncon;
+				distance = troncon.getLongueur();
+				nbInstruction++;
+			}
+			
+			if(i==listeNoeud.size()-2){
+				itineraire += (nbInstruction) +") "+"Prendre "+troncon.getNomRue()+" et continuer "
+						+distance+"m\n";
+				nbInstruction++;
+			}
+			
+		}
+		return itineraire;
+	}
 	
 
 }

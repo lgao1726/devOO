@@ -22,10 +22,17 @@ public class EtatPlanCharge extends EtatDefaut
 				plan.updatePlan();
 			}
 		} 
+		catch (ExceptionXML e)
+		{
+			if (!e.getMessage().equals("Document livraison non conforme"))
+				
+				fenetre.afficheMessageBox(e.getMessage());
+				
+		}
 		catch (Exception e) 
 		{
-			e.printStackTrace();
-			fenetre.afficheMessageBox("Erreur au niveau de chargement du demande des livraisons");
+			plan.setAdresseEntrepot(null);
+			fenetre.afficheMessageBox(e.getMessage());
 			plan.setDemandeLivraisons(null);
 		}
 	}

@@ -1,12 +1,18 @@
 package modele;
 
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
+import java.util.TimeZone;
+import java.util.Timer;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class DemandeLivraison
 {
@@ -25,10 +31,6 @@ public class DemandeLivraison
 	public void ajouterFenetre(FenetreLivraison fenetre)
 	{
 		listeFenetres.add(fenetre);
-		System.out.println("fenetre: ");
-		for(Livraison liv:fenetre.getLivraisons()){
-			System.out.print(liv.getAdresse().getId()+";;");
-		}System.out.println();
 	}
 	
 	public FenetreLivraison getFenetre(Calendar debut, Calendar fin)
@@ -69,11 +71,29 @@ public class DemandeLivraison
 		return tournee;
 	}
 	
-	public void ajouterLivraison(Livraison livraison,Calendar heureDebut,Calendar heureFin){
-		FenetreLivraison fenetre = getFenetre(heureDebut,heureFin);
+	public void ajouterLivraison(Livraison livraison, Livraison livraisonPrecedente){
+		Calendar heureDebutPrecedente=livraisonPrecedente.getHeureDebut();
+		Calendar heureFinPrecedente=livraisonPrecedente.getHeureFin();
+		FenetreLivraison fenetre;
+		if(heureDebutPrecedente==null && heureFinPrecedente==null)
+		{
+			fenetre=listeFenetres.get(1);
+		}
+		else
+		{
+			fenetre = getFenetre(heureDebutPrecedente,heureFinPrecedente);
+		}
+		if(livraison.getId()==0)
+		{
+			livraison.setId(fenetre.getNbLivraisons()+1);
+			livraison.setIdClient(fenetre.getLivraisons().get(fenetre.getNbLivraisons()-1).getClient()+1);
+			livraison.setHeureDebut(fenetre.getHeureDebut());
+			livraison.setHeureFin(fenetre.getHeureFin());
+			livraison.setHeurePassage(fenetre.getHeureDebut());
+		}
+		
 		fenetre.ajouterLivraison(livraison);
-		int size = fenetre.getLivraisons().size();
-		getTournee().ajouterLivraison(livraison, fenetre.getLivraisons().get(size-2).getAdresse().getId());
+		tournee.ajouterLivraison(livraison, livraisonPrecedente.getAdresse().getId());
 		resetHeuresPassage();
 		setHeuresPassage();
 	}
@@ -94,7 +114,7 @@ public class DemandeLivraison
 		setHeuresPassage();
 	}
 	
-	//echanger 2 livraisons, ils ont pas besoin d'etre im a cotre de l'autre
+	//echanger 2 livraisons, ils ont pas besoin d'etre un a cotre de l'autre
 	public void echangerLivraisonSepares(int livraison1,int livraison2){
 		List<Itineraire> itineraires = getTournee().getItineraires();
 		//trouver qui est le livraison precedent entre les deux
@@ -164,7 +184,7 @@ public class DemandeLivraison
 		}
 		
 	    //echanger les livraisons
-		getTournee().echangerLivraison(livAvant, livApres);
+		tournee.echangerLivraison(livAvant, livApres);
 		System.out.println(livAvant+" : "+livApres);
 		
 		//si les livraisons appartiennent aux différentes fenêtres
@@ -224,7 +244,7 @@ public class DemandeLivraison
 	}
 	
 	private void setHeuresPassage(){
-		List<Itineraire> itineraires = getTournee().getItineraires();
+		List<Itineraire> itineraires = tournee.getItineraires();
 		for(Itineraire iti:itineraires){
 			Livraison livOrigine = iti.getLivraisonOrigine();
 			Livraison livDest = iti.getLivraisonDestination();
@@ -249,7 +269,26 @@ public class DemandeLivraison
 			for(Livraison liv:fenetres.get(i).getLivraisons()){
 				liv.getHeurePassage().setTimeInMillis(0x1808580);
 			}
+		}livraisonsRetard.clear();
+	}
+	
+	public void genererFeuilleDeRoute(Plan plan)
+	{
+		List<String> strings=tournee.genererFeuille(plan);
+		File file= new File("FeuilleDeRoute"+System.currentTimeMillis()+".txt");
+		FileWriter fw;
+	    try {
+			fw = new FileWriter(file);
+			for(String string:strings){
+				fw.write(string);
+			}
+		      fw.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+			
+			
 	}
 	
 	public List<Livraison> getLivraisonsRetard(){

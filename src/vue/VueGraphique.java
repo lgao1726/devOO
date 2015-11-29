@@ -20,7 +20,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Arc2D;
+import java.awt.geom.QuadCurve2D;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,11 +32,14 @@ import javax.swing.JPanel;
 public class VueGraphique extends JPanel implements Observer, Visiteur {
 
 	private final int RAYON_LIVRAISON=5;
+	private final int RAYON_NOEUD=3;
+	private final int RAYON_LIVRAISON_SELECTIONNEE=6;
 	private int echelle;
 	private int hauteurVue;
 	private int largeurVue;
 	private Plan plan;
 	private Graphics g;
+	private ArrayList<TraitsDejaDessine> traitsDejaDessine;
 
 	/**
 	 * Cree la vue graphique permettant de dessiner plan avec l'echelle e dans la fenetre f
@@ -44,6 +50,8 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 	public VueGraphique(Plan plan, int e, Fenetre f) {
 		super();
 		plan.addObserver(this); // this observe plan
+		
+		traitsDejaDessine = new ArrayList<TraitsDejaDessine>();
 		
 		this.echelle = e;
 		
@@ -82,7 +90,7 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 		for(int i = 0; i < this.plan.getIntersections().size(); i++)
 		{
 			Noeud noeudOrigine = this.plan.getIntersections().get(i);
-			g2.fillOval(noeudOrigine.getX()*echelle-3, noeudOrigine.getY()*echelle-3, 6,6);
+			g2.fillOval(noeudOrigine.getX()*echelle-RAYON_NOEUD, noeudOrigine.getY()*echelle-RAYON_NOEUD, 2*RAYON_NOEUD, 2*RAYON_NOEUD);
 			
 			for(int j = 0; j < noeudOrigine.getListeTronconsSortants().size(); j++) 
 			{
@@ -123,7 +131,7 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 				Iterator<Livraison> itLiv = fen.getLivraisonIterator();				
 				while (itLiv.hasNext())				
 					itLiv.next().accepte(this);
-			}
+			}traitsDejaDessine.clear();
 		}
 		
 		if(dem != null && dem.getTournee() != null){
@@ -161,6 +169,10 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 
 	public int getRayonLivraison() {
 		return RAYON_LIVRAISON;
+	}
+	
+	public int getRayonNoeud() {
+		return RAYON_NOEUD;
 	}
 	/**
 	 * Methode appelee par les objets observes par this a chaque fois qu'ils ont ete modifies
@@ -217,6 +229,7 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 	private void drawArrow(Graphics g1, int x1, int y1, int x2, int y2) {
         Graphics2D g = (Graphics2D) g1.create();
 
+        double control = 15;
         double dx = x2 - x1, dy = y2 - y1;
         double angle = Math.atan2(dy, dx);
         int len = (int) Math.sqrt(dx*dx + dy*dy);
@@ -225,10 +238,56 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
         g.transform(at);
 
         // Draw horizontal arrow starting in (0, 0)
-        g.drawLine(0, 0, len, 0);
-        g.fillPolygon(new int[] {len, len-12, len-12, len},
+        QuadCurve2D.Double s = new QuadCurve2D.Double(0, 0, len/2, control, len, 0);
+        g.draw(s);
+        
+        //g.drawLine(0, 0, len, 0);
+        
+        AffineTransform atArrow = AffineTransform.getTranslateInstance(len/2, control);
+        atArrow.concatenate(AffineTransform.getRotateInstance(Math.atan2(-control, len/2)));
+        g.transform(atArrow);
+        g.fillPolygon(new int[] {len/2, (len/2)-12, (len/2)-12, len/2},
                       new int[] {0, -8, 8, 0}, 4);
     }
 
+	public void selectionnerLivraison(Livraison liv, Color color) 
+	{
+		Graphics2D g2 = (Graphics2D)getGraphics();
+		g2.setColor(color);
+
+		g2.fillOval(liv.getAdresse().getX()*echelle-RAYON_LIVRAISON, liv.getAdresse().getY()*echelle-RAYON_LIVRAISON, 2*RAYON_LIVRAISON, 2*RAYON_LIVRAISON);
+		
+	}
+	
+	public void selectionnerNoeud(Noeud noeud, Color color) 
+	{
+		Graphics2D g2 = (Graphics2D)getGraphics();
+		g2.setColor(color);
+
+		g2.fillOval(noeud.getX()*echelle-RAYON_NOEUD, noeud.getY()*echelle-RAYON_NOEUD, 2*RAYON_NOEUD, 2*RAYON_NOEUD);
+		
+	}
+	
+	public void deselectionnerLivraison(Noeud noeud){
+		if(noeud!=null){
+			int xNoeud=noeud.getX();
+			int yNoeud=noeud.getY();
+			if(plan.getDemandeLivraisons().getLivraison(xNoeud, yNoeud, RAYON_LIVRAISON)!=null)
+			{
+				Graphics2D g2 = (Graphics2D)getGraphics();
+				g2.setColor(Color.RED);
+				g2.fillOval(xNoeud*echelle-RAYON_LIVRAISON, yNoeud*echelle-RAYON_LIVRAISON, 2*RAYON_LIVRAISON, 2*RAYON_LIVRAISON);
+			}
+			else if(plan.getNoeud(xNoeud, yNoeud, RAYON_NOEUD)!=null)
+			{
+				Graphics2D g2 = (Graphics2D)getGraphics();
+				g2.setColor(Color.BLACK);
+				g2.fillOval(xNoeud*echelle-RAYON_NOEUD, yNoeud*echelle-RAYON_NOEUD, 2*RAYON_NOEUD, 2*RAYON_NOEUD);
+			}
+		}
+		
+		
+		
+	}
 
 }

@@ -25,8 +25,12 @@ public class Fenetre extends JFrame
 	protected final static String CALCULER_TOURNEE = "Calculer Tournee";
 	protected static final String SUPPRIMER_LIVRAISON = "Supprimer livraison";
 	protected static final String ECHANGER_LIVRAISON = "Echanger livraison";
-	//protected static final String REDO = "Redo";
-	//protected static final String UNDO = "Undo";
+	protected static final String REDO = "Redo";
+	protected static final String UNDO = "Undo";
+	protected static final String AJOUTER_LIVRAISON = "Ajouter livraison";
+	protected static final String ANNULER = "Annuler";
+	protected static final String VALIDER = "Valider";
+	public static final String GENERER_FEUILLE = "Generer feuille de route";
 	private ArrayList<JButton> boutons;
 	private JLabel cadreMessages;
 	private VueGraphique vueGraphique;
@@ -36,7 +40,7 @@ public class Fenetre extends JFrame
 	private EcouterDeMvtSouris ecouteurDeMvtSouris;
 	//private EcouteurDeClavier ecouteurDeClavier;
 	
-	private final String[] intitulesBoutons = new String[]{CHARGER_PLAN,CHARGER_LIVRAISON, CALCULER_TOURNEE, SUPPRIMER_LIVRAISON,ECHANGER_LIVRAISON};
+	private final String[] intitulesBoutons = new String[]{CHARGER_PLAN,CHARGER_LIVRAISON, CALCULER_TOURNEE, SUPPRIMER_LIVRAISON,ECHANGER_LIVRAISON,AJOUTER_LIVRAISON, UNDO, REDO, ANNULER, VALIDER, GENERER_FEUILLE};
 	private final int hauteurBouton = 40;
 	private final int largeurBouton = 150;
 	private final int hauteurCadreMessages = 80;
@@ -56,9 +60,9 @@ public class Fenetre extends JFrame
 	{
 		setLayout(null);
 		creeBoutons(controleur);
-		//cadreMessages = new JLabel();
-		//cadreMessages.setBorder(BorderFactory.createTitledBorder("Messages..."));
-		//getContentPane().add(cadreMessages);
+		cadreMessages = new JLabel();
+		cadreMessages.setBorder(BorderFactory.createTitledBorder("Messages..."));
+		getContentPane().add(cadreMessages);
 		vueGraphique = new VueGraphique(p, echelleFenetre, this);
 		//vueTextuelle = new VueTextuelle(p, this);
 		ecouteurDeSouris = new EcouteurDeSouris(controleur,vueGraphique,this);
@@ -84,8 +88,8 @@ public class Fenetre extends JFrame
 			boutons.add(bouton);
 			bouton.setSize(largeurBouton,hauteurBouton);
 			bouton.setLocation(0,(boutons.size()-1)*hauteurBouton);
-			bouton.setFocusable(false);
-			bouton.setFocusPainted(false);
+			bouton.setFocusable(true);
+			bouton.setFocusPainted(true);
 			bouton.addActionListener(ecouteurDeBoutons);
 			getContentPane().add(bouton);	
 		}
@@ -104,6 +108,8 @@ public class Fenetre extends JFrame
 		//cadreMessages.setSize(largeurFenetre,60);
 		//cadreMessages.setLocation(0,hauteurFenetre-hauteurCadreMessages);
 		vueGraphique.setLocation(largeurBouton, 0);
+		cadreMessages.setSize(100,hauteurFenetre-hauteurCadreMessages);
+		cadreMessages.setLocation(10+vueGraphique.getLargeur()+largeurBouton,0);
 		//vueTextuelle.setSize(largeurVueTextuelle,hauteurFenetre-hauteurCadreMessages);
 		//vueTextuelle.setLocation(10+vueGraphique.getLargeur()+largeurBouton,0);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);

@@ -37,9 +37,19 @@ public class DeserialiseurXML {
 	 * @throws IOException
 	 * @throws ExceptionXML
 	 */
-	public static void traiterPlan(Plan plan) throws ParserConfigurationException, SAXException, IOException, ExceptionXML{
+	public static boolean traiterPlan(Plan plan) throws ParserConfigurationException, SAXException, IOException, ExceptionXML{
 		File xml = obtenirFichierXML();
-        traitementPlan(plan, xml);
+		if(xml==null)
+		{
+			return false;
+		}
+		else
+		{
+			plan.reset();
+	        traitementPlan(plan, xml);
+	        return true;
+		}
+        
 	}
 
 	protected static void traitementPlan(Plan plan, File xml)
@@ -159,7 +169,7 @@ public class DeserialiseurXML {
 		
 		if (livraisonNoeud == null)
 			
-			throw new ExceptionXML("L'adresse du livraison n'existe pas sur le plan");
+			throw new ExceptionXML("Les adresses de livraisons ne correspondent pas au plan");
 			
 		
 		return new Livraison(id, livraisonNoeud, client, heureDebut, heureFin);
