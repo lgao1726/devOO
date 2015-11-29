@@ -25,10 +25,6 @@ public class DemandeLivraison
 	public void ajouterFenetre(FenetreLivraison fenetre)
 	{
 		listeFenetres.add(fenetre);
-		System.out.println("fenetre: ");
-		for(Livraison liv:fenetre.getLivraisons()){
-			System.out.print(liv.getAdresse().getId()+";;");
-		}System.out.println();
 	}
 	
 	public FenetreLivraison getFenetre(Calendar debut, Calendar fin)
@@ -264,10 +260,9 @@ public class DemandeLivraison
 		List<FenetreLivraison> fenetres = getFenetres();
 		for(int i=1;i<fenetres.size();i++){
 			for(Livraison liv:fenetres.get(i).getLivraisons()){
-				System.out.println("Fenetre id"+i + " id Livraison: "+liv.getId() );
 				liv.getHeurePassage().setTimeInMillis(0x1808580);
 			}
-		}
+		}livraisonsRetard.clear();
 	}
 	
 	public List<Livraison> getLivraisonsRetard(){

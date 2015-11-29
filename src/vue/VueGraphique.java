@@ -21,9 +21,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Arc2D;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import com.sun.corba.se.impl.naming.cosnaming.TransientBindingIterator;
+
+import java.awt.geom.QuadCurve2D;
 
 
 public class VueGraphique extends JPanel implements Observer, Visiteur {
@@ -35,6 +40,7 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 	private int largeurVue;
 	private Plan plan;
 	private Graphics g;
+	private ArrayList<TraitsDejaDessine> traitsDejaDessine;
 
 	/**
 	 * Cree la vue graphique permettant de dessiner plan avec l'echelle e dans la fenetre f
@@ -45,6 +51,8 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 	public VueGraphique(Plan plan, int e, Fenetre f) {
 		super();
 		plan.addObserver(this); // this observe plan
+		
+		traitsDejaDessine = new ArrayList<TraitsDejaDessine>();
 		
 		this.echelle = e;
 		
@@ -124,7 +132,7 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 				Iterator<Livraison> itLiv = fen.getLivraisonIterator();				
 				while (itLiv.hasNext())				
 					itLiv.next().accepte(this);
-			}
+			}traitsDejaDessine.clear();
 		}
 		
 		if(dem != null && dem.getTournee() != null){
@@ -228,12 +236,12 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
         AffineTransform at = AffineTransform.getTranslateInstance(x1, y1);
         at.concatenate(AffineTransform.getRotateInstance(angle));
         g.transform(at);
-
-        // Draw horizontal arrow starting in (0, 0)
-        g.drawLine(0, 0, len, 0);
+        int occurences = -1;     
+		g.drawLine(0, 0, len, 0);
         g.fillPolygon(new int[] {len, len-12, len-12, len},
                       new int[] {0, -8, 8, 0}, 4);
-    }
+	}
+    
 
 
 }
