@@ -20,7 +20,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.QuadCurve2D;
+
+import javafx.scene.shape.QuadCurve;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -211,7 +215,7 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 			g2.setColor(Color.green);
 			g2.setStroke(new BasicStroke(1));
 			drawArrow(g2,origine.getX(),origine.getY(),
-					destination.getX(),destination.getY());	
+					destination.getX(),destination.getY());
 			//g2.drawLine(origine.getX(),origine.getY(),
 			//			destination.getX(),destination.getY());			
 			i++;
@@ -223,6 +227,7 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 	private void drawArrow(Graphics g1, int x1, int y1, int x2, int y2) {
         Graphics2D g = (Graphics2D) g1.create();
 
+        double control = 15;
         double dx = x2 - x1, dy = y2 - y1;
         double angle = Math.atan2(dy, dx);
         int len = (int) Math.sqrt(dx*dx + dy*dy);
@@ -231,8 +236,15 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
         g.transform(at);
 
         // Draw horizontal arrow starting in (0, 0)
-        g.drawLine(0, 0, len, 0);
-        g.fillPolygon(new int[] {len, len-12, len-12, len},
+        QuadCurve2D.Double s = new QuadCurve2D.Double(0, 0, len/2, control, len, 0);
+        g.draw(s);
+        
+        //g.drawLine(0, 0, len, 0);
+        
+        AffineTransform atArrow = AffineTransform.getTranslateInstance(len/2, control);
+        atArrow.concatenate(AffineTransform.getRotateInstance(Math.atan2(-control, len/2)));
+        g.transform(atArrow);
+        g.fillPolygon(new int[] {len/2, (len/2)-12, (len/2)-12, len/2},
                       new int[] {0, -8, 8, 0}, 4);
     }
 
