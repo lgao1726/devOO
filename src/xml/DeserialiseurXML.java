@@ -37,9 +37,18 @@ public class DeserialiseurXML {
 	 * @throws IOException
 	 * @throws ExceptionXML
 	 */
-	public static void traiterPlan(Plan plan) throws ParserConfigurationException, SAXException, IOException, ExceptionXML{
+	public static boolean traiterPlan(Plan plan) throws ParserConfigurationException, SAXException, IOException, ExceptionXML{
 		File xml = obtenirFichierXML();
-        traitementPlan(plan, xml);
+        
+		if (xml != null)
+		{
+			plan.reset();
+			traitementPlan(plan, xml);
+			return true;
+		}
+		else
+			return false;
+			
 	}
 
 	protected static void traitementPlan(Plan plan, File xml)
