@@ -114,7 +114,7 @@ public class DemandeLivraison
 		setHeuresPassage();
 	}
 	
-	//echanger 2 livraisons, ils ont pas besoin d'etre im a cotre de l'autre
+	//echanger 2 livraisons, ils ont pas besoin d'etre un a cotre de l'autre
 	public void echangerLivraisonSepares(int livraison1,int livraison2){
 		List<Itineraire> itineraires = getTournee().getItineraires();
 		//trouver qui est le livraison precedent entre les deux
