@@ -52,19 +52,37 @@ public class EtatDefaut implements Etat {
 	}
 
 	@Override
-	public void selectionnerNoeud(Noeud noeud, Fenetre fenetre) {
+	public void selectionnerNoeud(Plan plan, Noeud noeud, Fenetre fenetre) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void ajouterLivraison(Fenetre fenetre) {
+	public void ajouterLivraison(Plan plan, Fenetre fenetre) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void annuler(Fenetre fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void valider(Fenetre fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public Noeud deselectionner(Fenetre fenetre) {
+		return null;
+		
+	}
+
+	@Override
+	public void genererFeuilleDeRoute(Plan plan) {
 		// TODO Auto-generated method stub
 		
 	}

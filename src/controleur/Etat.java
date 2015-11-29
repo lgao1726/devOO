@@ -24,24 +24,21 @@ public interface Etat {
 	
 	public abstract void redo(ListeCommandes listeDeCdes);
 
-	public abstract void selectionnerNoeud(Noeud noeud, Fenetre fenetre);
+	public abstract void selectionnerNoeud(Plan plan,Noeud noeud, Fenetre fenetre);
 
-	public abstract void ajouterLivraison(Fenetre fenetre);
+	public abstract void ajouterLivraison(Plan plan, Fenetre fenetre);
 		
 	public abstract void annuler(Fenetre fenetre);
+
+	public abstract void valider(Fenetre fenetre);
+
+	public abstract Noeud deselectionner(Fenetre fenetre);
 	
-	// TODO Auto-generated method stub
+	public abstract void genererFeuilleDeRoute(Plan plan);
 		
-	/**public abstract void genererFeuilleDeRoute(Tournee tournee);
+	//public abstract void deplacerLivraison(Plan plan, Livraison livraison, Livraison livraisonPrecedente);
+		
 	
-	public abstract void supprimerLivraison(Tournee tournee, Livraison livraison);
 	
-	public abstract void deplacerLivraison(Tournee tournee, Livraison livraison, Livraison livraisonPrecedente);
-	
-	public abstract void ajouterLivraison(Tournee tournee, Plan plan, Noeud noeud, Livraison livraisonPrecedente, FenetreLivraison fenetreLivraison);
-	
-	public abstract void undo();
-	
-	public abstract void redo();**/
 
 }

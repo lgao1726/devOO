@@ -1,12 +1,18 @@
 package modele;
 
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
+import java.util.TimeZone;
+import java.util.Timer;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class DemandeLivraison
 {
@@ -83,6 +89,7 @@ public class DemandeLivraison
 			livraison.setIdClient(fenetre.getLivraisons().get(fenetre.getNbLivraisons()-1).getClient()+1);
 			livraison.setHeureDebut(fenetre.getHeureDebut());
 			livraison.setHeureFin(fenetre.getHeureFin());
+			livraison.setHeurePassage(fenetre.getHeureDebut());
 		}
 		
 		fenetre.ajouterLivraison(livraison);
@@ -177,7 +184,7 @@ public class DemandeLivraison
 		}
 		
 	    //echanger les livraisons
-		getTournee().echangerLivraison(livAvant, livApres);
+		tournee.echangerLivraison(livAvant, livApres);
 		System.out.println(livAvant+" : "+livApres);
 		
 		//si les livraisons appartiennent aux différentes fenêtres
@@ -263,6 +270,25 @@ public class DemandeLivraison
 				liv.getHeurePassage().setTimeInMillis(0x1808580);
 			}
 		}livraisonsRetard.clear();
+	}
+	
+	public void genererFeuilleDeRoute(Plan plan)
+	{
+		List<String> strings=tournee.genererFeuille(plan);
+		File file= new File("FeuilleDeRoute"+System.currentTimeMillis()+".txt");
+		FileWriter fw;
+	    try {
+			fw = new FileWriter(file);
+			for(String string:strings){
+				fw.write(string);
+			}
+		      fw.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+			
+			
 	}
 	
 	public List<Livraison> getLivraisonsRetard(){

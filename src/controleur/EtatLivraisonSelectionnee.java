@@ -2,6 +2,7 @@ package controleur;
 
 import vue.Fenetre;
 import modele.Livraison;
+import modele.Noeud;
 import modele.Plan;
 
 public class EtatLivraisonSelectionnee extends EtatDefaut{
@@ -9,11 +10,10 @@ public class EtatLivraisonSelectionnee extends EtatDefaut{
 	Livraison livraison;
 	
 	public EtatLivraisonSelectionnee(){
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**
-	 * M�thode qui charger un plan
+	 * Methode qui charger un plan
 	 * @param Plan de ville
 	 * @param Fenetre
 	 * @throws ExceptionEtat
@@ -24,7 +24,7 @@ public class EtatLivraisonSelectionnee extends EtatDefaut{
 		Controleur.etatInit.chargerPlan(plan, fenetre);
 	}
 	/**
-	 * M�thode qui charge les demande des livraision et qui passe vers l'�tat LivraisonCharger
+	 * Methode qui charge les demande des livraision et qui passe vers l'�tat LivraisonCharger
 	 * @param Plan
 	 * @param DemandeLivraison
 	 */
@@ -38,10 +38,11 @@ public class EtatLivraisonSelectionnee extends EtatDefaut{
 		if(plan.getDemandeLivraisons().getTournee().getLivraisonPrecedente(livraison)!=null)
 		{
 			listeDeCdes.ajoute(new CommandeSupprimer(plan, livraison));
-			Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 		}
 		else
+		{
 			fenetre.afficheMessageBox("Vous essayez de supprimer l'entrepot");
+		}
 	}
 	
 	@Override
@@ -51,13 +52,15 @@ public class EtatLivraisonSelectionnee extends EtatDefaut{
 	}
 	
 	@Override
-	public void ajouterLivraison(Fenetre fenetre) {
+	public void ajouterLivraison(Plan plan, Fenetre fenetre) {
+		plan.updatePlan();
 		Controleur.setEtatCourant(Controleur.etatModeAjout);
 		fenetre.afficheMessage("Cliquer sur un noeud pour selectionner le lieu de votre livraison");
 	}
 	
 	@Override
 	public void echangerLivraison(Plan plan, ListeCommandes listeDeCdes, Fenetre fenetre) {
+		plan.updatePlan();
 		Controleur.setEtatCourant(Controleur.etatModeEchange);
 		fenetre.afficheMessage("Cliquer sur un noeud pour selectionner le lieu de votre livraison");
 	}
@@ -75,6 +78,28 @@ public class EtatLivraisonSelectionnee extends EtatDefaut{
 	@Override
 	public void annuler(Fenetre fenetre)
 	{
+		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
+	}
+	
+	@Override
+	public Noeud deselectionner(Fenetre fenetre){
+		Noeud noeud=livraison.getAdresse();
+		livraison=null;
+		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
+		return noeud;
+	}
+
+	@Override
+	public void genererFeuilleDeRoute(Plan plan){
+		plan.getDemandeLivraisons().genererFeuilleDeRoute(plan);
+		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
+	}
+	
+	@Override
+	public void selectionnerNoeud(Plan plan, Noeud noeud, Fenetre fenetre)
+	{
+		plan.updatePlan();
+		livraison=null;
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 	}
 	
