@@ -29,6 +29,7 @@ public class Fenetre extends JFrame
 	protected static final String UNDO = "Undo";
 	protected static final String AJOUTER_LIVRAISON = "Ajouter livraison";
 	protected static final String ANNULER = "Annuler";
+	protected static final String VALIDER = "Valider";
 	private ArrayList<JButton> boutons;
 	private JLabel cadreMessages;
 	private VueGraphique vueGraphique;
@@ -38,7 +39,7 @@ public class Fenetre extends JFrame
 	//private EcouterDeMvtSouris ecouteurDeMvtSouris;
 	//private EcouteurDeClavier ecouteurDeClavier;
 	
-	private final String[] intitulesBoutons = new String[]{CHARGER_PLAN,CHARGER_LIVRAISON, CALCULER_TOURNEE, SUPPRIMER_LIVRAISON,ECHANGER_LIVRAISON,AJOUTER_LIVRAISON, UNDO, REDO, ANNULER};
+	private final String[] intitulesBoutons = new String[]{CHARGER_PLAN,CHARGER_LIVRAISON, CALCULER_TOURNEE, SUPPRIMER_LIVRAISON,ECHANGER_LIVRAISON,AJOUTER_LIVRAISON, UNDO, REDO, ANNULER, VALIDER};
 	private final int hauteurBouton = 40;
 	private final int largeurBouton = 150;
 	private final int hauteurCadreMessages = 80;
@@ -86,8 +87,8 @@ public class Fenetre extends JFrame
 			boutons.add(bouton);
 			bouton.setSize(largeurBouton,hauteurBouton);
 			bouton.setLocation(0,(boutons.size()-1)*hauteurBouton);
-			bouton.setFocusable(false);
-			bouton.setFocusPainted(false);
+			bouton.setFocusable(true);
+			bouton.setFocusPainted(true);
 			bouton.addActionListener(ecouteurDeBoutons);
 			getContentPane().add(bouton);	
 		}

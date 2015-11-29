@@ -28,6 +28,8 @@ public class EcouteurDeBoutons implements ActionListener {
 		case Fenetre.UNDO: controleur.undo();break;
 		case Fenetre.REDO: controleur.redo();break;
 		case Fenetre.ANNULER: controleur.annuler();break;
+		case Fenetre.VALIDER: controleur.valider();break;
+
 		
 		}
 	}

@@ -29,6 +29,8 @@ public interface Etat {
 	public abstract void ajouterLivraison(Fenetre fenetre);
 		
 	public abstract void annuler(Fenetre fenetre);
+
+	public abstract void valider(Fenetre fenetre);
 	
 	// TODO Auto-generated method stub
 		

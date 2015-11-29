@@ -68,6 +68,12 @@ public class EtatDefaut implements Etat {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void valider(Fenetre fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 /**	@Override
 	protected void genererFeuilleDeRoute(Tournee tournee) {

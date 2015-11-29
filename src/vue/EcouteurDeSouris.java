@@ -31,17 +31,19 @@ public class EcouteurDeSouris extends MouseAdapter {
 		switch (evt.getButton()){
 		case MouseEvent.BUTTON1: 
 			Livraison livraison = getLivraison(evt);
-			Noeud noeud= getNoeud(evt);
 			if (livraison != null){
 				controleur.selectionnerLivraison(livraison); 
+				//controleur.selectionnerNoeud(livraison.getAdresse());
 			}
-			else if(noeud!=null)
+			else
 			{
+				Noeud noeud= getNoeud(evt);
+				if(noeud != null)
 				controleur.selectionnerNoeud(noeud);
 			}
 			break;
 		case MouseEvent.BUTTON3: 
-			//controleur.clicDroit(); 
+			controleur.annuler(); 
 			break;
 		default:
 		}
@@ -65,7 +67,6 @@ public class EcouteurDeSouris extends MouseAdapter {
 
 	private Noeud getNoeud(MouseEvent evt)
 	{
-		DemandeLivraison demandeLivraison=vueGraphique.getPlan().getDemandeLivraisons();
 		MouseEvent e = SwingUtilities.convertMouseEvent(fenetre, evt, vueGraphique);
 		int x = Math.round((float)e.getX()/(float)vueGraphique.getEchelle());
 		int y = Math.round((float)e.getY()/(float)vueGraphique.getEchelle());

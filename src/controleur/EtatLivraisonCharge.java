@@ -4,7 +4,6 @@
 package controleur;
 
 import modele.Plan;
-import modele.Tournee;
 import vue.Fenetre;
 
 /**
@@ -38,9 +37,9 @@ public class EtatLivraisonCharge extends EtatDefaut
 	
 	@Override
 	public void calculerTournee(Plan plan, Fenetre fenetre) {
-		Controleur.setTournee(plan.getDemandeLivraisons().calculerTournee(plan));
-		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
+		plan.getDemandeLivraisons().calculerTournee(plan);
 		plan.updatePlan();
+		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 		fenetre.afficheMessage("Tournée calculer avec succès");
 	}
 	

@@ -87,6 +87,7 @@ public class DemandeLivraison
 			livraison.setIdClient(fenetre.getLivraisons().get(fenetre.getNbLivraisons()-1).getClient()+1);
 			livraison.setHeureDebut(fenetre.getHeureDebut());
 			livraison.setHeureFin(fenetre.getHeureFin());
+			livraison.setHeurePassage(fenetre.getHeureDebut());
 		}
 		
 		fenetre.ajouterLivraison(livraison);
@@ -113,6 +114,7 @@ public class DemandeLivraison
 	
 	//echanger 2 livraisons, ils ont pas besoin d'etre im a cotre de l'autre
 	public void echangerLivraisonSepares(int livraison1,int livraison2){
+		System.out.println("je suis dans lechange dans demande delivraison");
 		List<Itineraire> itineraires = getTournee().getItineraires();
 		//trouver qui est le livraison precedent entre les deux
 		int posLiv1 = -1;

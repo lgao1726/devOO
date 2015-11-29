@@ -13,7 +13,7 @@ public class EtatLivraisonSelectionnee extends EtatDefaut{
 	}
 	
 	/**
-	 * M�thode qui charger un plan
+	 * Methode qui charger un plan
 	 * @param Plan de ville
 	 * @param Fenetre
 	 * @throws ExceptionEtat
@@ -24,7 +24,7 @@ public class EtatLivraisonSelectionnee extends EtatDefaut{
 		Controleur.etatInit.chargerPlan(plan, fenetre);
 	}
 	/**
-	 * M�thode qui charge les demande des livraision et qui passe vers l'�tat LivraisonCharger
+	 * Methode qui charge les demande des livraision et qui passe vers l'�tat LivraisonCharger
 	 * @param Plan
 	 * @param DemandeLivraison
 	 */
@@ -38,10 +38,11 @@ public class EtatLivraisonSelectionnee extends EtatDefaut{
 		if(plan.getDemandeLivraisons().getTournee().getLivraisonPrecedente(livraison)!=null)
 		{
 			listeDeCdes.ajoute(new CommandeSupprimer(plan, livraison));
-			Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 		}
 		else
+		{
 			fenetre.afficheMessageBox("Vous essayez de supprimer l'entrepot");
+		}
 	}
 	
 	@Override

@@ -54,6 +54,7 @@ public class EtatTourneeCalculee extends EtatDefaut{
 	@Override
 	public void echangerLivraison(Plan plan, ListeCommandes listeDeCdes, Fenetre fenetre) {
 		Controleur.setEtatCourant(Controleur.etatModeEchange);
+		System.out.print("etatModeEchange");
 		fenetre.afficheMessage("Cliquer sur la première livraison");
 	}
 

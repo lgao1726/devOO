@@ -1,6 +1,7 @@
 package controleur;
 
 import modele.Livraison;
+import modele.Noeud;
 import modele.Plan;
 import vue.Fenetre;
 
@@ -10,6 +11,17 @@ public class EtatModeEchange extends EtatDefaut{
 	{
 		Controleur.etatLivraisonSelectionneeEchange.setLivraison(livraison);
 		Controleur.setEtatCourant(Controleur.etatLivraisonSelectionneeEchange);
-		System.out.print("etatModeEchange");
+	}
+	
+	public void annuler(Fenetre fenetre)
+	{
+		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
+		fenetre.afficheMessage("");
+	}
+	
+	@Override
+	public void selectionnerNoeud(Noeud noeud, Fenetre fenetre)
+	{
+		fenetre.afficheMessageBox("Il faut selectionner une livraison");
 	}
 }

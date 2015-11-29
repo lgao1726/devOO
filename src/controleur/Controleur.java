@@ -1,17 +1,13 @@
 package controleur;
 
-import javax.swing.plaf.synth.SynthSeparatorUI;
-
 import modele.Livraison;
 import modele.Noeud;
 import modele.Plan;
-import modele.Tournee;
 import vue.Fenetre;
 
 public class Controleur 
 {
 	private Plan plan;	
-	private static Tournee tournee;
 	private Fenetre fenetre;
 	private static Etat etatCourant;
 	private ListeCommandes listeDeCdes;
@@ -21,11 +17,11 @@ public class Controleur
 	protected static final EtatPlanCharge etatPlanCharge = new EtatPlanCharge();
 	protected static final EtatLivraisonCharge etatLivraisonCharge = new EtatLivraisonCharge();
 	protected static final EtatTourneeCalculee etatTourneeCalculee = new EtatTourneeCalculee();
-	protected static EtatLivraisonSelectionnee etatLivraisonSelectionnee = new EtatLivraisonSelectionnee();
 	protected static final EtatModeAjout etatModeAjout = new EtatModeAjout();
-	protected static final Etat etatModeEchange = null;
+	protected static final EtatModeEchange etatModeEchange = new EtatModeEchange();
+	protected static EtatLivraisonSelectionnee etatLivraisonSelectionnee = new EtatLivraisonSelectionnee();
 	protected static EtatNoeudSelectionne etatNoeudSelectionne=new EtatNoeudSelectionne();
-	public static EtatLivraisonSelectionneeEchange etatLivraisonSelectionneeEchange=new EtatLivraisonSelectionneeEchange();
+	protected static EtatLivraisonSelectionneeEchange etatLivraisonSelectionneeEchange=new EtatLivraisonSelectionneeEchange();
 
 	public Controleur(Plan p) 
 	{
@@ -33,17 +29,13 @@ public class Controleur
 		listeDeCdes = new ListeCommandes();
 		etatCourant = etatInit;
 		this.fenetre = new Fenetre(p, this);
-		tournee= new Tournee();
+
 	}
 	
 	protected static void setEtatCourant(Etat etat){
 		etatCourant = etat;
 	}
 	
-	public static void setTournee(Tournee t)
-	{
-		tournee=t;
-	}
 	
 	public void chargerPlan() 
 	{
@@ -88,8 +80,6 @@ public class Controleur
 	}
 
 	public void redo() {
-		// TODO Auto-generated method stub
-		System.out.println("redooo controleur");
 		etatCourant.redo(listeDeCdes);
 	}
 
@@ -105,6 +95,10 @@ public class Controleur
 	public void annuler() {
 		etatCourant.annuler(fenetre);
 		
+	}
+
+	public void valider() {
+		etatCourant.valider(fenetre);
 	}
 
 }
