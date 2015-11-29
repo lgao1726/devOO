@@ -67,7 +67,6 @@ public class DeserialiseurXML {
         else
         	throw new ExceptionXML("Document non conforme");
         
-        return true;
 	}
 	
 	/**
@@ -222,7 +221,8 @@ public class DeserialiseurXML {
            	
            	plan.ajouterNoeud(noeud);
        	}
-       	
+       	plan.setDimX(maxX+5);
+       	plan.setDimY(maxY+5);
         plan.notifyObservers();
     }
     

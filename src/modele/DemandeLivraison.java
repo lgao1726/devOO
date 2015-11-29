@@ -185,7 +185,6 @@ public class DemandeLivraison
 		
 	    //echanger les livraisons
 		tournee.echangerLivraison(livAvant, livApres);
-		System.out.println(livAvant+" : "+livApres);
 		
 		//si les livraisons appartiennent aux différentes fenêtres
 		//échanger les livraisons dans les fenêtres aussi
@@ -210,7 +209,6 @@ public class DemandeLivraison
 			fenetre2.supprimerLivraison(liv2);
 			fenetre1.ajouterLivraison(liv2);
 			fenetre2.ajouterLivraison(liv1);
-			System.out.println("fenetres echanges");
 		}
 		
 		resetHeuresPassage();
@@ -229,7 +227,7 @@ public class DemandeLivraison
 				Noeud noeud=livraison.getAdresse();
 				if((xPoint>noeud.getX()-rayon) && (xPoint<noeud.getX()+rayon)  && (yPoint<noeud.getY()+rayon)  && (yPoint>noeud.getY()-rayon))
 				{
-					System.out.println(noeud.getId()+"|"+livraison.getId()+"|"+fenetre.getNbLivraisons());
+					
 					return livraison;
 				}
 			}

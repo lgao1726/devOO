@@ -2,6 +2,7 @@ package controleur;
 
 import vue.Fenetre;
 import xml.DeserialiseurXML;
+import xml.ExceptionXML;
 import modele.Plan;
 
 public class EtatPlanCharge extends EtatDefaut

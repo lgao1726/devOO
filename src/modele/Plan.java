@@ -28,7 +28,7 @@ public class Plan extends Observable
 	/**
 	 * Constructor d'objet
 	 */
-	public Plan() 
+	public Plan(int dimX,int dimY) 
 	{
 		this.dimX = dimX;
 		this.dimY = dimY;
@@ -139,11 +139,27 @@ public class Plan extends Observable
 			{
 				if((xPoint>noeud.getX()-rayon) && (xPoint<noeud.getX()+rayon)  && (yPoint<noeud.getY()+rayon)  && (yPoint>noeud.getY()-rayon))
 				{
-					System.out.println(noeud.getId()+" idnoeud");
 					return noeud;
 				}
 			}
 			return null;
 	}
+
+	public int getDimY() {
+		return this.dimY;
+	}
+
+	public int getDimX() {
+		return this.dimX;
+	}
+	
+	public void setDimY(int dimY) {
+		this.dimY = dimY;
+	}
+
+	public void setDimX(int dimY) {
+		this.dimX = dimX;
+	}
+	
 	
 }

@@ -182,7 +182,6 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 	{
 		hauteurVue = plan.getDimY()*this.echelle;
 		largeurVue = plan.getDimX()*this.echelle;
-		
 		setSize(largeurVue, hauteurVue);
 		
 		repaint();

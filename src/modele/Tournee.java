@@ -123,7 +123,6 @@ public class Tournee {
 	}
 	
 	public boolean supprimerLivraison(int idLivraison){
-		System.out.println("idlivraison a supprimer"+idLivraison);
 		Livraison nouvelOrigine = null;
 		Livraison nouvelleDestination = null;
 		Itineraire aSupprimer1 = null;
@@ -157,7 +156,6 @@ public class Tournee {
 		else{
 			return false;
 		}
-		System.out.println("deleted");
 		miseAJourCout();
 		return true;
 	}
@@ -208,7 +206,6 @@ public class Tournee {
 		itiAvant.setLivraisonDestination(itiAInverser.getLivraisonOrigine());
 		itiApres.setLivraisonOrigine(itiAInverser.getLivraisonDestination());
 		miseAJourCout();
-		System.out.println("echange fait");
 		return true;
 	}
 	
@@ -230,7 +227,6 @@ public class Tournee {
 		if(posItineraireADiviser != -1){
 			itineraires.remove(posItineraireADiviser);
 		}else{
-			System.out.println("yyy");
 			return false; 
 		}
 		
@@ -248,7 +244,7 @@ public class Tournee {
 			itineraireRemplacant2.setLivraisonOrigine(livraison);
 			itineraireRemplacant2.setLivraisonDestination(apres);
 			
-		}else{System.out.println("zzz");
+		}else{
 			return false;
 		}		
 		miseAJourCout();
@@ -272,9 +268,9 @@ public class Tournee {
 			for(int noeud : itineraire.getNoeuds()){
 				System.out.print(noeud + ", ");
 			}
-			System.out.println(";;"+itineraire.getCout()/60);
+			
 		}
-		System.out.println("]");
+		
 	}
 	
 	public Livraison getLivraisonPrecedente(Livraison livraison){
