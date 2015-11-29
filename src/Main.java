@@ -15,7 +15,7 @@ public class Main
 	 * Lanceur d'application
 	 */
 	public static void main(String[] args) 
-	{
+	{		
 		// Creation du plan
 		Plan plan = new Plan(dimX, dimY);
 		

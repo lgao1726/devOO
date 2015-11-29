@@ -104,7 +104,8 @@ public class GraphiqueView extends JPanel implements Observer, Visiteur
 		
 		if (dem != null)
 		{
-			Iterator<FenetreLivraison> itFen = dem.getFenetreIterator();			
+			Iterator<FenetreLivraison> itFen = dem.getFenetreIterator();	
+		
 			while (itFen.hasNext())
 			{
 				FenetreLivraison fen = itFen.next();				
@@ -179,6 +180,11 @@ public class GraphiqueView extends JPanel implements Observer, Visiteur
 		g2.setColor(Color.RED);
 		
 		g2.fillOval(x*echelle-RAYON_LIVRAISON, y*echelle-RAYON_LIVRAISON, 2*RAYON_LIVRAISON, 2*RAYON_LIVRAISON);
+	}
+	
+	@Override
+	public void visite(DemandeLivraison v)
+	{
 	}
 	
 	@Override

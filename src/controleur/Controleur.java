@@ -1,16 +1,13 @@
 package controleur;
 
-import javax.swing.plaf.synth.SynthSeparatorUI;
-
 import modele.Livraison;
+import modele.Noeud;
 import modele.Plan;
-import modele.Tournee;
 import vue.Fenetre;
 
 public class Controleur 
 {
 	private Plan plan;	
-	private static Tournee tournee;
 	private Fenetre fenetre;
 	private static Etat etatCourant;
 	private ListeCommandes listeDeCdes;
@@ -20,8 +17,11 @@ public class Controleur
 	protected static final EtatPlanCharge etatPlanCharge = new EtatPlanCharge();
 	protected static final EtatLivraisonCharge etatLivraisonCharge = new EtatLivraisonCharge();
 	protected static final EtatTourneeCalculee etatTourneeCalculee = new EtatTourneeCalculee();
-	protected static final EtatLivraisonSelectionnee etatLivraisonSelectionnee = new EtatLivraisonSelectionnee();
-
+	protected static final EtatModeAjout etatModeAjout = new EtatModeAjout();
+	protected static final EtatModeEchange etatModeEchange = new EtatModeEchange();
+	protected static EtatLivraisonSelectionnee etatLivraisonSelectionnee = new EtatLivraisonSelectionnee();
+	protected static EtatNoeudSelectionne etatNoeudSelectionne=new EtatNoeudSelectionne();
+	protected static EtatLivraisonSelectionneeEchange etatLivraisonSelectionneeEchange=new EtatLivraisonSelectionneeEchange();
 
 	public Controleur(Plan p) 
 	{
@@ -29,17 +29,13 @@ public class Controleur
 		listeDeCdes = new ListeCommandes();
 		etatCourant = etatInit;
 		this.fenetre = new Fenetre(p, this);
-		tournee= new Tournee();
+
 	}
 	
 	protected static void setEtatCourant(Etat etat){
 		etatCourant = etat;
 	}
 	
-	public static void setTournee(Tournee t)
-	{
-		tournee=t;
-	}
 	
 	public void chargerPlan() 
 	{
@@ -59,14 +55,15 @@ public class Controleur
 	
 	public void selectionnerLivraison(Livraison livraison)
 	{	
-		etatCourant.selectionnerLivraison(livraison);
+		etatCourant.selectionnerLivraison(plan, livraison, listeDeCdes, fenetre);
 	}
+	
 	public void supprimerLivraison(){
-		etatCourant.supprimerLivraison(plan, listeDeCdes);
+		etatCourant.supprimerLivraison(plan, listeDeCdes, fenetre);
 	}
 	
 	public void echangerLivraison(){
-		etatCourant.echangerLivraison(plan, listeDeCdes);
+		etatCourant.echangerLivraison(plan, listeDeCdes, fenetre);
 		
 	}
 	
@@ -78,13 +75,35 @@ public class Controleur
 		fenetre.sourisPasSurNoeud();
 	}
 	
-	
-	//pour voir si etat courant est selectionner
-	private boolean isSelectionnerLivraison(){
-		boolean res;
-		if(etatCourant.equals(etatLivraisonSelectionnee)) return true;
-		return false;
+	public void undo(){
+		etatCourant.undo(listeDeCdes);
+	}
+
+	public void redo() {
+		etatCourant.redo(listeDeCdes);
+	}
+
+	public void selectionnerNoeud(Noeud noeud) {
+		etatCourant.selectionnerNoeud(noeud, fenetre);		
+	}
+
+	public void ajouterLivraison() {
+		etatCourant.ajouterLivraison(fenetre);
 		
+	}
+	
+	public static Etat getEtatCourant()
+	{
+		return etatCourant;
+	}
+	
+	public void annuler() {
+		etatCourant.annuler(fenetre);
+		
+	}
+
+	public void valider() {
+		etatCourant.valider(fenetre);
 	}
 
 }

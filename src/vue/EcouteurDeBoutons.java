@@ -24,6 +24,12 @@ public class EcouteurDeBoutons implements ActionListener {
 		case Fenetre.CALCULER_TOURNEE: controleur.calculerTournee(); break;
 		case Fenetre.SUPPRIMER_LIVRAISON: controleur.supprimerLivraison(); break;
 		case Fenetre.ECHANGER_LIVRAISON: controleur.echangerLivraison();break;
+		case Fenetre.AJOUTER_LIVRAISON: controleur.ajouterLivraison();break;
+		case Fenetre.UNDO: controleur.undo();break;
+		case Fenetre.REDO: controleur.redo();break;
+		case Fenetre.ANNULER: controleur.annuler();break;
+		case Fenetre.VALIDER: controleur.valider();break;
+
 		
 		}
 	}

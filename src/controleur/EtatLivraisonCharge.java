@@ -4,7 +4,6 @@
 package controleur;
 
 import modele.Plan;
-import modele.Tournee;
 import vue.Fenetre;
 
 /**
@@ -14,6 +13,17 @@ import vue.Fenetre;
  */
 public class EtatLivraisonCharge extends EtatDefaut 
 {
+	/**
+	 * Methode qui charger un plan
+	 * @param Plan de ville
+	 * @param Fenetre
+	 * @throws ExceptionEtat
+	 */
+	@Override
+	public void chargerPlan(Plan plan, Fenetre fenetre)
+	{
+		Controleur.etatInit.chargerPlan(plan, fenetre);
+	}
 	/**
 	 * Mï¿½thode qui charge les demande des livraision et qui passe vers l'ï¿½tat LivraisonCharger
 	 * @param Plan
@@ -27,20 +37,11 @@ public class EtatLivraisonCharge extends EtatDefaut
 	
 	@Override
 	public void calculerTournee(Plan plan, Fenetre fenetre) {
-		Controleur.setTournee(plan.getDemandeLivraisons().calculerTournee(plan));
+		plan.getDemandeLivraisons().calculerTournee(plan);
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 		plan.updatePlan();
+		fenetre.afficheMessage("Tournée calculer avec succès");
 	}
 	
-	/**
-	 * Mï¿½thode qui charger un plan
-	 * @param Plan de ville
-	 * @param Fenetre
-	 * @throws ExceptionEtat
-	 */
-	@Override
-	public void chargerPlan(Plan plan, Fenetre fenetre)
-	{
-		Controleur.etatInit.chargerPlan(plan, fenetre);
-	}
+	
 }

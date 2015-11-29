@@ -40,14 +40,6 @@ public class EcouteurDeSouris extends MouseAdapter {
 		default:
 		}
 	}
-
-	/**public void mouseMoved(MouseEvent evt) {
-		// Methode appelee a chaque fois que la souris est bougee
-		// Envoie au controleur les coordonnees de la souris.
-		Point p = coordonnees(evt);
-		if (p != null)
-			controleur.sourisBougee(p); 
-	}**/
 	
 	private Livraison getLivraison(MouseEvent evt){
 		DemandeLivraison demandeLivraison=vueGraphique.getPlan().getDemandeLivraisons();

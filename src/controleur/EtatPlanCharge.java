@@ -32,7 +32,7 @@ public class EtatPlanCharge extends EtatDefaut
 		} 
 		catch (Exception e) 
 		{
-			fenetre.afficheMessageBox(e.getMessage());
+			e.printStackTrace();
 			plan.setDemandeLivraisons(null);
 		}
 	}

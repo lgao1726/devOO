@@ -93,17 +93,6 @@ public class Plan extends Observable
 		return intersections.get(id);
 	}
 	
-	//pour l'ecouteur de mouvement souris
-	public boolean isNoeud(int x,int y,int rayon){
-		boolean isNoeud = false;
-		for(Noeud n:intersections){
-			if((x>n.getX()-rayon) && (x<n.getX()+rayon)  && (y<n.getY()+rayon)  && (y>n.getY()-rayon)){
-				isNoeud = true;
-			}
-			
-		}return isNoeud;
-	}
-	
 	/**
 	 * @return L'adresse d'Entrepot
 	 */
@@ -168,6 +157,18 @@ public class Plan extends Observable
 		setChanged();
 		notifyObservers();
 		
+	}
+
+	public Noeud getNoeud(int xPoint, int yPoint, int rayon) {
+			for(Noeud noeud:intersections)
+			{
+				if((xPoint>noeud.getX()-rayon) && (xPoint<noeud.getX()+rayon)  && (yPoint<noeud.getY()+rayon)  && (yPoint>noeud.getY()-rayon))
+				{
+					System.out.println(noeud.getId()+" idnoeud");
+					return noeud;
+				}
+			}
+			return null;
 	}
 	
 }

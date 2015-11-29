@@ -103,7 +103,7 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 			}
 		}
 		
-		// DÃ©ssiner l'entrepot
+		// Déssiner l'entrepot
 		Noeud entropt = plan.getAdresseEntrepot();
 		
 		if (entropt != null)
@@ -117,6 +117,7 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 		if (dem != null)
 		{
 			Iterator<FenetreLivraison> itFen = dem.getFenetreIterator();			
+			
 			while (itFen.hasNext())
 			{
 				FenetreLivraison fen = itFen.next();				
@@ -229,6 +230,12 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
         g.fillPolygon(new int[] {len, len-12, len-12, len},
                       new int[] {0, -8, 8, 0}, 4);
     }
+
+	@Override
+	public void visite(DemandeLivraison v) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 }

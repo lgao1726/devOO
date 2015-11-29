@@ -69,11 +69,29 @@ public class DemandeLivraison
 		return tournee;
 	}
 	
-	public void ajouterLivraison(Livraison livraison,Calendar heureDebut,Calendar heureFin){
-		FenetreLivraison fenetre = getFenetre(heureDebut,heureFin);
+	public void ajouterLivraison(Livraison livraison, Livraison livraisonPrecedente){
+		Calendar heureDebutPrecedente=livraisonPrecedente.getHeureDebut();
+		Calendar heureFinPrecedente=livraisonPrecedente.getHeureFin();
+		FenetreLivraison fenetre;
+		if(heureDebutPrecedente==null && heureFinPrecedente==null)
+		{
+			fenetre=listeFenetres.get(1);
+		}
+		else
+		{
+			fenetre = getFenetre(heureDebutPrecedente,heureFinPrecedente);
+		}
+		if(livraison.getId()==0)
+		{
+			livraison.setId(fenetre.getNbLivraisons()+1);
+			livraison.setIdClient(fenetre.getLivraisons().get(fenetre.getNbLivraisons()-1).getClient()+1);
+			livraison.setHeureDebut(fenetre.getHeureDebut());
+			livraison.setHeureFin(fenetre.getHeureFin());
+			livraison.setHeurePassage(fenetre.getHeureDebut());
+		}
+		
 		fenetre.ajouterLivraison(livraison);
-		int size = fenetre.getLivraisons().size();
-		getTournee().ajouterLivraison(livraison, fenetre.getLivraisons().get(size-2).getAdresse().getId());
+		tournee.ajouterLivraison(livraison, livraisonPrecedente.getAdresse().getId());
 		resetHeuresPassage();
 		setHeuresPassage();
 	}
@@ -96,6 +114,7 @@ public class DemandeLivraison
 	
 	//echanger 2 livraisons, ils ont pas besoin d'etre im a cotre de l'autre
 	public void echangerLivraisonSepares(int livraison1,int livraison2){
+		System.out.println("je suis dans lechange dans demande delivraison");
 		List<Itineraire> itineraires = getTournee().getItineraires();
 		//trouver qui est le livraison precedent entre les deux
 		int posLiv1 = -1;
@@ -224,7 +243,7 @@ public class DemandeLivraison
 	}
 	
 	private void setHeuresPassage(){
-		List<Itineraire> itineraires = getTournee().getItineraires();
+		List<Itineraire> itineraires = tournee.getItineraires();
 		for(Itineraire iti:itineraires){
 			Livraison livOrigine = iti.getLivraisonOrigine();
 			Livraison livDest = iti.getLivraisonDestination();
@@ -247,6 +266,7 @@ public class DemandeLivraison
 		List<FenetreLivraison> fenetres = getFenetres();
 		for(int i=1;i<fenetres.size();i++){
 			for(Livraison liv:fenetres.get(i).getLivraisons()){
+				System.out.println("Fenetre id"+i + " id Livraison: "+liv.getId() );
 				liv.getHeurePassage().setTimeInMillis(0x1808580);
 			}
 		}
@@ -254,6 +274,11 @@ public class DemandeLivraison
 	
 	public List<Livraison> getLivraisonsRetard(){
 		return livraisonsRetard;
+	}
+	
+	public void accepte(Visiteur v)
+	{
+		v.visite(this);
 	}
 	
 }

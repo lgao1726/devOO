@@ -276,4 +276,23 @@ public class Tournee {
 		}
 		System.out.println("]");
 	}
+	
+	public Livraison getLivraisonPrecedente(Livraison livraison){
+		for( Itineraire itineraire : itineraires){
+			if(itineraire.getLivraisonDestination()==livraison)
+				return itineraire.getLivraisonOrigine();
+			}
+		return null;
+	}
+	
+	public List<String> genererFeuille(Plan plan){
+		LinkedList<String> res = new LinkedList<String>();
+		for(Itineraire iti:itineraires){
+			String itiString = "";
+			itiString += iti.getFeuilleString(plan);
+			res.add(itiString);
+		}
+		
+		return res;
+	}
 }

@@ -1,5 +1,8 @@
 package vue;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -16,12 +19,19 @@ import javax.swing.LayoutStyle;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
+import controleur.Controleur;
+import controleur.Etat;
+import controleur.EtatLivraisonCharge;
+import controleur.EtatTourneeCalculee;
+import modele.DemandeLivraison;
+import modele.FenetreLivraison;
 import modele.Itineraire;
 import modele.Livraison;
+import modele.Plan;
 import modele.Visiteur;
 
 
-public class TextuelleView extends JPanel implements Visiteur
+public class TextuelleView extends JPanel implements Observer, Visiteur
 {
 	private JLabel labelFenetreTexte;
     private JLabel lableFenetreSelection;
@@ -35,7 +45,9 @@ public class TextuelleView extends JPanel implements Visiteur
     private JButton btnLivraison;
     private JButton btnSupprimerLivraison;
     
-	public TextuelleView()
+    private Plan plan;
+    
+	public TextuelleView(Plan plan)
 	{
 		jScrollPane1 = new JScrollPane();
         listFenetre = new JList<>();
@@ -50,12 +62,11 @@ public class TextuelleView extends JPanel implements Visiteur
         
         setBorder(BorderFactory.createEtchedBorder());
         setVerifyInputWhenFocusTarget(false);
+        
+        plan.addObserver(this);
+		this.plan = plan;
 
-        listFenetre.setModel(new AbstractListModel<String>() {
-            String[] strings = { "Toute les fenêtres", "08:30 -> 12:30", "13:00 -> 15:00", "15:15 -> 18:00" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        
         listFenetre.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 selectionnerFenetre(evt);
@@ -66,32 +77,6 @@ public class TextuelleView extends JPanel implements Visiteur
 
         jLabel1.setText("Séléctionner une fenêtre de livraison :");
 
-        tableLivraison.setModel(new DefaultTableModel(
-            new Object [][] {
-                {null, "", null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Numéro", "HeurePassage", "Client", "Adresse"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
         tableLivraison.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tableLivraison.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -189,17 +174,222 @@ public class TextuelleView extends JPanel implements Visiteur
     {                                             
         // TODO add your handling code here:
     }
-
     
+    
+
 	@Override
 	public void visite(Livraison v) 
 	{
-		
 	}
 
 	@Override
-	public void visite(Itineraire v) {
-		// TODO Auto-generated method stub
+	public void visite(Itineraire v) 
+	{
+		//plan.getDemandeLivraisons().accepte(this);
+	}
+
+	@Override
+	public void visite(DemandeLivraison v) 
+	{
+		if (Controleur.getEtatCourant() instanceof EtatTourneeCalculee)
 		
-	}                   
+			listeOrdonnee(v);
+		
+		else
+			
+			listeNonOrdonnee(v);
+	}     
+	
+	private void listeOrdonnee(DemandeLivraison v) {
+		
+		Iterator<FenetreLivraison> itFen = v.getFenetreIterator();
+		
+		//remplirFenetre(itFen);
+		
+		String[] colums = new String[] {"Numéro", "Heure Passage", "Client", "Adresse"};
+		
+		int count = 0;
+		while (itFen.hasNext())
+		{
+			FenetreLivraison fen = itFen.next();				
+			Iterator<Livraison> itLiv = fen.getLivraisonIterator();				
+			
+			while (itLiv.hasNext())				
+			{
+				itLiv.next();
+				count++;
+			}
+		}
+
+		count -= 2;
+		
+		Object[][] rows = new Object[count][4];
+		
+		int i=0;
+		
+		itFen = v.getFenetreIterator();	
+		
+		Iterator<Itineraire> it = v.getTournee().getItineraireIterator();
+		
+		while (it.hasNext())
+		{
+			Itineraire itn = it.next();
+			
+			//Livraison livOr = itn.getLivraisonOrigine();
+			Livraison liv = itn.getLivraisonDestination();
+			
+			if (liv.getAdresse() != plan.getAdresseEntrepot())
+			{
+			   rows[i][1] = liv.getHeurePassage().getTime().getHours() + ":" + liv.getHeurePassage().getTime().getMinutes();
+			   rows[i][0] = i+1;
+			   rows[i][2] = liv.getClient();
+			   rows[i][3] = liv.getAdresse().getId();
+			   i++;
+			}
+		}	
+		
+		tableLivraison.setModel(new javax.swing.table.DefaultTableModel(rows,colums) {
+	            Class[] types = new Class [] {
+	                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+	            };
+	            boolean[] canEdit = new boolean [] {
+	                false, false, false, false
+	            };
+
+	            public Class getColumnClass(int columnIndex) {
+	                return types [columnIndex];
+	            }
+
+	            public boolean isCellEditable(int rowIndex, int columnIndex) {
+	                return canEdit [columnIndex];
+	            }
+	        });
+		
+	}
+
+	private void listeNonOrdonnee(DemandeLivraison v) {
+		
+		Iterator<FenetreLivraison> itFen = v.getFenetreIterator();		
+		
+		remplirFenetre(v.getFenetreIterator());
+		
+		String[] colums = new String[] {"Fenêtre", "Client", "Adresse"};
+		
+		int count = 0;
+		while (itFen.hasNext())
+		{
+			FenetreLivraison fen = itFen.next();				
+			Iterator<Livraison> itLiv = fen.getLivraisonIterator();				
+			
+			while (itLiv.hasNext())				
+			{
+				itLiv.next();
+				count++;
+			}
+		}
+
+		if (count == 0)
+			return;
+		
+		count -= 2;
+		Object[][] rows = new Object[count][3];
+		
+		int i=0;
+		itFen = v.getFenetreIterator();	
+		
+		while (itFen.hasNext())
+		{
+			FenetreLivraison fen = itFen.next();				
+			Iterator<Livraison> itLiv = fen.getLivraisonIterator();				
+			
+			while (itLiv.hasNext())				
+			{
+			   Livraison liv = itLiv.next();
+			   
+			   if (liv.getAdresse() != plan.getAdresseEntrepot())
+			   {
+				   rows[i][0] = liv.getHeureDebut().getTime().getHours() + ":" + liv.getHeureDebut().getTime().getMinutes() +
+							   " -> " + liv.getHeureFin().getTime().getHours()  + ":" + liv.getHeureDebut().getTime().getMinutes();
+				   rows[i][1] = liv.getClient();
+				   rows[i][2] = liv.getAdresse().getId();
+				   i++;
+			   }
+			}
+		}	
+		
+		tableLivraison.setModel(new javax.swing.table.DefaultTableModel(rows,colums) {
+	            Class[] types = new Class [] {
+	                java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+	            };
+	            boolean[] canEdit = new boolean [] {
+	                false, false, false
+	            };
+
+	            public Class getColumnClass(int columnIndex) {
+	                return types [columnIndex];
+	            }
+
+	            public boolean isCellEditable(int rowIndex, int columnIndex) {
+	                return canEdit [columnIndex];
+	            }
+	        });
+		
+	}
+
+	private void remplirFenetre(Iterator<FenetreLivraison> f)
+	{
+
+		class ListFenetre extends AbstractListModel<String>
+		{
+			ArrayList<String> strings;
+			
+			public ListFenetre(Iterator<FenetreLivraison> itFen)
+			{
+				strings = new ArrayList<String>();
+					
+				strings.add("Toute les fenêtres");
+				
+				while (itFen.hasNext())
+				{
+					FenetreLivraison fen = itFen.next();
+
+					if (fen != null)
+					{
+						if (fen.getHeureDebut() != null && fen.getHeureFin() != null)
+						{
+							strings.add(fen.getHeureDebut().getTime().getHours() + 
+							    ":" + fen.getHeureDebut().getTime().getMinutes() + " -> " + 
+							    fen.getHeureFin().getTime().getHours() + ":" + 
+							    fen.getHeureFin().getTime().getMinutes());
+						}
+					}
+				}
+			}
+			
+			@Override
+			public String getElementAt(int arg0) {
+				// TODO Auto-generated method stub
+				return strings.get(arg0);
+			}
+
+			@Override
+			public int getSize() {
+				// TODO Auto-generated method stub
+				return strings.size();
+			}
+		}
+		
+		
+		listFenetre.setModel(new ListFenetre(f));
+	}
+
+	@Override
+	public void update(Observable o, Object obj) {
+		
+		DemandeLivraison dem = plan.getDemandeLivraisons();
+		
+		if (dem != null)
+			
+			dem.accepte(this);
+	}
 }

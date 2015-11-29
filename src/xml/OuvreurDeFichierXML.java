@@ -24,6 +24,7 @@ public class OuvreurDeFichierXML extends FileFilter {// Singleton
         else
          	returnVal = jFileChooserXML.showSaveDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) 
+
         	return new File(jFileChooserXML.getSelectedFile().getAbsolutePath());
         else
         	if (returnVal == JFileChooser.CANCEL_OPTION)

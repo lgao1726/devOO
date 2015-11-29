@@ -48,7 +48,6 @@ public class DeserialiseurXML {
 		}
 		else
 			return false;
-			
 	}
 
 	protected static void traitementPlan(Plan plan, File xml)
@@ -167,7 +166,7 @@ public class DeserialiseurXML {
 		
 		if (livraisonNoeud == null)
 			
-			throw new ExceptionXML("L'adresse du livraison n'existe pas sur le plan");
+			throw new ExceptionXML("Les adresses de livraisons ne correspondent pas au plan");
 			
 		
 		return new Livraison(id, livraisonNoeud, client, heureDebut, heureFin);

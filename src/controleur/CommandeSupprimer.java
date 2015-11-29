@@ -10,26 +10,25 @@ public class CommandeSupprimer implements Commande {
 
 	private Plan plan;
 	private Livraison livraison;
-	private Calendar heureDebut;
-	private Calendar heureFin;
+	private Livraison livraisonPrecedente;
 	
-	public CommandeSupprimer(Plan plan,Livraison livraison,Calendar heureDebut, Calendar heureFin){
+	public CommandeSupprimer(Plan plan,Livraison livraison){
 		this.plan = plan;
 		this.livraison = livraison;
-		this.heureDebut = heureDebut;
-		this.heureFin = heureFin;
 	}
 	
 	@Override
 	public void executer() {
+		livraisonPrecedente=plan.getDemandeLivraisons().getTournee().getLivraisonPrecedente(livraison);
 		plan.getDemandeLivraisons().supprimerLivraison(livraison.getAdresse().getId());
-		plan.notifyObservers();
-		
+		plan.updatePlan();
 	}
 
 	@Override
 	public void undo() {
-		plan.getDemandeLivraisons().ajouterLivraison(livraison, heureDebut, heureFin);
+		
+		plan.getDemandeLivraisons().ajouterLivraison(livraison, livraisonPrecedente);
+		plan.updatePlan();
 		
 	}
 

@@ -56,7 +56,7 @@ public class Windows extends JFrame
         vueGraphique.getAccessibleContext().setAccessibleParent(scrollPane);
         
         /* Vue textuelle */
-        vueTextuelle = new TextuelleView();
+        vueTextuelle = new TextuelleView(p);
         
         /* Boite de dialogue */
         creerBoiteDialogue();
@@ -212,10 +212,23 @@ public class Windows extends JFrame
 
         menuUndo.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
         menuUndo.setText("Annuler");
+        menuUndo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				controleur.undo();
+			}
+		});
         menuEdition.add(menuUndo);
 
         menuRedo.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_MASK));
         menuRedo.setText("Rétablir");
+        menuRedo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				controleur.redo();
+			}
+		});
+        
         menuEdition.add(menuRedo);
 
         menuBar.add(menuEdition);
@@ -309,6 +322,12 @@ public class Windows extends JFrame
         btnUndo.setHorizontalTextPosition(SwingConstants.CENTER);
         btnUndo.setMargin(new java.awt.Insets(5, 5, 5, 5));
         btnUndo.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnUndo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				controleur.undo();
+			}
+		});
         barOutil.add(btnUndo);
         barOutil.add(new JToolBar.Separator());
 
@@ -321,6 +340,12 @@ public class Windows extends JFrame
         btnRedo.setHorizontalTextPosition(SwingConstants.CENTER);
         btnRedo.setMargin(new java.awt.Insets(5, 5, 5, 5));
         btnRedo.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnRedo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				controleur.redo();
+			}
+		});
         barOutil.add(btnRedo);
         barOutil.add(new JToolBar.Separator());
 
