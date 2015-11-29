@@ -75,6 +75,12 @@ public class EtatDefaut implements Etat {
 		
 	}
 	
+	@Override
+	public void deselectionner(Fenetre fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 /**	@Override
 	protected void genererFeuilleDeRoute(Tournee tournee) {
 		// TODO Auto-generated method stub

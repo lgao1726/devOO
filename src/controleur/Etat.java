@@ -31,6 +31,8 @@ public interface Etat {
 	public abstract void annuler(Fenetre fenetre);
 
 	public abstract void valider(Fenetre fenetre);
+
+	public abstract void deselectionner(Fenetre fenetre);
 	
 	// TODO Auto-generated method stub
 		

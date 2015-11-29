@@ -24,6 +24,9 @@ public class EtatLivraisonSelectionneeEchange extends EtatDefaut{
 		this.livraison2 = liv;
 		this.listeDeCdes=listeDeCdes;
 		this.plan=plan;
+		fenetre.afficheMessage("Vous avez selectionné: " + livraison2.getAdresse().getId());
+		System.out.println("Vous avez selectionné: " + livraison2.getAdresse().getId());
+
 	}
 	
 	@Override
@@ -36,6 +39,7 @@ public class EtatLivraisonSelectionneeEchange extends EtatDefaut{
 	@Override
 	public void valider(Fenetre fenetre)
 	{
+		System.out.println("echange :" + livraison.getAdresse().getId()+ " "+livraison2.getAdresse().getId());
 		if(livraison.getHeureDebut()!=null && livraison2.getHeureDebut()!=null)
 		{
 			listeDeCdes.ajoute(new CommandeEchanger(plan, livraison.getAdresse().getId(), livraison2.getAdresse().getId()));
@@ -53,6 +57,18 @@ public class EtatLivraisonSelectionneeEchange extends EtatDefaut{
 	public void selectionnerNoeud(Noeud noeud, Fenetre fenetre)
 	{
 		fenetre.afficheMessageBox("Il faut selectionner une livraison");
+	}
+	
+	@Override
+	public void deselectionner(Fenetre fenetre){
+		if(livraison2==null)
+		{
+			Controleur.setEtatCourant(Controleur.etatModeAjout);
+		}
+		else if(livraison!=null && livraison2!=null)
+		{
+			livraison2=null;
+		}
 	}
 
 }

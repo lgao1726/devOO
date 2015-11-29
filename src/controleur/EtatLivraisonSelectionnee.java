@@ -9,7 +9,6 @@ public class EtatLivraisonSelectionnee extends EtatDefaut{
 	Livraison livraison;
 	
 	public EtatLivraisonSelectionnee(){
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**
@@ -76,6 +75,12 @@ public class EtatLivraisonSelectionnee extends EtatDefaut{
 	@Override
 	public void annuler(Fenetre fenetre)
 	{
+		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
+	}
+	
+	@Override
+	public void deselectionner(Fenetre fenetre){
+		livraison=null;
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 	}
 	

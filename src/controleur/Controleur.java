@@ -101,4 +101,8 @@ public class Controleur
 		etatCourant.valider(fenetre);
 	}
 
+	public void deselectionner() {
+		etatCourant.deselectionner(fenetre);
+	}
+
 }

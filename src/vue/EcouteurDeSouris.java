@@ -1,5 +1,6 @@
 package vue;
 
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -31,15 +32,17 @@ public class EcouteurDeSouris extends MouseAdapter {
 		switch (evt.getButton()){
 		case MouseEvent.BUTTON1: 
 			Livraison livraison = getLivraison(evt);
+			Noeud noeud= getNoeud(evt);
 			if (livraison != null){
 				controleur.selectionnerLivraison(livraison); 
-				controleur.selectionnerNoeud(livraison.getAdresse());
+			}
+			else if(noeud != null)
+			{
+				controleur.selectionnerNoeud(noeud);
 			}
 			else
 			{
-				Noeud noeud= getNoeud(evt);
-				if(noeud != null)
-				controleur.selectionnerNoeud(noeud);
+				controleur.deselectionner();
 			}
 			break;
 		case MouseEvent.BUTTON3: 
@@ -62,14 +65,23 @@ public class EcouteurDeSouris extends MouseAdapter {
 		MouseEvent e = SwingUtilities.convertMouseEvent(fenetre, evt, vueGraphique);
 		int x = Math.round((float)e.getX()/(float)vueGraphique.getEchelle());
 		int y = Math.round((float)e.getY()/(float)vueGraphique.getEchelle());
-		return demandeLivraison.getLivraison(x, y, vueGraphique.getRayonLivraison());
+		
+		Livraison liv = demandeLivraison.getLivraison(x, y, vueGraphique.getRayonLivraison());
+		
+		/**if (liv != null)
+		
+			vueGraphique.selectionnerLivraison(liv, Color.CYAN);**/
+		
+		return liv;
 	}
 
 	private Noeud getNoeud(MouseEvent evt)
 	{
 		MouseEvent e = SwingUtilities.convertMouseEvent(fenetre, evt, vueGraphique);
+		
 		int x = Math.round((float)e.getX()/(float)vueGraphique.getEchelle());
 		int y = Math.round((float)e.getY()/(float)vueGraphique.getEchelle());
+		
 		return vueGraphique.getPlan().getNoeud(x, y, vueGraphique.getRayonNoeud());
 	}
 

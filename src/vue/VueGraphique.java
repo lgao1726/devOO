@@ -30,6 +30,7 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 
 	private final int RAYON_LIVRAISON=5;
 	private final int RAYON_NOEUD=3;
+	private final int RAYON_LIVRAISON_SELECTIONNEE=6;
 	private int echelle;
 	private int hauteurVue;
 	private int largeurVue;
@@ -234,6 +235,15 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
         g.fillPolygon(new int[] {len, len-12, len-12, len},
                       new int[] {0, -8, 8, 0}, 4);
     }
+
+	/**public void selectionnerLivraison(Livraison liv, Color color) 
+	{
+		Graphics2D g2 = (Graphics2D)getGraphics();
+		g2.setColor(color);
+		
+		g2.fillOval(liv.getAdresse().getX()*echelle-RAYON_LIVRAISON, liv.getAdresse().getY()*echelle-RAYON_LIVRAISON, 2*RAYON_LIVRAISON, 2*RAYON_LIVRAISON);
+		
+	}**/
 
 
 }
