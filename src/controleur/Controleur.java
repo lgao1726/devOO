@@ -84,7 +84,7 @@ public class Controleur
 	}
 
 	public void selectionnerNoeud(Noeud noeud) {
-		etatCourant.selectionnerNoeud(noeud, fenetre);		
+		etatCourant.selectionnerNoeud(plan,noeud, fenetre);		
 	}
 
 	public void ajouterLivraison() {

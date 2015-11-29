@@ -52,7 +52,7 @@ public class EtatDefaut implements Etat {
 	}
 
 	@Override
-	public void selectionnerNoeud(Noeud noeud, Fenetre fenetre) {
+	public void selectionnerNoeud(Plan plan, Noeud noeud, Fenetre fenetre) {
 		// TODO Auto-generated method stub
 		
 	}

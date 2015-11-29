@@ -245,6 +245,15 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 		
 	}
 	
+	public void selectionnerNoeud(Noeud noeud, Color color) 
+	{
+		Graphics2D g2 = (Graphics2D)getGraphics();
+		g2.setColor(color);
+
+		g2.fillOval(noeud.getX()*echelle-RAYON_NOEUD, noeud.getY()*echelle-RAYON_NOEUD, 2*RAYON_NOEUD, 2*RAYON_NOEUD);
+		
+	}
+	
 	public void deselectionnerLivraison(Noeud noeud){
 		if(noeud!=null){
 			int xNoeud=noeud.getX();
@@ -255,12 +264,12 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 				g2.setColor(Color.RED);
 				g2.fillOval(xNoeud*echelle-RAYON_LIVRAISON, yNoeud*echelle-RAYON_LIVRAISON, 2*RAYON_LIVRAISON, 2*RAYON_LIVRAISON);
 			}
-			//else if(plan.getNoeud(xNoeud, yNoeud, RAYON_NOEUD)!=null)
-			//{
-				//Graphics2D g2 = (Graphics2D)getGraphics();
-				//g2.setColor(Color.BLACK);
-				//g2.fillOval(xNoeud*echelle-RAYON_NOEUD, yNoeud*echelle-RAYON_NOEUD, 2*RAYON_NOEUD, 2*RAYON_NOEUD);
-			//}
+			else if(plan.getNoeud(xNoeud, yNoeud, RAYON_NOEUD)!=null)
+			{
+				Graphics2D g2 = (Graphics2D)getGraphics();
+				g2.setColor(Color.BLACK);
+				g2.fillOval(xNoeud*echelle-RAYON_NOEUD, yNoeud*echelle-RAYON_NOEUD, 2*RAYON_NOEUD, 2*RAYON_NOEUD);
+			}
 		}
 		
 		

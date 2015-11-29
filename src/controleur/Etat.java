@@ -24,7 +24,7 @@ public interface Etat {
 	
 	public abstract void redo(ListeCommandes listeDeCdes);
 
-	public abstract void selectionnerNoeud(Noeud noeud, Fenetre fenetre);
+	public abstract void selectionnerNoeud(Plan plan,Noeud noeud, Fenetre fenetre);
 
 	public abstract void ajouterLivraison(Plan plan, Fenetre fenetre);
 		

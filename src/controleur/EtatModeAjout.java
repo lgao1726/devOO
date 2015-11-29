@@ -8,18 +8,19 @@ import modele.Plan;
 public class EtatModeAjout extends EtatDefaut{
 	
 	@Override
-	public void selectionnerNoeud(Noeud noeud, Fenetre fenetre)
-	{
+	public void selectionnerNoeud(Plan plan, Noeud noeud, Fenetre fenetre)
+	{	
 		Controleur.etatNoeudSelectionne.setNoeud(noeud);
 		Controleur.setEtatCourant(Controleur.etatNoeudSelectionne);
 		fenetre.afficheMessage("Selectionnez la livraison après laquelle vous voulez insérer la nouvelle");
 	}
 	
-	/**@Override
+	@Override
 	public void selectionnerLivraison(Plan plan, Livraison livraison, ListeCommandes listeDeCdes, Fenetre fenetre)
 	{
 		fenetre.afficheMessageBox("Vous devez selectionnez un noeud");
-	}**/
+		plan.updatePlan();
+	}
 	
 	
 	@Override

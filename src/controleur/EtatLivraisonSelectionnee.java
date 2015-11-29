@@ -95,6 +95,14 @@ public class EtatLivraisonSelectionnee extends EtatDefaut{
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 	}
 	
+	@Override
+	public void selectionnerNoeud(Plan plan, Noeud noeud, Fenetre fenetre)
+	{
+		plan.updatePlan();
+		livraison=null;
+		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
+	}
+	
 	public void setLivraison(Livraison liv){
 			this.livraison = liv;
 		}	
