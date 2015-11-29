@@ -157,7 +157,7 @@ public class Plan extends Observable
 		this.dimY = dimY;
 	}
 
-	public void setDimX(int dimY) {
+	public void setDimX(int dimX) {
 		this.dimX = dimX;
 	}
 	
