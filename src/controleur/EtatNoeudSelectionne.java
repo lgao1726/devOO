@@ -57,7 +57,7 @@ public class EtatNoeudSelectionne extends EtatDefaut{
 	{
 		System.out.println("deselectionner dans etat noeud selectionne");
 		Noeud noeudRetour=noeud;
-		Controleur.setEtatCourant(Controleur.etatModeEchange);
+		Controleur.setEtatCourant(Controleur.etatModeAjout);
 		setNoeud(null);
 		fenetre.afficheMessage("");
 		return noeudRetour;
