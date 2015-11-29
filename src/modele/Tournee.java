@@ -284,4 +284,15 @@ public class Tournee {
 			}
 		return null;
 	}
+	
+	public List<String> genererFeuille(Plan plan){
+		LinkedList<String> res = new LinkedList<String>();
+		for(Itineraire iti:itineraires){
+			String itiString = "";
+			itiString += iti.getFeuilleString(plan);
+			res.add(itiString);
+		}
+		
+		return res;
+	}
 }

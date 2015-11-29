@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Observable;
 
 /**
- * Classe noeud qui définir une intersection des tronçons
+ * Classe noeud qui dï¿½finir une intersection des tronï¿½ons
  * 
  * @author interCorp
  *
@@ -22,9 +22,9 @@ public class Noeud {
 	 * @param id
 	 *            identifiant de noeud sur le plan
 	 * @param x
-	 *            coordonnée X
+	 *            coordonnï¿½e X
 	 * @param y
-	 *            coordonnée y
+	 *            coordonnï¿½e y
 	 */
 	public Noeud(int id, int x, int y) {
 		this.id = id;
@@ -63,6 +63,14 @@ public class Noeud {
 
 	public void ajouterTroncon(Troncon troncon) {
 		listeTronconsSortants.add(troncon);
+	}
+	
+	public Troncon getToncon(int adresse){
+		for(Troncon troncon:listeTronconsSortants){
+			if(troncon.getIdNoeudDestination() == adresse) return troncon;
+		}
+		
+		return null;
 	}
 
 }
