@@ -35,14 +35,18 @@ public class EcouteurDeSouris extends MouseAdapter {
 			Noeud noeud= getNoeud(evt);
 			if (livraison != null){
 				controleur.selectionnerLivraison(livraison); 
+				vueGraphique.selectionnerLivraison(livraison, Color.CYAN);
+
 			}
 			else if(noeud != null)
 			{
 				controleur.selectionnerNoeud(noeud);
+				vueGraphique.selectionnerNoeud(noeud, Color.CYAN);
 			}
 			else
 			{
-				controleur.deselectionner();
+				Noeud noeudDeselectionne=controleur.deselectionner();
+				vueGraphique.deselectionnerLivraison(noeudDeselectionne);
 			}
 			break;
 		case MouseEvent.BUTTON3: 
@@ -66,13 +70,10 @@ public class EcouteurDeSouris extends MouseAdapter {
 		int x = Math.round((float)e.getX()/(float)vueGraphique.getEchelle());
 		int y = Math.round((float)e.getY()/(float)vueGraphique.getEchelle());
 		
-		Livraison liv = demandeLivraison.getLivraison(x, y, vueGraphique.getRayonLivraison());
+		 demandeLivraison.getLivraison(x, y, vueGraphique.getRayonLivraison());		
 		
-		/**if (liv != null)
-		
-			vueGraphique.selectionnerLivraison(liv, Color.CYAN);**/
-		
-		return liv;
+		return demandeLivraison.getLivraison(x, y, vueGraphique.getRayonLivraison());		
+
 	}
 
 	private Noeud getNoeud(MouseEvent evt)

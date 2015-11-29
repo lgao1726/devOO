@@ -26,14 +26,16 @@ public class EtatNoeudSelectionne extends EtatDefaut{
 	}
 	
 	@Override
-	public void selectionnerNoeud(Noeud noeud, Fenetre fenetre)
+	public void selectionnerNoeud(Plan plan, Noeud noeud, Fenetre fenetre)
 	{
+		plan.updatePlan();
 		Controleur.etatNoeudSelectionne.setNoeud(noeud);
 	}
 	
 	@Override
 	public void annuler(Fenetre fenetre)
 	{
+		plan.updatePlan();
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 		fenetre.afficheMessage("");
 	}
@@ -51,11 +53,14 @@ public class EtatNoeudSelectionne extends EtatDefaut{
 	}
 	
 	@Override
-	public void deselectionner(Fenetre fenetre)
+	public Noeud deselectionner(Fenetre fenetre)
 	{
-		Controleur.setEtatCourant(Controleur.etatModeEchange);
+		System.out.println("deselectionner dans etat noeud selectionne");
+		Noeud noeudRetour=noeud;
+		Controleur.setEtatCourant(Controleur.etatModeAjout);
 		setNoeud(null);
 		fenetre.afficheMessage("");
+		return noeudRetour;
 	}
 	
 }

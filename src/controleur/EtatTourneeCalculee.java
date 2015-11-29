@@ -1,6 +1,7 @@
 package controleur;
 
 import modele.Livraison;
+import modele.Noeud;
 import modele.Plan;
 import vue.Fenetre;
 
@@ -46,7 +47,7 @@ public class EtatTourneeCalculee extends EtatDefaut{
 	}
 	
 	@Override
-	public void ajouterLivraison(Fenetre fenetre) {
+	public void ajouterLivraison(Plan plan,   Fenetre fenetre) {
 		Controleur.setEtatCourant(Controleur.etatModeAjout);
 		fenetre.afficheMessage("Cliquer sur un noeud pour selectionner le lieu de votre livraison");
 	}
@@ -54,7 +55,6 @@ public class EtatTourneeCalculee extends EtatDefaut{
 	@Override
 	public void echangerLivraison(Plan plan, ListeCommandes listeDeCdes, Fenetre fenetre) {
 		Controleur.setEtatCourant(Controleur.etatModeEchange);
-		System.out.print("etatModeEchange");
 		fenetre.afficheMessage("Cliquer sur la première livraison");
 	}
 	
@@ -62,6 +62,12 @@ public class EtatTourneeCalculee extends EtatDefaut{
 	public void genererFeuilleDeRoute(Plan plan){
 		plan.getDemandeLivraisons().genererFeuilleDeRoute(plan);
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
+	}
+	
+	@Override
+	public void selectionnerNoeud(Plan plan, Noeud noeud, Fenetre fenetre)
+	{
+		plan.updatePlan();
 	}
 
 }
