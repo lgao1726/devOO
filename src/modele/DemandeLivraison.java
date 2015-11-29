@@ -120,7 +120,6 @@ public class DemandeLivraison
 	
 	//echanger 2 livraisons, ils ont pas besoin d'etre im a cotre de l'autre
 	public void echangerLivraisonSepares(int livraison1,int livraison2){
-		System.out.println("je suis dans lechange dans demande delivraison");
 		List<Itineraire> itineraires = getTournee().getItineraires();
 		//trouver qui est le livraison precedent entre les deux
 		int posLiv1 = -1;
@@ -189,7 +188,7 @@ public class DemandeLivraison
 		}
 		
 	    //echanger les livraisons
-		getTournee().echangerLivraison(livAvant, livApres);
+		tournee.echangerLivraison(livAvant, livApres);
 		System.out.println(livAvant+" : "+livApres);
 		
 		//si les livraisons appartiennent aux différentes fenêtres

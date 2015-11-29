@@ -30,9 +30,10 @@ public class EtatModeAjout extends EtatDefaut{
 	}
 	
 	@Override
-	public void deselectionner(Fenetre fenetre)
+	public Noeud deselectionner(Fenetre fenetre)
 	{
 		fenetre.afficheMessage("Il faut selectionner un noeud");
+		return null;
 	}
 	
 	

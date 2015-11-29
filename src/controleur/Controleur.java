@@ -88,7 +88,7 @@ public class Controleur
 	}
 
 	public void ajouterLivraison() {
-		etatCourant.ajouterLivraison(fenetre);
+		etatCourant.ajouterLivraison(plan, fenetre);
 		
 	}
 	
@@ -101,8 +101,8 @@ public class Controleur
 		etatCourant.valider(fenetre);
 	}
 
-	public void deselectionner() {
-		etatCourant.deselectionner(fenetre);
+	public Noeud deselectionner() {
+		return etatCourant.deselectionner(fenetre);
 	}
 	
 	public void genererFeuilleDeRoute()

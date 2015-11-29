@@ -2,6 +2,7 @@ package controleur;
 
 import vue.Fenetre;
 import modele.Livraison;
+import modele.Noeud;
 import modele.Plan;
 
 public class EtatLivraisonSelectionnee extends EtatDefaut{
@@ -51,13 +52,15 @@ public class EtatLivraisonSelectionnee extends EtatDefaut{
 	}
 	
 	@Override
-	public void ajouterLivraison(Fenetre fenetre) {
+	public void ajouterLivraison(Plan plan, Fenetre fenetre) {
+		plan.updatePlan();
 		Controleur.setEtatCourant(Controleur.etatModeAjout);
 		fenetre.afficheMessage("Cliquer sur un noeud pour selectionner le lieu de votre livraison");
 	}
 	
 	@Override
 	public void echangerLivraison(Plan plan, ListeCommandes listeDeCdes, Fenetre fenetre) {
+		plan.updatePlan();
 		Controleur.setEtatCourant(Controleur.etatModeEchange);
 		fenetre.afficheMessage("Cliquer sur un noeud pour selectionner le lieu de votre livraison");
 	}
@@ -79,9 +82,11 @@ public class EtatLivraisonSelectionnee extends EtatDefaut{
 	}
 	
 	@Override
-	public void deselectionner(Fenetre fenetre){
+	public Noeud deselectionner(Fenetre fenetre){
+		Noeud noeud=livraison.getAdresse();
 		livraison=null;
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
+		return noeud;
 	}
 
 	@Override

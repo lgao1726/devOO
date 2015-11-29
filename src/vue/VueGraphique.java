@@ -236,14 +236,35 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
                       new int[] {0, -8, 8, 0}, 4);
     }
 
-	/**public void selectionnerLivraison(Livraison liv, Color color) 
+	public void selectionnerLivraison(Livraison liv, Color color) 
 	{
 		Graphics2D g2 = (Graphics2D)getGraphics();
 		g2.setColor(color);
-		
+
 		g2.fillOval(liv.getAdresse().getX()*echelle-RAYON_LIVRAISON, liv.getAdresse().getY()*echelle-RAYON_LIVRAISON, 2*RAYON_LIVRAISON, 2*RAYON_LIVRAISON);
 		
-	}**/
-
+	}
+	
+	public void deselectionnerLivraison(Noeud noeud){
+		if(noeud!=null){
+			int xNoeud=noeud.getX();
+			int yNoeud=noeud.getY();
+			if(plan.getDemandeLivraisons().getLivraison(xNoeud, yNoeud, RAYON_LIVRAISON)!=null)
+			{
+				Graphics2D g2 = (Graphics2D)getGraphics();
+				g2.setColor(Color.RED);
+				g2.fillOval(xNoeud*echelle-RAYON_LIVRAISON, yNoeud*echelle-RAYON_LIVRAISON, 2*RAYON_LIVRAISON, 2*RAYON_LIVRAISON);
+			}
+			//else if(plan.getNoeud(xNoeud, yNoeud, RAYON_NOEUD)!=null)
+			//{
+				//Graphics2D g2 = (Graphics2D)getGraphics();
+				//g2.setColor(Color.BLACK);
+				//g2.fillOval(xNoeud*echelle-RAYON_NOEUD, yNoeud*echelle-RAYON_NOEUD, 2*RAYON_NOEUD, 2*RAYON_NOEUD);
+			//}
+		}
+		
+		
+		
+	}
 
 }

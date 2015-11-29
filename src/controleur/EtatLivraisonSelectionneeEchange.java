@@ -60,16 +60,19 @@ public class EtatLivraisonSelectionneeEchange extends EtatDefaut{
 	}
 	
 	@Override
-	public void deselectionner(Fenetre fenetre){
+	public Noeud deselectionner(Fenetre fenetre){
+		Noeud noeud=new Noeud(0,0,0);
 		if(livraison2==null)
 		{
+			noeud=livraison.getAdresse();
 			Controleur.setEtatCourant(Controleur.etatModeEchange);
-			System.out.println("vous retournez en mode echange");
 		}
 		else if(livraison!=null && livraison2!=null)
 		{
+			noeud=livraison2.getAdresse();
 			livraison2=null;
 		}
+		return noeud;
 	}
 
 }

@@ -51,11 +51,13 @@ public class EtatNoeudSelectionne extends EtatDefaut{
 	}
 	
 	@Override
-	public void deselectionner(Fenetre fenetre)
+	public Noeud deselectionner(Fenetre fenetre)
 	{
+		Noeud noeudRetour=noeud;
 		Controleur.setEtatCourant(Controleur.etatModeEchange);
 		setNoeud(null);
 		fenetre.afficheMessage("");
+		return noeudRetour;
 	}
 	
 }

@@ -42,7 +42,8 @@ public class EcouteurDeSouris extends MouseAdapter {
 			}
 			else
 			{
-				controleur.deselectionner();
+				Noeud noeudDeselectionne=controleur.deselectionner();
+				vueGraphique.deselectionnerLivraison(noeudDeselectionne);
 			}
 			break;
 		case MouseEvent.BUTTON3: 
@@ -68,9 +69,9 @@ public class EcouteurDeSouris extends MouseAdapter {
 		
 		Livraison liv = demandeLivraison.getLivraison(x, y, vueGraphique.getRayonLivraison());
 		
-		/**if (liv != null)
+		if (liv != null)
 		
-			vueGraphique.selectionnerLivraison(liv, Color.CYAN);**/
+			vueGraphique.selectionnerLivraison(liv, Color.CYAN);
 		
 		return liv;
 	}

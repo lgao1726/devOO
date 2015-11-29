@@ -26,13 +26,13 @@ public interface Etat {
 
 	public abstract void selectionnerNoeud(Noeud noeud, Fenetre fenetre);
 
-	public abstract void ajouterLivraison(Fenetre fenetre);
+	public abstract void ajouterLivraison(Plan plan, Fenetre fenetre);
 		
 	public abstract void annuler(Fenetre fenetre);
 
 	public abstract void valider(Fenetre fenetre);
 
-	public abstract void deselectionner(Fenetre fenetre);
+	public abstract Noeud deselectionner(Fenetre fenetre);
 	
 	public abstract void genererFeuilleDeRoute(Plan plan);
 		
