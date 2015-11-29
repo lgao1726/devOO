@@ -34,18 +34,11 @@ public interface Etat {
 
 	public abstract void deselectionner(Fenetre fenetre);
 	
-	// TODO Auto-generated method stub
+	//public abstract void genererFeuilleDeRoute(Tournee tournee);
 		
-	/**public abstract void genererFeuilleDeRoute(Tournee tournee);
+	//public abstract void deplacerLivraison(Plan plan, Livraison livraison, Livraison livraisonPrecedente);
+		
 	
-	public abstract void supprimerLivraison(Tournee tournee, Livraison livraison);
 	
-	public abstract void deplacerLivraison(Tournee tournee, Livraison livraison, Livraison livraisonPrecedente);
-	
-	public abstract void ajouterLivraison(Tournee tournee, Plan plan, Noeud noeud, Livraison livraisonPrecedente, FenetreLivraison fenetreLivraison);
-	
-	public abstract void undo();
-	
-	public abstract void redo();**/
 
 }

@@ -16,7 +16,6 @@ public class EtatNoeudSelectionne extends EtatDefaut{
 	ListeCommandes listeDeCdes;
 	
 	public void setNoeud(Noeud noeud){
-		System.out.println("idnoeud dans l'etat noeud selectionne: "+noeud.getId());
 		this.noeud=noeud;
 	}
 	@Override

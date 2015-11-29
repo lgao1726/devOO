@@ -25,7 +25,7 @@ public class EtatLivraisonSelectionneeEchange extends EtatDefaut{
 		this.listeDeCdes=listeDeCdes;
 		this.plan=plan;
 		fenetre.afficheMessage("Vous avez selectionné: " + livraison2.getAdresse().getId());
-		System.out.println("Vous avez selectionné: " + livraison2.getAdresse().getId());
+		System.out.println("Vous avez selectionné: (mode livraisonselectionneechange)" + livraison2.getAdresse().getId());
 
 	}
 	
@@ -63,7 +63,8 @@ public class EtatLivraisonSelectionneeEchange extends EtatDefaut{
 	public void deselectionner(Fenetre fenetre){
 		if(livraison2==null)
 		{
-			Controleur.setEtatCourant(Controleur.etatModeAjout);
+			Controleur.setEtatCourant(Controleur.etatModeEchange);
+			System.out.println("vous retournez en mode echange");
 		}
 		else if(livraison!=null && livraison2!=null)
 		{
