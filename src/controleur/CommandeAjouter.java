@@ -21,6 +21,8 @@ public class CommandeAjouter implements Commande {
 	}
 	
 	public void executer(){
+		System.out.println("executer: "+livraison.getAdresse().getId());
+		System.out.println("executer: "+livraisonPrecedente.getAdresse().getId());
 		plan.getDemandeLivraisons().ajouterLivraison(livraison, livraisonPrecedente);
 		plan.updatePlan();
 		}

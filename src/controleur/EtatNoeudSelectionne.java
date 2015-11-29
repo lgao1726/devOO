@@ -21,6 +21,7 @@ public class EtatNoeudSelectionne extends EtatDefaut{
 	}
 	@Override
 	public void selectionnerLivraison(Plan plan, Livraison livraisonPrecedente, ListeCommandes listeDeCdes, Fenetre fenetre){
+		System.out.println("livraisonPrecedente dans l'etat delectionnee"+livraisonPrecedente.getAdresse().getId());
 		this.livraisonPrecedente=livraisonPrecedente;
 		this.listeDeCdes=listeDeCdes;
 	}
@@ -39,8 +40,8 @@ public class EtatNoeudSelectionne extends EtatDefaut{
 		listeDeCdes.ajoute(new CommandeAjouter(plan, livraison, livraisonPrecedente));
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 		fenetre.afficheMessage("Ajout terminé");
-		noeud=null;
-		livraisonPrecedente=null;
+		//noeud=null;
+		//livraisonPrecedente=null;
 	}
 	
 }

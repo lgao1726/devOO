@@ -32,6 +32,7 @@ public class EtatPlanCharge extends EtatDefaut
 		} 
 		catch (Exception e) 
 		{
+			plan.setAdresseEntrepot(null);
 			fenetre.afficheMessageBox(e.getMessage());
 			plan.setDemandeLivraisons(null);
 		}

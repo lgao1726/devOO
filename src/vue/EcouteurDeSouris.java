@@ -33,7 +33,7 @@ public class EcouteurDeSouris extends MouseAdapter {
 			Livraison livraison = getLivraison(evt);
 			if (livraison != null){
 				controleur.selectionnerLivraison(livraison); 
-				//controleur.selectionnerNoeud(livraison.getAdresse());
+				controleur.selectionnerNoeud(livraison.getAdresse());
 			}
 			else
 			{
