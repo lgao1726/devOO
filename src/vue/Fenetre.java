@@ -62,8 +62,11 @@ public class Fenetre extends JFrame
         vueTextuelle = new TextuelleView(p,controleur);
         
         ecouteurDeSouris = new EcouteurDeSouris(controleur,vueGraphique,this);
-        
         scrollPane.addMouseListener(ecouteurDeSouris);
+        
+        vueGraphique.getAccessibleContext().setAccessibleParent(scrollPane);
+        
+        vueGraphique.addMouseListener(ecouteurDeSouris);
         
         /* Boite de dialogue */
         creerBoiteDialogue();

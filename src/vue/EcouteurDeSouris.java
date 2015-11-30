@@ -26,6 +26,7 @@ public class EcouteurDeSouris extends MouseAdapter {
 
 	@Override
 	public void mouseClicked(MouseEvent evt) {
+		
 		// Methode appelee par l'ecouteur de souris a chaque fois que la souris est cliquee
 		// S'il s'agit d'un clic gauche dans la vue graphique, l'ecouteur envoie au controleur les coordonnees du point clique.
 		// S'il s'agit d'un clic droit, l'ecouteur envoie le message d'echappement au controleur
@@ -33,24 +34,25 @@ public class EcouteurDeSouris extends MouseAdapter {
 		case MouseEvent.BUTTON1: 
 			Livraison livraison = getLivraison(evt);
 			Noeud noeud= getNoeud(evt);
-			if (livraison != null){
+			
+			if (livraison != null)
+			{
 				controleur.selectionnerLivraison(livraison); 
 				vueGraphique.selectionnerLivraison(livraison, Color.CYAN);
-
 			}
 			else if(noeud != null)
 			{
 				controleur.selectionnerNoeud(noeud);
-				vueGraphique.selectionnerNoeud(noeud, Color.CYAN);
+				//vueGraphique.selectionnerNoeud(noeud, Color.CYAN);
 			}
 			else
 			{
 				Noeud noeudDeselectionne=controleur.deselectionner();
-				vueGraphique.deselectionnerLivraison(noeudDeselectionne);
+				//vueGraphique.deselectionnerLivraison(noeudDeselectionne);
 			}
 			break;
 		case MouseEvent.BUTTON3: 
-			controleur.annuler(); 
+			//controleur.clicDroit(); 
 			break;
 		default:
 		}
@@ -66,24 +68,18 @@ public class EcouteurDeSouris extends MouseAdapter {
 	
 	private Livraison getLivraison(MouseEvent evt){
 		DemandeLivraison demandeLivraison=vueGraphique.getPlan().getDemandeLivraisons();
-		MouseEvent e = SwingUtilities.convertMouseEvent(fenetre, evt, vueGraphique);
-		int x = Math.round((float)e.getX()/(float)vueGraphique.getEchelle());
-		int y = Math.round((float)e.getY()/(float)vueGraphique.getEchelle());
 		
-		 demandeLivraison.getLivraison(x, y, vueGraphique.getRayonLivraison());		
+		java.awt.Point Pt = evt.getPoint();	 
 		
-		return demandeLivraison.getLivraison(x, y, vueGraphique.getRayonLivraison());		
-
+		 demandeLivraison.getLivraison(Pt.x, Pt.y, vueGraphique.getRayonLivraison());		
+		
+		return demandeLivraison.getLivraison(Pt.x, Pt.y, vueGraphique.getRayonLivraison());		
 	}
 
 	private Noeud getNoeud(MouseEvent evt)
 	{
-		MouseEvent e = SwingUtilities.convertMouseEvent(fenetre, evt, vueGraphique);
-		
-		int x = Math.round((float)e.getX()/(float)vueGraphique.getEchelle());
-		int y = Math.round((float)e.getY()/(float)vueGraphique.getEchelle());
-		
-		return vueGraphique.getPlan().getNoeud(x, y, vueGraphique.getRayonNoeud());
+		java.awt.Point Pt = evt.getPoint();	 
+		return vueGraphique.getPlan().getNoeud( Pt.x, Pt.y, vueGraphique.getRayonNoeud());
 	}
 
 }

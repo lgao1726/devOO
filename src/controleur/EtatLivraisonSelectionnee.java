@@ -38,17 +38,21 @@ public class EtatLivraisonSelectionnee extends EtatDefaut{
 		if(plan.getDemandeLivraisons().getTournee().getLivraisonPrecedente(livraison)!=null)
 		{
 			listeDeCdes.ajoute(new CommandeSupprimer(plan, livraison));
+			fenetre.afficheMessage("Livraison ï¿½  l'adresse ( " + livraison.getAdresse().getId() + ") a ï¿½tï¿½ supprimï¿½e" ); 
+
 		}
 		else
 		{
 			fenetre.afficheMessageBox("Vous essayez de supprimer l'entrepot");
 		}
+		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
+
 	}
 	
 	@Override
 	public void selectionnerLivraison(Plan plan, Livraison livraison, ListeCommandes listeDeCdes, Fenetre fenetre) {
 		Controleur.etatLivraisonSelectionnee.setLivraison(livraison);
-		fenetre.afficheMessage("Vous avez selectionné la livraison ("+livraison.getId()+") à l'adresse ("+livraison.getAdresse().getId()+")");
+		fenetre.afficheMessage("Vous avez selectionnï¿½ la livraison ("+livraison.getId()+") ï¿½ l'adresse ("+livraison.getAdresse().getId()+")");
 	}
 	
 	@Override

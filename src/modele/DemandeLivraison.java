@@ -63,7 +63,6 @@ public class DemandeLivraison
 		tournee.calculerTournee(plan, listeFenetres);
 		tournee.afficherListeItineraires();
 		setHeuresPassage();
-		plan.updatePlan();
 		return tournee;
 	}
 	

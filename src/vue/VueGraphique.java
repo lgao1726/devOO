@@ -134,13 +134,15 @@ public class VueGraphique extends JPanel implements Observer, Visiteur
 		
 		if(dem != null && dem.getTournee() != null){
 			Tournee tour = dem.getTournee();
-			Iterator<Itineraire> itIti = tour.getItineraireIterator();
-			while(itIti.hasNext()){
-				itIti.next().accepte(this);
+			List<Itineraire> itIti = tour.getItineraires();
+			for(int i=0;i<itIti.size();i++){
+				itIti.get(i).accepte(this);
+			}
+				
 				
 			}
 		}
-	}
+	
 
 	public void setEchelle(int e) {
 		largeurVue = (largeurVue/echelle)*e;
@@ -209,7 +211,16 @@ public class VueGraphique extends JPanel implements Observer, Visiteur
 		int i = 0;
 		List<Integer> idNoeuds = iti.getNoeuds();
 		Random r = new Random();
-		Color c = new Color(r.nextInt(256), r.nextInt(200), r.nextInt(130));
+		int re = r.nextInt(256);
+		int gr = r.nextInt(256);
+		int b = r.nextInt(256);
+		Color[] colors = new Color[]
+				{
+				    Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN,
+				    Color.BLACK, Color.PINK, Color.ORANGE,Color.CYAN,
+				    Color.GRAY,Color.magenta,Color.ORANGE
+				};
+		Color c = colors[idNoeuds.get(0)%colors.length];
 		while(i < idNoeuds.size() - 1){
 			Graphics2D g2 = (Graphics2D) g;
 			Noeud origine = plan.getNoeud(idNoeuds.get(i));
@@ -223,7 +234,6 @@ public class VueGraphique extends JPanel implements Observer, Visiteur
 			//g2.drawLine(origine.getX(),origine.getY(),
 			//			destination.getX(),destination.getY());			
 			i++;
-			
 		}
 		
 	}
@@ -238,10 +248,11 @@ public class VueGraphique extends JPanel implements Observer, Visiteur
         AffineTransform at = AffineTransform.getTranslateInstance(x1, y1);
         at.concatenate(AffineTransform.getRotateInstance(angle));
         g.transform(at);
-
+        
         // Draw horizontal arrow starting in (0, 0)
         QuadCurve2D.Double s = new QuadCurve2D.Double(0, 0, len/2, control, len, 0);
         g.draw(s);
+        
         
         //g.drawLine(0, 0, len, 0);
         
@@ -256,7 +267,6 @@ public class VueGraphique extends JPanel implements Observer, Visiteur
 	{
 		Graphics2D g2 = (Graphics2D)getGraphics();
 		g2.setColor(color);
-
 		g2.fillOval(liv.getAdresse().getX()*echelle-RAYON_LIVRAISON, liv.getAdresse().getY()*echelle-RAYON_LIVRAISON, 2*RAYON_LIVRAISON, 2*RAYON_LIVRAISON);
 		
 	}
@@ -265,7 +275,6 @@ public class VueGraphique extends JPanel implements Observer, Visiteur
 	{
 		Graphics2D g2 = (Graphics2D)getGraphics();
 		g2.setColor(color);
-
 		g2.fillOval(noeud.getX()*echelle-RAYON_NOEUD, noeud.getY()*echelle-RAYON_NOEUD, 2*RAYON_NOEUD, 2*RAYON_NOEUD);
 		
 	}

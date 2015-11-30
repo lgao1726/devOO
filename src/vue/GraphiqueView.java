@@ -1,4 +1,4 @@
-package vue;
+/**package vue;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -59,9 +59,7 @@ public class GraphiqueView extends JPanel implements Observer, Visiteur
 		return RAYON_NOEUD;
 	}
 	
-	/**
-	 * Methode appelee a chaque fois que VueGraphique doit etre redessinee
-	 */
+	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -157,10 +155,7 @@ public class GraphiqueView extends JPanel implements Observer, Visiteur
 	public int getRayonLivraison() {
 		return RAYON_LIVRAISON;
 	}
-	/**
-	 * Methode appelee par les objets observes par this a chaque fois qu'ils ont ete modifies
-	 */
-	@Override
+
 	public void update(Observable o, Object arg) 
 	{
 		hauteurVue = plan.getDimY()*this.echelle;
@@ -172,9 +167,7 @@ public class GraphiqueView extends JPanel implements Observer, Visiteur
 		repaint();
 	}
 
-	/**
-	 * Methode appelee par l'objet visite (un livraison) a chaque fois qu'il recoit le message accepte
-	 */
+
 	@Override
 	public void visite(Livraison liv) 
 	{
@@ -266,4 +259,10 @@ public class GraphiqueView extends JPanel implements Observer, Visiteur
 		
 	}
 
-}
+	@Override
+	public void visite(DemandeLivraison v) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}**/
