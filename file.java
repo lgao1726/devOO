@@ -1,19 +1,47 @@
-FenetreLivraison fen = itFen.next();
-			Iterator<Livraison> itLiv = fen.getLivraisonIterator();
-			
-			while (itLiv.hasNext())
-			{
-				liv = itLiv.next();
-				
-				if (liv.getAdresse().getId() == noeudid)
-				{
-					lableFenetreSelection.setText(fen.getHeureDebut().getTime().getHours() + ":" + 
-							  fen.getHeureDebut().getTime().getMinutes() +
-							  " -> " + fen.getHeureFin().getTime().getHours() + ":" + 
-							  fen.getHeureFin().getTime().getMinutes());
-					break;
-				}
-			}
-			if (liv.getAdresse().getId() == noeudid)
-				
-				break;
+setLayout(vueTextuelleLayout);
+        vueTextuelleLayout.setHorizontalGroup(
+            vueTextuelleLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(vueTextuelleLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(vueTextuelleLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(GroupLayout.Alignment.TRAILING, vueTextuelleLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(vueTextuelleLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE))
+                        .addGap(257, 257, 257))
+                    .addGroup(vueTextuelleLayout.createSequentialGroup()
+                        .addGroup(vueTextuelleLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addGroup(vueTextuelleLayout.createSequentialGroup()
+                                .addComponent(labelFenetreTexte, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lableFenetreSelection, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE))
+                            .addGroup(vueTextuelleLayout.createSequentialGroup()
+                                .addComponent(btnLivraison)
+                                .addComponent(btnValider)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnSupprimerLivraison)
+                                .addComponent(btnAnnuler)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnDeplacer)
+                            		))
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        vueTextuelleLayout.setVerticalGroup(
+            vueTextuelleLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(vueTextuelleLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(vueTextuelleLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelFenetreTexte)
+                    .addComponent(lableFenetreSelection))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
+                .addGroup(vueTextuelleLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDeplacer)
+                    .addComponent(btnSupprimerLivraison)
+                    .addComponent(btnLivraison)
+                    .addComponent(btnValider)
+                    .addComponent(btnAnnuler)
+                	)
+                .addGap(35, 35, 35))
+        );
