@@ -26,5 +26,6 @@ public class EtatModeEchange extends EtatDefaut{
 	public void selectionnerNoeud(Plan plan, Noeud noeud, Fenetre fenetre)
 	{
 		fenetre.afficheMessageBox("Il faut selectionner une livraison");
+		
 	}
 }

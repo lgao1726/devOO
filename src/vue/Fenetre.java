@@ -506,6 +506,10 @@ public class Fenetre extends JFrame
 		vueTextuelle.selectionnerLivraisonTextuelle(liv);
 	}
 	
-    
+    public void changerValider(boolean state)
+    {
+    	vueTextuelle.changerValider(state);
+    }
+	
     // End of variables declaration        
 }

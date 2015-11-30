@@ -320,6 +320,12 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
     	btnSupprimerLivraison.setEnabled(true);
     }
     
+    public void changerValider(boolean state)
+    {
+    	btnValider.setEnabled(state);
+  
+    }
+
     
 
     private void btnLivraisonActionPerformed(java.awt.event.ActionEvent evt) 

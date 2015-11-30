@@ -35,6 +35,7 @@ public class EtatModeSuppression extends EtatDefaut{
 		this.livraison=livraison;
 		fenetre.afficheMessage("Validez pour supprimer la livraison à  l'adresse ( " + livraison.getAdresse().getId() + ")." ); 
 		fenetre.selectionnerLivraisonTextuelle(livraison);
+		fenetre.changerValider(true);
 	}
 
 	

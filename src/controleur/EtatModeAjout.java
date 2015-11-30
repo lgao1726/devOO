@@ -20,6 +20,7 @@ public class EtatModeAjout extends EtatDefaut{
 	@Override
 	public void selectionnerLivraison(Plan plan, Livraison livraison, ListeCommandes listeDeCdes, Fenetre fenetre)
 	{
+		fenetre.selectionnerLivraisonTextuelle(livraison);
 		fenetre.afficheMessageBox("Vous devez selectionnez un noeud");
 	}
 	

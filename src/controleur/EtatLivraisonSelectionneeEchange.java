@@ -24,6 +24,7 @@ public class EtatLivraisonSelectionneeEchange extends EtatDefaut{
 		this.livraison2 = liv;
 		this.listeDeCdes=listeDeCdes;
 		this.plan=plan;
+		fenetre.changerValider(true);
 		fenetre.afficheMessage(" ... Adresse de la deuxième livraison :" + livraison2.getAdresse().getId()+" . Validez!");
 		fenetre.selectionnerLivraisonTextuelle(livraison2);
 
@@ -76,10 +77,13 @@ public class EtatLivraisonSelectionneeEchange extends EtatDefaut{
 		if(livraison2==null)
 		{
 			Controleur.setEtatCourant(Controleur.etatModeEchange);
+			fenetre.afficheMessage("Cliquez sur la première livraison");
 		}
 		else if(livraison!=null && livraison2!=null)
 		{
 			livraison2=null;
+			fenetre.afficheMessage("Cliquez sur la deuxieme livraison");
+			fenetre.changerValider(false);
 		}
 	}
 

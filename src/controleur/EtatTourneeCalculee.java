@@ -49,6 +49,7 @@ public class EtatTourneeCalculee extends EtatDefaut{
 		Controleur.setEtatCourant(Controleur.etatModeAjout);
 		fenetre.afficheMessage("Cliquez sur un noeud pour selectionner le lieu de votre livraison");
 		fenetre.desacactiverUndoRedoGenerer();
+		fenetre.changerValider(false);
 	}
 	
 	@Override
@@ -57,6 +58,7 @@ public class EtatTourneeCalculee extends EtatDefaut{
 		Controleur.setEtatCourant(Controleur.EtatModeSuppresion);
 		fenetre.afficheMessage("Cliquez sur la livraison à supprimer");
 		fenetre.desacactiverUndoRedoGenerer();
+		fenetre.changerValider(false);
 
 	}
 	
@@ -66,6 +68,7 @@ public class EtatTourneeCalculee extends EtatDefaut{
 		Controleur.setEtatCourant(Controleur.etatModeEchange);
 		fenetre.afficheMessage("Cliquez sur la première livraison");
 		fenetre.desacactiverUndoRedoGenerer();
+		fenetre.changerValider(false);
 
 	}
 	
@@ -73,6 +76,7 @@ public class EtatTourneeCalculee extends EtatDefaut{
 	public void genererFeuilleDeRoute(Plan plan){
 		plan.getDemandeLivraisons().genererFeuilleDeRoute(plan);
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
+		
 	}
 	
 	@Override
