@@ -24,8 +24,7 @@ public class EtatLivraisonSelectionneeEchange extends EtatDefaut{
 		this.livraison2 = liv;
 		this.listeDeCdes=listeDeCdes;
 		this.plan=plan;
-		fenetre.afficheMessage(" ... Adresse de la deuxième livraison :" + livraison2.getAdresse().getId());
-		System.out.println("Vous avez selectionné: (mode livraisonselectionneechange)" + livraison2.getAdresse().getId());
+		fenetre.afficheMessage(" ... Adresse de la deuxième livraison :" + livraison2.getAdresse().getId()+" . Validez!");
 		fenetre.selectionnerLivraisonTextuelle(livraison2);
 
 	}
@@ -56,7 +55,7 @@ public class EtatLivraisonSelectionneeEchange extends EtatDefaut{
 		}
 		else
 		{
-			fenetre.afficheMessageBox("Vous essayez de déplacer l'entrepot");
+			fenetre.afficheMessageBox("On ne peut pas déplacer l'entrepot");
 		}
 		
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);

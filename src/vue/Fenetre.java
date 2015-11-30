@@ -138,7 +138,7 @@ public class Fenetre extends JFrame
 	 */
 	public void afficheMessageBox(String message) 
 	{
-		JOptionPane.showMessageDialog(null, message);
+		JOptionPane.showMessageDialog(null, message, "Erreur", JOptionPane.ERROR_MESSAGE);
 	}
 	
 	public boolean afficherMessageConfirmation(String message)

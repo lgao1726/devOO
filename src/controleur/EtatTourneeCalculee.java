@@ -47,7 +47,7 @@ public class EtatTourneeCalculee extends EtatDefaut{
 	public void ajouterLivraison(Plan plan, Fenetre fenetre) {
 		this.fenetre=fenetre;
 		Controleur.setEtatCourant(Controleur.etatModeAjout);
-		fenetre.afficheMessage("Cliquer sur un noeud pour selectionner le lieu de votre livraison");
+		fenetre.afficheMessage("Cliquez sur un noeud pour selectionner le lieu de votre livraison");
 		fenetre.desacactiverUndoRedoGenerer();
 	}
 	
@@ -55,7 +55,7 @@ public class EtatTourneeCalculee extends EtatDefaut{
 	public void supprimerLivraison(Plan plan, Fenetre fenetre) {
 		this.fenetre=fenetre;
 		Controleur.setEtatCourant(Controleur.EtatModeSuppresion);
-		fenetre.afficheMessage("Cliquer sur la livraison à supprimer");
+		fenetre.afficheMessage("Cliquez sur la livraison à supprimer");
 		fenetre.desacactiverUndoRedoGenerer();
 
 	}
@@ -64,7 +64,7 @@ public class EtatTourneeCalculee extends EtatDefaut{
 	public void echangerLivraison(Plan plan, ListeCommandes listeDeCdes, Fenetre fenetre) {
 		this.fenetre=fenetre;
 		Controleur.setEtatCourant(Controleur.etatModeEchange);
-		fenetre.afficheMessage("Cliquer sur la première livraison");
+		fenetre.afficheMessage("Cliquez sur la première livraison");
 		fenetre.desacactiverUndoRedoGenerer();
 
 	}

@@ -21,7 +21,7 @@ public class EtatModeSuppression extends EtatDefaut{
 		}
 		else
 		{
-			fenetre.afficheMessageBox("Vous essayez de supprimer l'entrepot");
+			fenetre.afficheMessageBox("Vous essayez de supprimer l'entrepot!");
 			fenetre.afficheMessage("");
 		}
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
@@ -33,7 +33,7 @@ public class EtatModeSuppression extends EtatDefaut{
 		this.plan=plan;
 		this.listeDeCdes=listeDeCdes;
 		this.livraison=livraison;
-		fenetre.afficheMessage("Valider pour supprimer la livraison à  l'adresse ( " + livraison.getAdresse().getId() + ")." ); 
+		fenetre.afficheMessage("Validez pour supprimer la livraison à  l'adresse ( " + livraison.getAdresse().getId() + ")." ); 
 		fenetre.selectionnerLivraisonTextuelle(livraison);
 	}
 
