@@ -16,7 +16,7 @@ public interface Etat {
 	
 	public abstract void selectionnerLivraison(Plan plan, Livraison livraison, ListeCommandes listeDeCdes, Fenetre fenetre);
 	
-	public abstract void supprimerLivraison(Plan plan, ListeCommandes listeDeCdes, Fenetre fenetre);
+	public abstract void supprimerLivraison(Plan plan, Fenetre fenetre);
 	
 	public abstract void echangerLivraison(Plan plan, ListeCommandes listeDeCdes, Fenetre fenetre);
 
@@ -32,7 +32,7 @@ public interface Etat {
 
 	public abstract void valider(Fenetre fenetre);
 
-	public abstract Noeud deselectionner(Fenetre fenetre);
+	public abstract void deselectionner(Fenetre fenetre);
 	
 	public abstract void genererFeuilleDeRoute(Plan plan);
 		

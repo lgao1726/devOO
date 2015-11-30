@@ -48,7 +48,7 @@ public class EcouteurDeSouris extends MouseAdapter {
 			}
 			else
 			{
-				Noeud noeudDeselectionne=controleur.deselectionner();
+				controleur.deselectionner();
 				//vueGraphique.deselectionnerLivraison(noeudDeselectionne);
 			}
 			break;

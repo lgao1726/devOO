@@ -23,6 +23,7 @@ public class EtatNoeudSelectionne extends EtatDefaut{
 		this.livraisonPrecedente=livraisonPrecedente;
 		this.listeDeCdes=listeDeCdes;
 		this.plan=plan;
+		fenetre.afficheMessage("Elle sera livrée après la livraison à l'adresse: "+ livraisonPrecedente.getAdresse().getId()+". Validez!");
 	}
 	
 	@Override
@@ -30,6 +31,8 @@ public class EtatNoeudSelectionne extends EtatDefaut{
 	{
 		plan.updatePlan();
 		Controleur.etatNoeudSelectionne.setNoeud(noeud);
+		fenetre.afficheMessage("Adresse de la livraison: " + noeud.getId() + ". Selectionnez la livraison après laquelle vous voulez l'insérer");
+
 	}
 	
 	@Override
@@ -38,6 +41,7 @@ public class EtatNoeudSelectionne extends EtatDefaut{
 		plan.updatePlan();
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 		fenetre.afficheMessage("");
+		fenetre.activerUndoRedoGenerer();
 	}
 	
 	@Override
@@ -48,19 +52,9 @@ public class EtatNoeudSelectionne extends EtatDefaut{
 		plan.getDemandeLivraisons().getTournee().afficherListeItineraires();
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 		fenetre.afficheMessage("Ajout terminé");
+		fenetre.activerUndoRedoGenerer();
 		noeud=null;
 		livraisonPrecedente=null;
-	}
-	
-	@Override
-	public Noeud deselectionner(Fenetre fenetre)
-	{
-		System.out.println("deselectionner dans etat noeud selectionne");
-		Noeud noeudRetour=noeud;
-		Controleur.setEtatCourant(Controleur.etatModeEchange);
-		setNoeud(null);
-		fenetre.afficheMessage("");
-		return noeudRetour;
 	}
 	
 }

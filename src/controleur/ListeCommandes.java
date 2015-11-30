@@ -20,16 +20,15 @@ import java.util.LinkedList;
 		
 		public void ajoute(Commande c){
 			System.out.println(indiceCrt) ;
-		for (int i=indiceCrt+1; i<liste.size(); i++)
+		for (int i=indiceCrt+1; i<liste.size(); i++){
 			liste.remove(i);
+		}
 		indiceCrt++;
 		liste.add(indiceCrt, c);
 		c.executer();
 		System.out.println("indice a l'execution"+indiceCrt);
 
 	}
-		
-	
 		
 		public void undo(){
 			if(indiceCrt>=0){

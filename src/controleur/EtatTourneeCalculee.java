@@ -7,6 +7,8 @@ import vue.Fenetre;
 
 public class EtatTourneeCalculee extends EtatDefaut{
 	
+	
+	Fenetre fenetre;
 	/**
 	 * Mï¿½thode qui charger un plan
 	 * @param Plan de ville
@@ -30,32 +32,41 @@ public class EtatTourneeCalculee extends EtatDefaut{
 	}
 	
 	@Override
-	public void selectionnerLivraison(Plan plan, Livraison livraison, ListeCommandes listeDeCdes, Fenetre fenetre) {
-		Controleur.etatLivraisonSelectionnee.setLivraison(livraison);
-		Controleur.setEtatCourant(Controleur.etatLivraisonSelectionnee);
-		fenetre.afficheMessage("Livraison à  l'adresse ( " + livraison.getAdresse().getId() + ") selectionnée" ); 
-	}
-	
-	@Override
 	public void undo(ListeCommandes listeDeCdes) {
+		fenetre.afficheMessage("");
 		listeDeCdes.undo();
 	}
 	
 	@Override
 	public void redo(ListeCommandes listeDeCdes) {
+		fenetre.afficheMessage("");
 		listeDeCdes.redo();
 	}
 	
 	@Override
-	public void ajouterLivraison(Plan plan,   Fenetre fenetre) {
+	public void ajouterLivraison(Plan plan, Fenetre fenetre) {
+		this.fenetre=fenetre;
 		Controleur.setEtatCourant(Controleur.etatModeAjout);
 		fenetre.afficheMessage("Cliquer sur un noeud pour selectionner le lieu de votre livraison");
+		fenetre.desacactiverUndoRedoGenerer();
+	}
+	
+	@Override
+	public void supprimerLivraison(Plan plan, Fenetre fenetre) {
+		this.fenetre=fenetre;
+		Controleur.setEtatCourant(Controleur.EtatModeSuppresion);
+		fenetre.afficheMessage("Cliquer sur la livraison à supprimer");
+		fenetre.desacactiverUndoRedoGenerer();
+
 	}
 	
 	@Override
 	public void echangerLivraison(Plan plan, ListeCommandes listeDeCdes, Fenetre fenetre) {
+		this.fenetre=fenetre;
 		Controleur.setEtatCourant(Controleur.etatModeEchange);
 		fenetre.afficheMessage("Cliquer sur la première livraison");
+		fenetre.desacactiverUndoRedoGenerer();
+
 	}
 	
 	@Override
@@ -64,10 +75,4 @@ public class EtatTourneeCalculee extends EtatDefaut{
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 	}
 	
-	@Override
-	public void selectionnerNoeud(Plan plan, Noeud noeud, Fenetre fenetre)
-	{
-		plan.updatePlan();
-	}
-
 }

@@ -12,12 +12,14 @@ public class EtatModeEchange extends EtatDefaut{
 		System.out.println("Vous avez selectionné:(mode echange) " + livraison.getAdresse().getId());
 		Controleur.etatLivraisonSelectionneeEchange.setLivraison(livraison);
 		Controleur.setEtatCourant(Controleur.etatLivraisonSelectionneeEchange);
+		fenetre.afficheMessage("Adresse de la 1ère livraison: "+ livraison.getAdresse().getId()+ " ...");
 	}
 	
 	public void annuler(Fenetre fenetre)
 	{
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 		fenetre.afficheMessage("");
+		fenetre.activerUndoRedoGenerer();
 	}
 	
 	@Override

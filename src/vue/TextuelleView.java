@@ -104,6 +104,7 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
         lableFenetreSelection.setText(" 08:30 -> 12:30");
 
         btnLivraison.setText("Ajouter Livraison");
+        btnLivraison.setEnabled(false);
         btnLivraison.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLivraisonActionPerformed(evt);
@@ -125,6 +126,7 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
         });
 
         btnSupprimerLivraison.setText("Supprimer Livraison");
+        btnSupprimerLivraison.setEnabled(false);
         btnSupprimerLivraison.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -132,8 +134,10 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
 			}
 		});
 
-        btnDeplacer.setText("Déplacer Livraison");
+        btnDeplacer.setText("Echanger Livraison");
         btnDeplacer.setToolTipText("");
+        btnDeplacer.setEnabled(false);
+
         btnDeplacer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -222,6 +226,8 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
 
 	protected void btnSupprimerActionePermoed(ActionEvent arg0) {
 		controleur.supprimerLivraison();
+		hideButtons(true);
+
 	}
 
 	protected void btnDeplacerActionPermoed(ActionEvent arg0) {
@@ -242,7 +248,16 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
         
         // Code here
         
-    }                                    
+    }   
+    
+    public void activerModification()
+    {
+    	btnLivraison.setEnabled(true);
+    	btnDeplacer.setEnabled(true);
+    	btnSupprimerLivraison.setEnabled(true);
+    }
+    
+    
 
     private void btnLivraisonActionPerformed(java.awt.event.ActionEvent evt) 
     {                                             
@@ -250,8 +265,6 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
     	
     	hideButtons(true);
     }
-    
-    
 
 	@Override
 	public void visite(Livraison v) 

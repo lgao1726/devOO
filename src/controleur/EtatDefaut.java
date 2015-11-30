@@ -30,7 +30,7 @@ public class EtatDefaut implements Etat {
 	}
 	
 	@Override
-	public void supprimerLivraison(Plan plan, ListeCommandes listeDeCdes, Fenetre fenetre){
+	public void supprimerLivraison(Plan plan, Fenetre fenetre){
 		// TODO Auto-generated method stub
 		
 	}
@@ -76,8 +76,7 @@ public class EtatDefaut implements Etat {
 	}
 	
 	@Override
-	public Noeud deselectionner(Fenetre fenetre) {
-		return null;
+	public void deselectionner(Fenetre fenetre) {
 		
 	}
 

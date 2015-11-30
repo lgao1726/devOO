@@ -18,12 +18,52 @@ public class Fenetre extends JFrame
 	private static final long serialVersionUID = 1L;
 	private Controleur controleur;
 	private EcouteurDeSouris ecouteurDeSouris;
-
+	private EcouterDeMvtSouris ecouteurDeMvtSouris;
+	// Variables declaration - do not modify      
+    /* Bar de menu */
+    private JToolBar barOutil;
+    
+    private JButton btnChargerLivraison;
+    private JButton btnChargerPlan;
+    private JButton btnGenerer;
+    private JButton btnRedo;
+    private JButton btnUndo;
+    
+    /* Menu d'application */
+    private JMenuBar menuBar;
+    
+    private JMenu menuEdition;
+    private JMenu menuFichier;
+    private JMenu menuGenere;
+    private JMenu menuAide;
+    
+    private JMenuItem menuChargerLivraison;
+    private JMenuItem menuChargerPlan;
+    private JMenuItem menuQuitter;
+   
+    private JMenuItem menuGenerer;
+    private JMenuItem menuTournee;
+    
+    private JMenuItem menuRedo;
+    private JMenuItem menuUndo;
+    
+    private JMenuItem menuAbout;
+    
+    
+    /* Boite de dialogue */
+    private JLabel cardreMessage;
+    private JPanel messagePanel;
+    
+    private VueGraphique vueGraphique;
+    private JScrollPane scrollPane;
+    private TextuelleView vueTextuelle;
+    
     /**
      * Creates new form Fenetre
      */
     public Fenetre(Plan p, Controleur controleur) 
     {
+    	
     	try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException ex) {
@@ -45,6 +85,8 @@ public class Fenetre extends JFrame
         this.controleur = controleur;
         
         vueGraphique = new VueGraphique(p, 1, this);
+		ecouteurDeMvtSouris = new EcouterDeMvtSouris(controleur, vueGraphique, this);
+		vueGraphique.addMouseMotionListener(ecouteurDeMvtSouris);
         
         /* Vue graphique */
         scrollPane = new JScrollPane(vueGraphique);
@@ -79,6 +121,12 @@ public class Fenetre extends JFrame
         
     	setVisible(true);
     }
+    
+    public void activerModification()
+    {
+    	vueTextuelle.activerModification();
+    }
+
     
     /**
 	 * Affiche un message box Ã  l'utilisateur
@@ -319,6 +367,7 @@ public class Fenetre extends JFrame
         btnChargerLivraison.setHorizontalTextPosition(SwingConstants.CENTER);
         btnChargerLivraison.setMargin(new java.awt.Insets(5, 5, 5, 5));
         btnChargerLivraison.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnChargerLivraison.setEnabled(false);
         
         btnChargerLivraison.addActionListener(new ActionListener() {
 			@Override
@@ -338,6 +387,7 @@ public class Fenetre extends JFrame
         btnUndo.setHorizontalTextPosition(SwingConstants.CENTER);
         btnUndo.setMargin(new java.awt.Insets(5, 5, 5, 5));
         btnUndo.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnUndo.setEnabled(false);
         btnUndo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
@@ -351,7 +401,7 @@ public class Fenetre extends JFrame
         btnRedo.setText("Rétablir");
         btnRedo.setAlignmentX(5.0F);
         btnRedo.setAlignmentY(5.0F);
-        btnRedo.setEnabled(true);
+        btnRedo.setEnabled(false);
         btnRedo.setFocusable(false);
         btnRedo.setHorizontalTextPosition(SwingConstants.CENTER);
         btnRedo.setMargin(new java.awt.Insets(5, 5, 5, 5));
@@ -373,6 +423,7 @@ public class Fenetre extends JFrame
         btnGenerer.setHorizontalTextPosition(SwingConstants.CENTER);
         btnGenerer.setMargin(new java.awt.Insets(5, 5, 5, 5));
         btnGenerer.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnGenerer.setEnabled(false);
         barOutil.add(btnGenerer);
 	}
 	
@@ -420,44 +471,23 @@ public class Fenetre extends JFrame
 	}
                                       
     
-    // Variables declaration - do not modify      
-    /* Bar de menu */
-    private JToolBar barOutil;
-    
-    private JButton btnChargerLivraison;
-    private JButton btnChargerPlan;
-    private JButton btnGenerer;
-    private JButton btnRedo;
-    private JButton btnUndo;
-    
-    /* Menu d'application */
-    private JMenuBar menuBar;
-    
-    private JMenu menuEdition;
-    private JMenu menuFichier;
-    private JMenu menuGenere;
-    private JMenu menuAide;
-    
-    private JMenuItem menuChargerLivraison;
-    private JMenuItem menuChargerPlan;
-    private JMenuItem menuQuitter;
-   
-    private JMenuItem menuGenerer;
-    private JMenuItem menuTournee;
-    
-    private JMenuItem menuRedo;
-    private JMenuItem menuUndo;
-    
-    private JMenuItem menuAbout;
-    
-    
-    /* Boite de dialogue */
-    private JLabel cardreMessage;
-    private JPanel messagePanel;
-    
-    private VueGraphique vueGraphique;
-    private JScrollPane scrollPane;
-    private TextuelleView vueTextuelle;
+	public void activerChargementLivraison() {
+		btnChargerLivraison.setEnabled(true);
+	}
+	
+	public void activerUndoRedoGenerer() {
+		btnUndo.setEnabled(true);
+		btnRedo.setEnabled(true);
+		btnGenerer.setEnabled(true);
+	}
+	
+	public void desacactiverUndoRedoGenerer() {
+		btnUndo.setEnabled(false);
+		btnRedo.setEnabled(false);
+		btnGenerer.setEnabled(false);
+
+	}
+	
     
     // End of variables declaration        
 }

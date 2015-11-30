@@ -38,10 +38,9 @@ public class EcouterDeMvtSouris extends MouseAdapter {
 	
 	private Noeud getPoint(MouseEvent evt){
 		Plan plan = vueGraphique.getPlan();
-		MouseEvent e = SwingUtilities.convertMouseEvent(fenetre, evt, vueGraphique);
-		int x = Math.round((float)e.getX()/(float)vueGraphique.getEchelle());
-		int y = Math.round((float)e.getY()/(float)vueGraphique.getEchelle());
-		return plan.getNoeud(x, y,vueGraphique.getRayonLivraison());
+		Point p  = evt.getPoint();
+		
+		return plan.getNoeud(p.x, p.y,vueGraphique.getRayonLivraison());
 		
 	}
 

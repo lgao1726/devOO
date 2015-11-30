@@ -19,7 +19,7 @@ public class Controleur
 	protected static final EtatTourneeCalculee etatTourneeCalculee = new EtatTourneeCalculee();
 	protected static final EtatModeAjout etatModeAjout = new EtatModeAjout();
 	protected static final EtatModeEchange etatModeEchange = new EtatModeEchange();
-	protected static EtatLivraisonSelectionnee etatLivraisonSelectionnee = new EtatLivraisonSelectionnee();
+	protected static EtatModeSuppression EtatModeSuppresion = new EtatModeSuppression();
 	protected static EtatNoeudSelectionne etatNoeudSelectionne=new EtatNoeudSelectionne();
 	protected static EtatLivraisonSelectionneeEchange etatLivraisonSelectionneeEchange=new EtatLivraisonSelectionneeEchange();
 
@@ -59,7 +59,7 @@ public class Controleur
 	}
 	
 	public void supprimerLivraison(){
-		etatCourant.supprimerLivraison(plan, listeDeCdes, fenetre);
+		etatCourant.supprimerLivraison(plan, fenetre);
 	}
 	
 	public void echangerLivraison(){
@@ -106,8 +106,8 @@ public class Controleur
 		etatCourant.valider(fenetre);
 	}
 
-	public Noeud deselectionner() {
-		return etatCourant.deselectionner(fenetre);
+	public void deselectionner() {
+		etatCourant.deselectionner(fenetre);
 	}
 	
 	public void genererFeuilleDeRoute()

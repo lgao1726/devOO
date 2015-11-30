@@ -7,12 +7,14 @@ import modele.Plan;
 
 public class EtatModeAjout extends EtatDefaut{
 	
+	ListeCommandes listeDeCdes;
+	
 	@Override
 	public void selectionnerNoeud(Plan plan, Noeud noeud, Fenetre fenetre)
 	{	
 		Controleur.etatNoeudSelectionne.setNoeud(noeud);
 		Controleur.setEtatCourant(Controleur.etatNoeudSelectionne);
-		fenetre.afficheMessage("Selectionnez la livraison après laquelle vous voulez insérer la nouvelle");
+		fenetre.afficheMessage("Adresse de la livraison: " + noeud.getId() + ". Selectionnez la livraison après laquelle vous voulez l'insérer");
 	}
 	
 	@Override
@@ -28,13 +30,13 @@ public class EtatModeAjout extends EtatDefaut{
 	{
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 		fenetre.afficheMessage("");
+		fenetre.activerUndoRedoGenerer();
 	}
 	
 	@Override
-	public Noeud deselectionner(Fenetre fenetre)
+	public void deselectionner(Fenetre fenetre)
 	{
 		fenetre.afficheMessage("Il faut selectionner un noeud");
-		return null;
 	}
 	
 	
