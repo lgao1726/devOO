@@ -1,10 +1,20 @@
 package vue;
 
-import java.util.ArrayList;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import modele.DemandeLivraison;
 import modele.FenetreLivraison;
@@ -15,46 +25,38 @@ import modele.Plan;
 import modele.Tournee;
 import modele.Visiteur;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.geom.AffineTransform;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-
-public class VueGraphique extends JPanel implements Observer, Visiteur {
-
+public class VueGraphique extends JPanel implements Observer, Visiteur
+{
 	private final int RAYON_LIVRAISON=5;
+	private final int RAYON_NOEUD=3;
 	private int echelle;
 	private int hauteurVue;
 	private int largeurVue;
 	private Plan plan;
 	private Graphics g;
-
-	/**
-	 * Cree la vue graphique permettant de dessiner plan avec l'echelle e dans la fenetre f
-	 * @param plan
-	 * @param e l'echelle
-	 * @param f la fenetre
-	 */
-	public VueGraphique(Plan plan, int e, Fenetre f) {
+	
+	public VueGraphique(Plan plan, int e, Fenetre fenetre)
+	{
 		super();
+		//setBorder(BorderFactory.createEtchedBorder());
 		plan.addObserver(this); // this observe plan
 		
 		this.echelle = e;
 		
-		hauteurVue = plan.getDimY()*e;
-		largeurVue = plan.getDimX()*e;
+		hauteurVue = 200;
+		largeurVue = 200;
 		
 		setLayout(null);
 		setBackground(Color.white);
+		setPreferredSize(new Dimension(200, 200));
 		setSize(largeurVue, hauteurVue);
-		f.getContentPane().add(this);
+		//fenetre.getContentPane().add(this);
 		this.plan = plan;
+	}
+	
+	public int getRayonNoeud()
+	{
+		return RAYON_NOEUD;
 	}
 	
 	/**
@@ -69,15 +71,7 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
 		RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		
-		g2.setColor(Color.lightGray);
-		for (int y=0; y<largeurVue/echelle; y+=20)
-			g.drawLine(y*echelle, 0, y*echelle, hauteurVue);
-		for (int x=0; x<hauteurVue/echelle; x+=20)
-			g.drawLine(0, x*echelle, largeurVue, x*echelle);
-		g2.setColor(Color.gray);
-		g2.drawRect(0, 0, largeurVue, hauteurVue);
 		this.g = g;
-		
 		
 		for(int i = 0; i < this.plan.getIntersections().size(); i++)
 		{
@@ -103,7 +97,7 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 			}
 		}
 		
-		// Déssiner l'entrepot
+		// DÃ©ssiner l'entrepot
 		Noeud entropt = plan.getAdresseEntrepot();
 		
 		if (entropt != null)
@@ -116,8 +110,8 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 		
 		if (dem != null)
 		{
-			Iterator<FenetreLivraison> itFen = dem.getFenetreIterator();			
-			
+			Iterator<FenetreLivraison> itFen = dem.getFenetreIterator();	
+		
 			while (itFen.hasNext())
 			{
 				FenetreLivraison fen = itFen.next();				
@@ -173,6 +167,7 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 		largeurVue = plan.getDimX()*this.echelle;
 		
 		setSize(largeurVue, hauteurVue);
+		setPreferredSize(new Dimension(largeurVue, hauteurVue));
 		
 		repaint();
 	}
@@ -194,6 +189,11 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 	}
 	
 	@Override
+	public void visite(DemandeLivraison v)
+	{
+	}
+	
+	@Override
 	public void visite(Itineraire iti) {
 		int i = 0;
 		List<Integer> idNoeuds = iti.getNoeuds();
@@ -202,11 +202,11 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
 			Noeud origine = plan.getNoeud(idNoeuds.get(i));
 			Noeud destination = plan.getNoeud(idNoeuds.get(i+1));
 			g2.setColor(Color.blue);
-			g2.drawString(""+origine.getId(), origine.getX()+5, origine.getY()-10);
+			g2.drawString(""+origine.getId(), origine.getX()*echelle+5, origine.getY()*echelle-10);
 			g2.setColor(Color.green);
 			g2.setStroke(new BasicStroke(1));
-			drawArrow(g2,origine.getX(),origine.getY(),
-					destination.getX(),destination.getY());	
+			drawArrow(g2,origine.getX()*echelle,origine.getY()*echelle,
+					destination.getX()*echelle,destination.getY()*echelle);	
 			//g2.drawLine(origine.getX(),origine.getY(),
 			//			destination.getX(),destination.getY());			
 			i++;
@@ -230,12 +230,43 @@ public class VueGraphique extends JPanel implements Observer, Visiteur {
         g.fillPolygon(new int[] {len, len-12, len-12, len},
                       new int[] {0, -8, 8, 0}, 4);
     }
+	
+	public void selectionnerLivraison(Livraison liv, Color color) 
+	{
+		Graphics2D g2 = (Graphics2D)getGraphics();
+		g2.setColor(color);
 
-	@Override
-	public void visite(DemandeLivraison v) {
-		// TODO Auto-generated method stub
+		g2.fillOval(liv.getAdresse().getX()*echelle-RAYON_LIVRAISON, liv.getAdresse().getY()*echelle-RAYON_LIVRAISON, 2*RAYON_LIVRAISON, 2*RAYON_LIVRAISON);
 		
 	}
+	
+	public void selectionnerNoeud(Noeud noeud, Color color) 
+	{
+		Graphics2D g2 = (Graphics2D)getGraphics();
+		g2.setColor(color);
 
+		g2.fillOval(noeud.getX()*echelle-RAYON_NOEUD, noeud.getY()*echelle-RAYON_NOEUD, 2*RAYON_NOEUD, 2*RAYON_NOEUD);
+		
+	}
+	
+	public void deselectionnerLivraison(Noeud noeud){
+		if(noeud!=null){
+			int xNoeud=noeud.getX();
+			int yNoeud=noeud.getY();
+			if(plan.getDemandeLivraisons().getLivraison(xNoeud, yNoeud, RAYON_LIVRAISON)!=null)
+			{
+				Graphics2D g2 = (Graphics2D)getGraphics();
+				g2.setColor(Color.RED);
+				g2.fillOval(xNoeud*echelle-RAYON_LIVRAISON, yNoeud*echelle-RAYON_LIVRAISON, 2*RAYON_LIVRAISON, 2*RAYON_LIVRAISON);
+			}
+			else if(plan.getNoeud(xNoeud, yNoeud, RAYON_NOEUD)!=null)
+			{
+				Graphics2D g2 = (Graphics2D)getGraphics();
+				g2.setColor(Color.BLACK);
+				g2.fillOval(xNoeud*echelle-RAYON_NOEUD, yNoeud*echelle-RAYON_NOEUD, 2*RAYON_NOEUD, 2*RAYON_NOEUD);
+			}
+		}
+		
+	}
 
 }

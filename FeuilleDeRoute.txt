@@ -1,0 +1,50 @@
+Etape pour aller de: 40 a 73
+Duree: 20 mins
+Heure d'arrive: 8h20
+1) Prendre h0 et continuer 1003.1m
+2) Prendre v6 et continuer 1078.2m
+3) Prendre h2 et continuer 153.8m
+4) Prendre v7 et continuer 648.7m
+Etape pour aller de: 73 a 98
+Duree: 25 mins
+Heure d'arrive: 8h45
+1) Prendre v7 et continuer 1288.8m
+2) Prendre h5 et continuer 996.80005m
+3) Prendre v9 et continuer 1590.7m
+Etape pour aller de: 98 a 68
+Duree: 20 mins
+Heure d'arrive: 9h6
+1) Prendre v9 et continuer 278.6m
+2) Prendre h7 et continuer 1232.7m
+3) Prendre v7 et continuer 493.4m
+4) Prendre h8 et continuer 502.5m
+Etape pour aller de: 68 a 67
+Duree: 14 mins
+Heure d'arrive: 9h20
+1) Prendre v6 et continuer 500.1m
+Etape pour aller de: 67 a 56
+Duree: 14 mins
+Heure d'arrive: 9h34
+1) Prendre h7 et continuer 794.6m
+2) Prendre v5 et continuer 395.1m
+Etape pour aller de: 56 a 43
+Duree: 22 mins
+Heure d'arrive: 9h56
+1) Prendre h6 et continuer 885.2m
+2) Prendre v4 et continuer 2192.6m
+Etape pour aller de: 43 a 14
+Duree: 19 mins
+Heure d'arrive: 10h15
+1) Prendre v4 et continuer 752.1m
+2) Prendre h4 et continuer 1677.7001m
+Etape pour aller de: 14 a 13
+Duree: 17 mins
+Heure d'arrive: 10h33
+1) Prendre v1 et continuer 892.3m
+Etape pour aller de: 13 a 40
+Duree: 23 mins
+Heure d'arrive: 10h56
+1) Prendre v1 et continuer 743.9m
+2) Prendre h1 et continuer 588.4m
+3) Prendre v2 et continuer 624.8m
+4) Prendre h0 et continuer 1441.9m

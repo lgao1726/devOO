@@ -84,11 +84,11 @@ public class Controleur
 	}
 
 	public void selectionnerNoeud(Noeud noeud) {
-		etatCourant.selectionnerNoeud(noeud, fenetre);		
+		etatCourant.selectionnerNoeud(plan,noeud, fenetre);		
 	}
 
 	public void ajouterLivraison() {
-		etatCourant.ajouterLivraison(fenetre);
+		etatCourant.ajouterLivraison(plan, fenetre);
 		
 	}
 	
@@ -104,6 +104,15 @@ public class Controleur
 
 	public void valider() {
 		etatCourant.valider(fenetre);
+	}
+
+	public Noeud deselectionner() {
+		return etatCourant.deselectionner(fenetre);
+	}
+	
+	public void genererFeuilleDeRoute()
+	{
+		etatCourant.genererFeuilleDeRoute(plan);
 	}
 
 }

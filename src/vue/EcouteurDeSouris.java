@@ -1,13 +1,17 @@
 package vue;
 
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.SwingUtilities;
 
+import com.sun.javafx.scene.paint.GradientUtils.Point;
+
 import controleur.Controleur;
 import modele.DemandeLivraison;
 import modele.Livraison;
+import modele.Noeud;
 
 
 public class EcouteurDeSouris extends MouseAdapter {
@@ -24,14 +28,30 @@ public class EcouteurDeSouris extends MouseAdapter {
 
 	@Override
 	public void mouseClicked(MouseEvent evt) {
+		
 		// Methode appelee par l'ecouteur de souris a chaque fois que la souris est cliquee
 		// S'il s'agit d'un clic gauche dans la vue graphique, l'ecouteur envoie au controleur les coordonnees du point clique.
 		// S'il s'agit d'un clic droit, l'ecouteur envoie le message d'echappement au controleur
 		switch (evt.getButton()){
 		case MouseEvent.BUTTON1: 
 			Livraison livraison = getLivraison(evt);
-			if (livraison != null){
+			Noeud noeud= getNoeud(evt);
+			
+			if (livraison != null)
+			{
 				controleur.selectionnerLivraison(livraison); 
+				
+				vueGraphique.selectionnerLivraison(livraison, Color.CYAN);
+			}
+			else if(noeud != null)
+			{
+				controleur.selectionnerNoeud(noeud);
+				vueGraphique.selectionnerNoeud(noeud, Color.CYAN);
+			}
+			else
+			{
+				Noeud noeudDeselectionne=controleur.deselectionner();
+				vueGraphique.deselectionnerLivraison(noeudDeselectionne);
 			}
 			break;
 		case MouseEvent.BUTTON3: 
@@ -43,11 +63,18 @@ public class EcouteurDeSouris extends MouseAdapter {
 	
 	private Livraison getLivraison(MouseEvent evt){
 		DemandeLivraison demandeLivraison=vueGraphique.getPlan().getDemandeLivraisons();
-		MouseEvent e = SwingUtilities.convertMouseEvent(fenetre, evt, vueGraphique);
-		int x = Math.round((float)e.getX()/(float)vueGraphique.getEchelle());
-		int y = Math.round((float)e.getY()/(float)vueGraphique.getEchelle());
-		return demandeLivraison.getLivraison(x, y, vueGraphique.getRayonLivraison());
+		
+		java.awt.Point Pt = evt.getPoint();	 
+		
+		 demandeLivraison.getLivraison(Pt.x, Pt.y, vueGraphique.getRayonLivraison());		
+		
+		return demandeLivraison.getLivraison(Pt.x, Pt.y, vueGraphique.getRayonLivraison());		
 	}
 
+	private Noeud getNoeud(MouseEvent evt)
+	{
+		java.awt.Point Pt = evt.getPoint();	 
+		return vueGraphique.getPlan().getNoeud( Pt.x, Pt.y, vueGraphique.getRayonNoeud());
+	}
 
 }

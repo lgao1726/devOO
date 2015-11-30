@@ -1,6 +1,6 @@
 import tsp.Graphe;
 import tsp.GrapheLivraison;
-import vue.Windows;
+import vue.Fenetre;
 import modele.Noeud;
 import modele.Plan;
 import modele.Tournee;
@@ -21,7 +21,7 @@ public class Main
 		
 		Controleur controleur=new Controleur(plan);
 		
-		new Windows(plan, controleur);
+		//new Windows(plan, controleur);
 	}
 
 }

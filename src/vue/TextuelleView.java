@@ -1,5 +1,7 @@
 package vue;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -45,9 +47,13 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
     private JButton btnLivraison;
     private JButton btnSupprimerLivraison;
     
-    private Plan plan;
+    private JButton btnAnnuler;
+    private JButton btnValider;
     
-	public TextuelleView(Plan plan)
+    private Plan plan;
+    private Controleur controleur;
+    
+	public TextuelleView(Plan plan, Controleur controleur)
 	{
 		jScrollPane1 = new JScrollPane();
         listFenetre = new JList<>();
@@ -59,12 +65,18 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
         btnLivraison = new JButton();
         btnSupprimerLivraison = new JButton();
         btnDeplacer = new JButton();
+        btnAnnuler = new JButton();
+        btnValider = new JButton();
+        
+        btnValider.setVisible(false);
+        btnAnnuler.setVisible(false);
         
         setBorder(BorderFactory.createEtchedBorder());
         setVerifyInputWhenFocusTarget(false);
         
         plan.addObserver(this);
 		this.plan = plan;
+		this.controleur = controleur;
 
         
         listFenetre.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -97,11 +109,37 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
                 btnLivraisonActionPerformed(evt);
             }
         });
+        
+        btnAnnuler.setText("Annuler");
+        btnAnnuler.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnnulerActionPerformed(evt);
+            }
+        });
+        
+        btnValider.setText("Valider");
+        btnValider.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnValiderActionPerformed(evt);
+            }
+        });
 
         btnSupprimerLivraison.setText("Supprimer Livraison");
+        btnSupprimerLivraison.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				btnSupprimerActionePermoed(arg0);	
+			}
+		});
 
         btnDeplacer.setText("Déplacer Livraison");
         btnDeplacer.setToolTipText("");
+        btnDeplacer.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				btnDeplacerActionPermoed(arg0);
+			}
+		});
 
         GroupLayout vueTextuelleLayout = new GroupLayout(this);
         
@@ -126,10 +164,13 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
                                 .addComponent(lableFenetreSelection, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE))
                             .addGroup(vueTextuelleLayout.createSequentialGroup()
                                 .addComponent(btnLivraison)
+                                .addComponent(btnValider)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnSupprimerLivraison)
+                                .addComponent(btnAnnuler)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnDeplacer)))
+                                .addComponent(btnDeplacer)
+                            		))
                         .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         vueTextuelleLayout.setVerticalGroup(
@@ -149,11 +190,48 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
                 .addGroup(vueTextuelleLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDeplacer)
                     .addComponent(btnSupprimerLivraison)
-                    .addComponent(btnLivraison))
+                    .addComponent(btnLivraison)
+                    .addComponent(btnValider)
+                    .addComponent(btnAnnuler)
+                	)
                 .addGap(35, 35, 35))
         );
 	}
 	
+	protected void hideButtons(boolean type)
+	{
+		btnDeplacer.setVisible(!type);
+		btnSupprimerLivraison.setVisible(!type);
+		btnLivraison.setVisible(!type);
+		
+		btnValider.setVisible(type);
+		btnAnnuler.setVisible(type);
+	}
+	
+	protected void btnValiderActionPerformed(ActionEvent evt) {
+		controleur.valider();
+		
+		hideButtons(false);
+	}
+
+	protected void btnAnnulerActionPerformed(ActionEvent evt) {
+		controleur.annuler();
+		
+		hideButtons(false);
+	}
+
+	protected void btnSupprimerActionePermoed(ActionEvent arg0) {
+		controleur.supprimerLivraison();
+		
+		hideButtons(true);
+	}
+
+	protected void btnDeplacerActionPermoed(ActionEvent arg0) {
+		controleur.echangerLivraison();
+		
+		hideButtons(true);
+	}
+
 	private void selectionnerLivraisonLigne(java.awt.event.MouseEvent evt) {                                            
         
         int livraisonSelectionne = tableLivraison.getSelectedRow();
@@ -172,7 +250,9 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
 
     private void btnLivraisonActionPerformed(java.awt.event.ActionEvent evt) 
     {                                             
-        // TODO add your handling code here:
+    	controleur.ajouterLivraison();
+    	
+    	hideButtons(true);
     }
     
     

@@ -28,13 +28,14 @@ import modele.Visiteur;
 public class GraphiqueView extends JPanel implements Observer, Visiteur
 {
 	private final int RAYON_LIVRAISON=5;
+	private final int RAYON_NOEUD=3;
 	private int echelle;
 	private int hauteurVue;
 	private int largeurVue;
 	private Plan plan;
 	private Graphics g;
 	
-	public GraphiqueView(Plan plan, int e, Windows fenetre)
+	public GraphiqueView(Plan plan, int e, Fenetre fenetre)
 	{
 		super();
 		//setBorder(BorderFactory.createEtchedBorder());
@@ -51,6 +52,11 @@ public class GraphiqueView extends JPanel implements Observer, Visiteur
 		setSize(largeurVue, hauteurVue);
 		//fenetre.getContentPane().add(this);
 		this.plan = plan;
+	}
+	
+	public int getRayonNoeud()
+	{
+		return RAYON_NOEUD;
 	}
 	
 	/**
@@ -224,5 +230,43 @@ public class GraphiqueView extends JPanel implements Observer, Visiteur
         g.fillPolygon(new int[] {len, len-12, len-12, len},
                       new int[] {0, -8, 8, 0}, 4);
     }
+	
+	public void selectionnerLivraison(Livraison liv, Color color) 
+	{
+		Graphics2D g2 = (Graphics2D)getGraphics();
+		g2.setColor(color);
+
+		g2.fillOval(liv.getAdresse().getX()*echelle-RAYON_LIVRAISON, liv.getAdresse().getY()*echelle-RAYON_LIVRAISON, 2*RAYON_LIVRAISON, 2*RAYON_LIVRAISON);
+		
+	}
+	
+	public void selectionnerNoeud(Noeud noeud, Color color) 
+	{
+		Graphics2D g2 = (Graphics2D)getGraphics();
+		g2.setColor(color);
+
+		g2.fillOval(noeud.getX()*echelle-RAYON_NOEUD, noeud.getY()*echelle-RAYON_NOEUD, 2*RAYON_NOEUD, 2*RAYON_NOEUD);
+		
+	}
+	
+	public void deselectionnerLivraison(Noeud noeud){
+		if(noeud!=null){
+			int xNoeud=noeud.getX();
+			int yNoeud=noeud.getY();
+			if(plan.getDemandeLivraisons().getLivraison(xNoeud, yNoeud, RAYON_LIVRAISON)!=null)
+			{
+				Graphics2D g2 = (Graphics2D)getGraphics();
+				g2.setColor(Color.RED);
+				g2.fillOval(xNoeud*echelle-RAYON_LIVRAISON, yNoeud*echelle-RAYON_LIVRAISON, 2*RAYON_LIVRAISON, 2*RAYON_LIVRAISON);
+			}
+			else if(plan.getNoeud(xNoeud, yNoeud, RAYON_NOEUD)!=null)
+			{
+				Graphics2D g2 = (Graphics2D)getGraphics();
+				g2.setColor(Color.BLACK);
+				g2.fillOval(xNoeud*echelle-RAYON_NOEUD, yNoeud*echelle-RAYON_NOEUD, 2*RAYON_NOEUD, 2*RAYON_NOEUD);
+			}
+		}
+		
+	}
 
 }
