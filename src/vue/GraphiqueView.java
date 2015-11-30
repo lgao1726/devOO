@@ -7,13 +7,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.QuadCurve2D;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -28,7 +25,7 @@ import modele.Plan;
 import modele.Tournee;
 import modele.Visiteur;
 
-public class VueGraphique extends JPanel implements Observer, Visiteur
+public class GraphiqueView extends JPanel implements Observer, Visiteur
 {
 	private final int RAYON_LIVRAISON=5;
 	private final int RAYON_NOEUD=3;
@@ -37,22 +34,14 @@ public class VueGraphique extends JPanel implements Observer, Visiteur
 	private int largeurVue;
 	private Plan plan;
 	private Graphics g;
-	private ArrayList<TraitsDejaDessine> traitsDejaDessine;
-
-	/**
-	 * Cree la vue graphique permettant de dessiner plan avec l'echelle e dans la fenetre f
-	 * @param plan
-	 * @param e l'echelle
-	 * @param f la fenetre
-	 */
-	public VueGraphique(Plan plan, int e, Fenetre f) {
+	
+	public GraphiqueView(Plan plan, int e, Fenetre fenetre)
+	{
 		super();
 		//setBorder(BorderFactory.createEtchedBorder());
 		plan.addObserver(this); // this observe plan
 		
-		traitsDejaDessine = new ArrayList<TraitsDejaDessine>();
-		
-		this.echelle = e;
+		this.echelle = 2;
 		
 		hauteurVue = 200;
 		largeurVue = 200;
@@ -61,7 +50,7 @@ public class VueGraphique extends JPanel implements Observer, Visiteur
 		setBackground(Color.white);
 		setPreferredSize(new Dimension(200, 200));
 		setSize(largeurVue, hauteurVue);
-		f.getContentPane().add(this);
+		//fenetre.getContentPane().add(this);
 		this.plan = plan;
 	}
 	
@@ -129,7 +118,7 @@ public class VueGraphique extends JPanel implements Observer, Visiteur
 				Iterator<Livraison> itLiv = fen.getLivraisonIterator();				
 				while (itLiv.hasNext())				
 					itLiv.next().accepte(this);
-			}traitsDejaDessine.clear();
+			}
 		}
 		
 		if(dem != null && dem.getTournee() != null){
@@ -199,27 +188,22 @@ public class VueGraphique extends JPanel implements Observer, Visiteur
 		g2.fillOval(x*echelle-RAYON_LIVRAISON, y*echelle-RAYON_LIVRAISON, 2*RAYON_LIVRAISON, 2*RAYON_LIVRAISON);
 	}
 	
-	@Override
-	public void visite(DemandeLivraison v)
-	{
-	}
+
 	
 	@Override
 	public void visite(Itineraire iti) {
 		int i = 0;
 		List<Integer> idNoeuds = iti.getNoeuds();
-		Random r = new Random();
-		Color c = new Color(r.nextInt(256), r.nextInt(200), r.nextInt(130));
 		while(i < idNoeuds.size() - 1){
 			Graphics2D g2 = (Graphics2D) g;
 			Noeud origine = plan.getNoeud(idNoeuds.get(i));
 			Noeud destination = plan.getNoeud(idNoeuds.get(i+1));
 			g2.setColor(Color.blue);
-			g2.drawString(""+origine.getId(), origine.getX()+5, origine.getY()-10);			
-			g2.setColor(c);
+			g2.drawString(""+origine.getId(), origine.getX()*echelle+5, origine.getY()*echelle-10);
+			g2.setColor(Color.green);
 			g2.setStroke(new BasicStroke(1));
-			drawArrow(g2,origine.getX(),origine.getY(),
-					destination.getX(),destination.getY());	
+			drawArrow(g2,origine.getX()*echelle,origine.getY()*echelle,
+					destination.getX()*echelle,destination.getY()*echelle);	
 			//g2.drawLine(origine.getX(),origine.getY(),
 			//			destination.getX(),destination.getY());			
 			i++;
@@ -231,7 +215,6 @@ public class VueGraphique extends JPanel implements Observer, Visiteur
 	private void drawArrow(Graphics g1, int x1, int y1, int x2, int y2) {
         Graphics2D g = (Graphics2D) g1.create();
 
-        double control = 15;
         double dx = x2 - x1, dy = y2 - y1;
         double angle = Math.atan2(dy, dx);
         int len = (int) Math.sqrt(dx*dx + dy*dy);
@@ -240,15 +223,8 @@ public class VueGraphique extends JPanel implements Observer, Visiteur
         g.transform(at);
 
         // Draw horizontal arrow starting in (0, 0)
-        QuadCurve2D.Double s = new QuadCurve2D.Double(0, 0, len/2, control, len, 0);
-        g.draw(s);
-        
-        //g.drawLine(0, 0, len, 0);
-        
-        AffineTransform atArrow = AffineTransform.getTranslateInstance(len/2, control);
-        atArrow.concatenate(AffineTransform.getRotateInstance(Math.atan2(-control, len/2)));
-        g.transform(atArrow);
-        g.fillPolygon(new int[] {len/2, (len/2)-12, (len/2)-12, len/2},
+        g.drawLine(0, 0, len, 0);
+        g.fillPolygon(new int[] {len, len-12, len-12, len},
                       new int[] {0, -8, 8, 0}, 4);
     }
 	

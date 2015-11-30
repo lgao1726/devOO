@@ -1,5 +1,6 @@
 import tsp.Graphe;
 import tsp.GrapheLivraison;
+import vue.Fenetre;
 import modele.Noeud;
 import modele.Plan;
 import modele.Tournee;
@@ -14,15 +15,13 @@ public class Main
 	 * Lanceur d'application
 	 */
 	public static void main(String[] args) 
-	{
+	{		
 		// Creation du plan
 		Plan plan = new Plan(dimX, dimY);
 		
 		Controleur controleur=new Controleur(plan);
 		
-
-	
-
+		//new Windows(plan, controleur);
 	}
 
 }

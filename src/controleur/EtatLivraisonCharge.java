@@ -40,7 +40,7 @@ public class EtatLivraisonCharge extends EtatDefaut
 		plan.getDemandeLivraisons().calculerTournee(plan);
 		plan.updatePlan();
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
-		fenetre.afficheMessage("Tournée calculer avec succès");
+		fenetre.afficheMessage("Tournï¿½e calculer avec succï¿½s");
 	}
 	
 	

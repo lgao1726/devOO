@@ -294,4 +294,9 @@ public class DemandeLivraison
 		return livraisonsRetard;
 	}
 	
+	public void accepte(Visiteur v)
+	{
+		v.visite(this);
+	}
+	
 }
