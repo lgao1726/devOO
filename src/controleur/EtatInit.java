@@ -38,7 +38,6 @@ public class EtatInit extends EtatDefaut
 		{
 			fenetre.afficheMessageBox(e.getMessage());
 			fenetre.afficheMessage("Ressayez de charger un plan");
-			
 			plan.reset();
 		}
 	}

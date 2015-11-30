@@ -56,5 +56,4 @@ public class EtatNoeudSelectionne extends EtatDefaut{
 		noeud=null;
 		livraisonPrecedente=null;
 	}
-	
 }

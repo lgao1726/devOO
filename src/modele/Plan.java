@@ -113,7 +113,6 @@ public class Plan extends Observable
 	public void setDemandeLivraisons(DemandeLivraison demandes) 
 	{
 		this.demandeLivraisons = demandes;
-		this.updatePlan();
 	}
 
 	
@@ -162,7 +161,6 @@ public class Plan extends Observable
 	public Noeud getNoeud(int xPoint, int yPoint, int rayon) {
 			for(Noeud noeud:intersections)
 			{
-				//System.out.println("Noeud " + noeud.getId() + ": " + noeud.getX() + "," + noeud.getY());
 				if((xPoint>noeud.getX()-rayon) && (xPoint<noeud.getX()+rayon)  && (yPoint<noeud.getY()+rayon)  && (yPoint>noeud.getY()-rayon))
 				{
 					System.out.println(noeud.getId()+" idnoeud");

@@ -30,4 +30,5 @@ public class CommandeAjouter implements Commande {
 		plan.getDemandeLivraisons().supprimerLivraison(livraison.getAdresse().getId());
 		plan.updatePlan();
 	}
+	
 }

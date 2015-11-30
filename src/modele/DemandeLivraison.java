@@ -31,10 +31,6 @@ public class DemandeLivraison
 	public void ajouterFenetre(FenetreLivraison fenetre)
 	{
 		listeFenetres.add(fenetre);
-		System.out.println("fenetre: ");
-		for(Livraison liv:fenetre.getLivraisons()){
-			System.out.print(liv.getAdresse().getId()+";;");
-		}System.out.println();
 	}
 	
 	public FenetreLivraison getFenetre(Calendar debut, Calendar fin)
@@ -67,7 +63,6 @@ public class DemandeLivraison
 		tournee.calculerTournee(plan, listeFenetres);
 		tournee.afficherListeItineraires();
 		setHeuresPassage();
-		plan.updatePlan();
 		return tournee;
 	}
 	
@@ -118,7 +113,7 @@ public class DemandeLivraison
 		setHeuresPassage();
 	}
 	
-	//echanger 2 livraisons, ils ont pas besoin d'etre im a cotre de l'autre
+	//echanger 2 livraisons, ils ont pas besoin d'etre un a cotre de l'autre
 	public void echangerLivraisonSepares(int livraison1,int livraison2){
 		List<Itineraire> itineraires = getTournee().getItineraires();
 		//trouver qui est le livraison precedent entre les deux
@@ -233,7 +228,6 @@ public class DemandeLivraison
 				Noeud noeud=livraison.getAdresse();
 				if((xPoint>noeud.getX()-rayon) && (xPoint<noeud.getX()+rayon)  && (yPoint<noeud.getY()+rayon)  && (yPoint>noeud.getY()-rayon))
 				{
-					System.out.println(noeud.getId()+"|"+livraison.getId()+"|"+fenetre.getNbLivraisons());
 					return livraison;
 				}
 			}
@@ -271,10 +265,9 @@ public class DemandeLivraison
 		List<FenetreLivraison> fenetres = getFenetres();
 		for(int i=1;i<fenetres.size();i++){
 			for(Livraison liv:fenetres.get(i).getLivraisons()){
-				System.out.println("Fenetre id"+i + " id Livraison: "+liv.getId() );
 				liv.getHeurePassage().setTimeInMillis(0x1808580);
 			}
-		}
+		}livraisonsRetard.clear();
 	}
 	
 	public void genererFeuilleDeRoute(Plan plan)
@@ -285,7 +278,7 @@ public class DemandeLivraison
 	    try {
 			fw = new FileWriter(file);
 			for(String string:strings){
-				fw.write(string);
+				fw.write(string+"\n");
 			}
 		      fw.close();
 

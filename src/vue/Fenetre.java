@@ -12,9 +12,10 @@ import javax.swing.border.EtchedBorder;
 
 import modele.Plan;
 import controleur.Controleur;
-
 public class Fenetre extends JFrame
 {
+	
+	
 	private static final long serialVersionUID = 1L;
 	private Controleur controleur;
 	private EcouteurDeSouris ecouteurDeSouris;
@@ -57,7 +58,7 @@ public class Fenetre extends JFrame
     private VueGraphique vueGraphique;
     private JScrollPane scrollPane;
     private TextuelleView vueTextuelle;
-    
+
     /**
      * Creates new form Fenetre
      */
@@ -102,13 +103,15 @@ public class Fenetre extends JFrame
         vueTextuelle = new TextuelleView(p,controleur);
         
         ecouteurDeSouris = new EcouteurDeSouris(controleur,vueGraphique,this);
-        
         vueGraphique.addMouseListener(ecouteurDeSouris);
+        
+        vueGraphique.getAccessibleContext().setAccessibleParent(scrollPane);
+        
         
         /* Boite de dialogue */
         creerBoiteDialogue();
 
-        /* Proprité de la fenêtre */
+        /* Propritï¿½ de la fenï¿½tre */
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestion des livraisons");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -144,6 +147,8 @@ public class Fenetre extends JFrame
         
         return dialogButton == JOptionPane.YES_OPTION;
 	}
+    
+
     
     private void ajouterComposants() 
     {
@@ -205,6 +210,12 @@ public class Fenetre extends JFrame
         );
 		
 	}
+	
+	/**
+	 * Definit la taille du cadre et de ses composants en fonction de la taille de la vue
+	 * @param largeurVue
+	 * @param hauteurVue
+	 */
 	
 	public JScrollPane getScrollPane()
 	{
@@ -279,7 +290,7 @@ public class Fenetre extends JFrame
         menuEdition.add(menuUndo);
 
         menuRedo.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_MASK));
-        menuRedo.setText("Rétablir");
+        menuRedo.setText("Rï¿½tablir");
         menuRedo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -292,7 +303,7 @@ public class Fenetre extends JFrame
         menuBar.add(menuEdition);
 
         menuTournee.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
-        menuTournee.setText("Calculer Tournée");
+        menuTournee.setText("Calculer Tournï¿½e");
         menuTournee.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent evt) 
@@ -301,11 +312,11 @@ public class Fenetre extends JFrame
 			}
 		});
         
-        menuGenere.setText("Générer");
+        menuGenere.setText("Gï¿½nï¿½rer");
         menuGenere.add(menuTournee);
 
         menuGenerer.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
-        menuGenerer.setText("Générer Feuille de route");
+        menuGenerer.setText("Gï¿½nï¿½rer Feuille de route");
         menuGenere.add(menuGenerer);
         menuGenere.addActionListener(new ActionListener() {
 			@Override
@@ -398,7 +409,7 @@ public class Fenetre extends JFrame
         barOutil.add(new JToolBar.Separator());
 
         btnRedo.setIcon(new ImageIcon(getClass().getResource("/vue/icons/redo.png"))); // NOI18N
-        btnRedo.setText("Rétablir");
+        btnRedo.setText("Rï¿½tablir");
         btnRedo.setAlignmentX(5.0F);
         btnRedo.setAlignmentY(5.0F);
         btnRedo.setEnabled(false);
@@ -416,7 +427,7 @@ public class Fenetre extends JFrame
         barOutil.add(new JToolBar.Separator());
 
         btnGenerer.setIcon(new ImageIcon(getClass().getResource("/vue/icons/generate.png"))); // NOI18N
-        btnGenerer.setText("Générer");
+        btnGenerer.setText("Gï¿½nï¿½rer");
         btnGenerer.setAlignmentX(5.0F);
         btnGenerer.setAlignmentY(5.0F);
         btnGenerer.setFocusable(false);

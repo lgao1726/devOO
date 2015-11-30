@@ -87,7 +87,7 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
         jScrollPane1.setViewportView(listFenetre);
         listFenetre.getAccessibleContext().setAccessibleParent(this);
 
-        jLabel1.setText("Séléctionner une fenêtre de livraison :");
+        jLabel1.setText("Sï¿½lï¿½ctionner une fenï¿½tre de livraison :");
 
         tableLivraison.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tableLivraison.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -98,7 +98,7 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
         jScrollPane2.setViewportView(tableLivraison);
         tableLivraison.getAccessibleContext().setAccessibleParent(this);
 
-        labelFenetreTexte.setText("Demande de les Livraisons de la fenêtre :");
+        labelFenetreTexte.setText("Demande de les Livraisons de la fenï¿½tre :");
 
         lableFenetreSelection.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lableFenetreSelection.setText(" 08:30 -> 12:30");
@@ -227,7 +227,6 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
 	protected void btnSupprimerActionePermoed(ActionEvent arg0) {
 		controleur.supprimerLivraison();
 		hideButtons(true);
-
 	}
 
 	protected void btnDeplacerActionPermoed(ActionEvent arg0) {
@@ -239,6 +238,8 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
 	private void selectionnerLivraisonLigne(java.awt.event.MouseEvent evt) {                                            
         
         int livraisonSelectionne = tableLivraison.getSelectedRow();
+        
+        // Code de selection here
         
     }                                           
 
@@ -295,7 +296,7 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
 		
 		//remplirFenetre(itFen);
 		
-		String[] colums = new String[] {"Numéro", "Heure Passage", "Client", "Adresse"};
+		String[] colums = new String[] {"Numï¿½ro", "Heure Passage", "Client", "Adresse"};
 		
 		int count = 0;
 		while (itFen.hasNext())
@@ -362,7 +363,7 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
 		
 		remplirFenetre(v.getFenetreIterator());
 		
-		String[] colums = new String[] {"Fenêtre", "Client", "Adresse"};
+		String[] colums = new String[] {"Fenï¿½tre", "Client", "Adresse"};
 		
 		int count = 0;
 		while (itFen.hasNext())
@@ -436,7 +437,7 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
 			{
 				strings = new ArrayList<String>();
 					
-				strings.add("Toute les fenêtres");
+				strings.add("Toute les fenï¿½tres");
 				
 				while (itFen.hasNext())
 				{

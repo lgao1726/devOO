@@ -24,13 +24,18 @@ public class OuvreurDeFichierXML extends FileFilter {// Singleton
         else
          	returnVal = jFileChooserXML.showSaveDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) 
-
-        	return new File(jFileChooserXML.getSelectedFile().getAbsolutePath());
+        {
+         return new File(jFileChooserXML.getSelectedFile().getAbsolutePath());
+        }
+        else if(returnVal == JFileChooser.CANCEL_OPTION)
+        {
+        	return null;
+        }
         else
-        	if (returnVal == JFileChooser.CANCEL_OPTION)
-        		return null;
-        	else
-        		throw new ExceptionXML("Probleme a l'ouverture du fichier");
+        {
+            throw new ExceptionXML("Probleme a l'ouverture du fichier");
+
+        }
  	}
  	
 
