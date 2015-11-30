@@ -24,6 +24,7 @@ public class EtatNoeudSelectionne extends EtatDefaut{
 		this.listeDeCdes=listeDeCdes;
 		this.plan=plan;
 		fenetre.afficheMessage("Elle sera livrée après la livraison à l'adresse: "+ livraisonPrecedente.getAdresse().getId()+". Validez!");
+		fenetre.selectionnerLivraisonTextuelle(livraisonPrecedente);
 	}
 	
 	@Override

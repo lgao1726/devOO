@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 
+import modele.Livraison;
 import modele.Plan;
 import controleur.Controleur;
 public class Fenetre extends JFrame
@@ -497,6 +498,12 @@ public class Fenetre extends JFrame
 		btnRedo.setEnabled(false);
 		btnGenerer.setEnabled(false);
 
+	}
+	
+	public void selectionnerLivraisonTextuelle(Livraison liv)
+	{
+		System.out.println("dans fenetre");
+		vueTextuelle.selectionnerLivraisonTextuelle(liv);
 	}
 	
     

@@ -235,14 +235,72 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
 		hideButtons(true);
 	}
 
-	private void selectionnerLivraisonLigne(java.awt.event.MouseEvent evt) {                                            
-        
-        int livraisonSelectionne = tableLivraison.getSelectedRow();
-        
-        // Code de selection here
-        
-    }                                           
+	public void selectionnerLivraison(Livraison liv)
+	{
+		int columid = Controleur.getEtatCourant() instanceof EtatTourneeCalculee ? 3 : 2;
+		
+		for (int i=0; i < tableLivraison.getRowCount(); i++)
+			
+			if ((int)tableLivraison.getValueAt(i, columid) == liv.getId())
+			{
+				tableLivraison.setRowSelectionInterval(i, i);
+				break;
+			}
+	}
 
+	private void selectionnerLivraisonLigne(java.awt.event.MouseEvent evt) {                                            
+	        
+			int noeudid;
+			
+			if (Controleur.getEtatCourant() instanceof EtatTourneeCalculee)
+			
+				noeudid = (int)tableLivraison.getValueAt(tableLivraison.getSelectedRow(), 3);
+	        
+			else
+				
+				noeudid = (int)tableLivraison.getValueAt(tableLivraison.getSelectedRow(), 2);
+	        
+			System.out.println(noeudid);
+	        
+			Iterator<FenetreLivraison> itFen = plan.getDemandeLivraisons().getFenetreIterator();
+			Livraison liv = null;
+			System.out.println("noueud id selection textuelle"+noeudid);
+			while (itFen.hasNext())
+			{
+				Iterator<Livraison> itLiv = itFen.next().getLivraisonIterator();
+				
+				while (itLiv.hasNext() )
+				{
+					liv = itLiv.next();
+					
+					if (liv.getAdresse().getId() == noeudid)
+						
+						break;
+				}
+				if (liv.getAdresse().getId() == noeudid)
+					
+					break;
+				
+			}
+			
+			controleur.selectionnerLivraison(liv);
+	    }           
+	
+	public void selectionnerLivraisonTextuelle(Livraison liv)
+	{
+		System.out.println("dans vue textuelle");
+		int columid = Controleur.getEtatCourant() instanceof EtatTourneeCalculee ? 3 : 2;
+		
+		for (int i=0; i < tableLivraison.getRowCount(); i++)
+		{	
+			System.out.println((int)tableLivraison.getValueAt(i, columid));
+			if ((int)tableLivraison.getValueAt(i, columid) == liv.getAdresse().getId())
+			{
+				tableLivraison.setRowSelectionInterval(i, i);
+				break;
+			}
+		}
+	}
     private void selectionnerFenetre(java.awt.event.MouseEvent evt) {                                     
         
         int fenetreSelectionne = listFenetre.getSelectedIndex();

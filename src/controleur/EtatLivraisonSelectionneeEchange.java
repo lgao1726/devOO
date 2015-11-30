@@ -26,6 +26,7 @@ public class EtatLivraisonSelectionneeEchange extends EtatDefaut{
 		this.plan=plan;
 		fenetre.afficheMessage(" ... Adresse de la deuxième livraison :" + livraison2.getAdresse().getId());
 		System.out.println("Vous avez selectionné: (mode livraisonselectionneechange)" + livraison2.getAdresse().getId());
+		fenetre.selectionnerLivraisonTextuelle(livraison2);
 
 	}
 	

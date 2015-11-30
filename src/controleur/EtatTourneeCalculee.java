@@ -75,4 +75,10 @@ public class EtatTourneeCalculee extends EtatDefaut{
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 	}
 	
+	@Override
+	public void selectionnerLivraison(Plan plan, Livraison livraison, ListeCommandes listeDeCdes, Fenetre fenetre)
+	{
+		fenetre.selectionnerLivraisonTextuelle(livraison);
+	}
+	
 }

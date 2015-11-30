@@ -13,6 +13,7 @@ public class EtatModeEchange extends EtatDefaut{
 		Controleur.etatLivraisonSelectionneeEchange.setLivraison(livraison);
 		Controleur.setEtatCourant(Controleur.etatLivraisonSelectionneeEchange);
 		fenetre.afficheMessage("Adresse de la 1ère livraison: "+ livraison.getAdresse().getId()+ " ...");
+		fenetre.selectionnerLivraisonTextuelle(livraison);
 	}
 	
 	public void annuler(Fenetre fenetre)
