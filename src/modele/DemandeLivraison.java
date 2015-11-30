@@ -74,24 +74,29 @@ public class DemandeLivraison
 		Calendar heureDebutPrecedente=livraisonPrecedente.getHeureDebut();
 		Calendar heureFinPrecedente=livraisonPrecedente.getHeureFin();
 		FenetreLivraison fenetre;
+		
 		if(heureDebutPrecedente==null && heureFinPrecedente==null)
 		{
 			fenetre=listeFenetres.get(1);
+			System.out.println("Avant if entrepot "+fenetre.getHeureDebut().getTime()+" "+fenetre.getHeureFin().getTime());
 		}
 		else
 		{
 			fenetre = getFenetre(heureDebutPrecedente,heureFinPrecedente);
+			System.out.println("Avant "+fenetre.getHeureDebut().getTime()+" "+fenetre.getHeureFin().getTime());
 		}
 		if(livraison.getId()==0)
 		{
 			livraison.setId(fenetre.getNbLivraisons()+1);
 			livraison.setIdClient(fenetre.getLivraisons().get(fenetre.getNbLivraisons()-1).getClient()+1);
 			livraison.setHeureDebut(fenetre.getHeureDebut());
-			livraison.setHeureFin(fenetre.getHeureFin());
-			livraison.setHeurePassage(fenetre.getHeureDebut());
+			livraison.setHeureFin((Calendar)fenetre.getHeureFin().clone());
+			livraison.setHeurePassage((Calendar)fenetre.getHeureDebut().clone());
+			
 		}
 		
 		fenetre.ajouterLivraison(livraison);
+		System.out.println("Apres"+fenetre.getHeureDebut().getTime()+" "+fenetre.getHeureFin().getTime());
 		tournee.ajouterLivraison(livraison, livraisonPrecedente.getAdresse().getId());
 		resetHeuresPassage();
 		setHeuresPassage();
