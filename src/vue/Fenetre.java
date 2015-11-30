@@ -33,6 +33,7 @@ public class Fenetre extends JFrame
 	public static final String GENERER_FEUILLE = "Generer feuille de route";
 	private ArrayList<JButton> boutons;
 	private JLabel cadreMessages;
+	private JLabel infoNoeud;
 	private VueGraphique vueGraphique;
 	//private VueTextuelle vueTextuelle;
 	private EcouteurDeBoutons ecouteurDeBoutons;
@@ -63,6 +64,9 @@ public class Fenetre extends JFrame
 		cadreMessages = new JLabel();
 		cadreMessages.setBorder(BorderFactory.createTitledBorder("Messages..."));
 		getContentPane().add(cadreMessages);
+		infoNoeud = new JLabel();
+		infoNoeud.setBorder(BorderFactory.createTitledBorder("Noeud Information"));
+		getContentPane().add(infoNoeud);
 		vueGraphique = new VueGraphique(p, echelleFenetre, this);
 		//vueTextuelle = new VueTextuelle(p, this);
 		ecouteurDeSouris = new EcouteurDeSouris(controleur,vueGraphique,this);
@@ -108,8 +112,10 @@ public class Fenetre extends JFrame
 		//cadreMessages.setSize(largeurFenetre,60);
 		//cadreMessages.setLocation(0,hauteurFenetre-hauteurCadreMessages);
 		vueGraphique.setLocation(largeurBouton, 0);
-		cadreMessages.setSize(100,hauteurFenetre-hauteurCadreMessages);
+		cadreMessages.setSize(400,hauteurCadreMessages);
 		cadreMessages.setLocation(10+vueGraphique.getLargeur()+largeurBouton,0);
+		infoNoeud.setSize(400,150);
+		infoNoeud.setLocation(10+vueGraphique.getLargeur(),hauteurCadreMessages+10);
 		//vueTextuelle.setSize(largeurVueTextuelle,hauteurFenetre-hauteurCadreMessages);
 		//vueTextuelle.setLocation(10+vueGraphique.getLargeur()+largeurBouton,0);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);

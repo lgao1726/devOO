@@ -30,7 +30,7 @@ public class EtatInit extends EtatDefaut
 			{
 				plan.notifyObservers();
 				Controleur.setEtatCourant(Controleur.etatPlanCharge);
-				fenetre.afficheMessage("Vous pouvez désormais charger une livraison");
+				fenetre.afficheMessage("Vous pouvez dÃ©sormais charger une livraison");
 			}
 		} 
 		catch (Exception e) 
