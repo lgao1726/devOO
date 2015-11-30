@@ -291,7 +291,7 @@ public class Fenetre extends JFrame
         menuEdition.add(menuUndo);
 
         menuRedo.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_MASK));
-        menuRedo.setText("Rï¿½tablir");
+        menuRedo.setText("Rétablir");
         menuRedo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -313,11 +313,11 @@ public class Fenetre extends JFrame
 			}
 		});
         
-        menuGenere.setText("Gï¿½nï¿½rer");
+        menuGenere.setText("Générer");
         menuGenere.add(menuTournee);
 
         menuGenerer.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
-        menuGenerer.setText("Gï¿½nï¿½rer Feuille de route");
+        menuGenerer.setText("Générer Feuille de route");
         menuGenere.add(menuGenerer);
         menuGenere.addActionListener(new ActionListener() {
 			@Override

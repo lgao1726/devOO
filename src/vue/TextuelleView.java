@@ -87,7 +87,7 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
         jScrollPane1.setViewportView(listFenetre);
         listFenetre.getAccessibleContext().setAccessibleParent(this);
 
-        jLabel1.setText("S�l�ctionner une fen�tre de livraison :");
+        jLabel1.setText("Selectionner une fenetre de livraison :");
 
         tableLivraison.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tableLivraison.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -98,7 +98,7 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
         jScrollPane2.setViewportView(tableLivraison);
         tableLivraison.getAccessibleContext().setAccessibleParent(this);
 
-        labelFenetreTexte.setText("Demande de les Livraisons de la fen�tre :");
+        labelFenetreTexte.setText("Demande de livraisons de la fenetre :");
 
         lableFenetreSelection.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lableFenetreSelection.setText(" 08:30 -> 12:30");
@@ -252,13 +252,9 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
 	        
 			int noeudid;
 			
-			if (Controleur.getEtatCourant() instanceof EtatTourneeCalculee)
 			
 				noeudid = (int)tableLivraison.getValueAt(tableLivraison.getSelectedRow(), 3);
 	        
-			else
-				
-				noeudid = (int)tableLivraison.getValueAt(tableLivraison.getSelectedRow(), 2);
 	        
 			System.out.println(noeudid);
 	        
@@ -282,7 +278,7 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
 					break;
 				
 			}
-			
+			System.out.println("selection textuelle dans echange ajout: "+liv.getAdresse().getId());
 			controleur.selectionnerLivraison(liv);
 	    }           
 	

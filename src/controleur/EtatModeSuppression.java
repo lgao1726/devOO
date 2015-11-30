@@ -14,6 +14,8 @@ public class EtatModeSuppression extends EtatDefaut{
 	@Override
 	public void valider(Fenetre fenetre){
 		fenetre.activerUndoRedoGenerer();
+		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
+
 		if(plan.getDemandeLivraisons().getTournee().getLivraisonPrecedente(livraison)!=null)
 		{
 			listeDeCdes.ajoute(new CommandeSupprimer(plan, livraison));
@@ -24,8 +26,6 @@ public class EtatModeSuppression extends EtatDefaut{
 			fenetre.afficheMessageBox("Vous essayez de supprimer l'entrepot!");
 			fenetre.afficheMessage("");
 		}
-		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
-
 	}
 	
 	@Override

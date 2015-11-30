@@ -21,7 +21,6 @@ public class EtatModeAjout extends EtatDefaut{
 	public void selectionnerLivraison(Plan plan, Livraison livraison, ListeCommandes listeDeCdes, Fenetre fenetre)
 	{
 		fenetre.afficheMessageBox("Vous devez selectionnez un noeud");
-		plan.updatePlan();
 	}
 	
 	

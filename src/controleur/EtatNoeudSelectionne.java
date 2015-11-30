@@ -30,7 +30,6 @@ public class EtatNoeudSelectionne extends EtatDefaut{
 	@Override
 	public void selectionnerNoeud(Plan plan, Noeud noeud, Fenetre fenetre)
 	{
-		plan.updatePlan();
 		Controleur.etatNoeudSelectionne.setNoeud(noeud);
 		fenetre.afficheMessage("Adresse de la livraison: " + noeud.getId() + ". Selectionnez la livraison après laquelle vous voulez l'insérer");
 
@@ -39,7 +38,6 @@ public class EtatNoeudSelectionne extends EtatDefaut{
 	@Override
 	public void annuler(Fenetre fenetre)
 	{
-		plan.updatePlan();
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 		fenetre.afficheMessage("");
 		fenetre.activerUndoRedoGenerer();
@@ -49,9 +47,10 @@ public class EtatNoeudSelectionne extends EtatDefaut{
 	public void valider(Fenetre fenetre)
 	{
 		Livraison livraison = new Livraison (0, noeud, 0 , null, null);
+		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
+
 		listeDeCdes.ajoute(new CommandeAjouter(plan, livraison, livraisonPrecedente));
 		plan.getDemandeLivraisons().getTournee().afficherListeItineraires();
-		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 		fenetre.afficheMessage("Ajout terminé");
 		fenetre.activerUndoRedoGenerer();
 		noeud=null;

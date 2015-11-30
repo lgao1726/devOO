@@ -42,23 +42,24 @@ public class EtatLivraisonSelectionneeEchange extends EtatDefaut{
 	{
 		
 		System.out.println("echange :" + livraison.getAdresse().getId()+ " "+livraison2.getAdresse().getId());
+		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 		if(livraison.getHeureDebut()!=null && livraison2.getHeureDebut()!=null)
 		{
-			if(livraison!=livraison2)
+			
+			if(livraison!=livraison2){
 			listeDeCdes.ajoute(new CommandeEchanger(plan, livraison.getAdresse().getId(), livraison2.getAdresse().getId()));
+			plan.updatePlan();
+			}
 			else
 			{
 				fenetre.afficheMessageBox("Vous ne pouvez pas échanger une livraison avec elle-même");
 				fenetre.afficheMessage("");
-				Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 			}
 		}
 		else
 		{
 			fenetre.afficheMessageBox("On ne peut pas déplacer l'entrepot");
 		}
-		
-		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 		fenetre.activerUndoRedoGenerer();
 		livraison=null;
 		livraison2=null;
