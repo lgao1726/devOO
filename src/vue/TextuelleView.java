@@ -222,8 +222,6 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
 
 	protected void btnSupprimerActionePermoed(ActionEvent arg0) {
 		controleur.supprimerLivraison();
-		
-		hideButtons(true);
 	}
 
 	protected void btnDeplacerActionPermoed(ActionEvent arg0) {
@@ -235,8 +233,6 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
 	private void selectionnerLivraisonLigne(java.awt.event.MouseEvent evt) {                                            
         
         int livraisonSelectionne = tableLivraison.getSelectedRow();
-        
-        // Code de selection here
         
     }                                           
 

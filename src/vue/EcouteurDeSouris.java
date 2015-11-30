@@ -40,18 +40,16 @@ public class EcouteurDeSouris extends MouseAdapter {
 			if (livraison != null)
 			{
 				controleur.selectionnerLivraison(livraison); 
-				
-				vueGraphique.selectionnerLivraison(livraison, Color.CYAN);
 			}
 			else if(noeud != null)
 			{
 				controleur.selectionnerNoeud(noeud);
-				vueGraphique.selectionnerNoeud(noeud, Color.CYAN);
+				//vueGraphique.selectionnerNoeud(noeud, Color.CYAN);
 			}
 			else
 			{
 				Noeud noeudDeselectionne=controleur.deselectionner();
-				vueGraphique.deselectionnerLivraison(noeudDeselectionne);
+				//vueGraphique.deselectionnerLivraison(noeudDeselectionne);
 			}
 			break;
 		case MouseEvent.BUTTON3: 

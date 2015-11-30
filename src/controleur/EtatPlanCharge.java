@@ -28,6 +28,7 @@ public class EtatPlanCharge extends EtatDefaut
 				
 				Controleur.setEtatCourant(Controleur.etatLivraisonCharge);
 				plan.updatePlan();
+				fenetre.afficheMessage("Vous pouvez désormais calculer la tournée");
 			}
 		} 
 		catch (ExceptionXML e)

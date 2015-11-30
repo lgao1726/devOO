@@ -231,7 +231,7 @@ public class VueGraphique extends JPanel implements Observer, Visiteur
                       new int[] {0, -8, 8, 0}, 4);
     }
 	
-	public void selectionnerLivraison(Livraison liv, Color color) 
+	/**public void selectionnerLivraison(Livraison liv, Color color) 
 	{
 		Graphics2D g2 = (Graphics2D)getGraphics();
 		g2.setColor(color);
@@ -267,6 +267,5 @@ public class VueGraphique extends JPanel implements Observer, Visiteur
 			}
 		}
 		
-	}
-
+	}**/
 }
