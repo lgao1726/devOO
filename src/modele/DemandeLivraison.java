@@ -278,7 +278,8 @@ public class DemandeLivraison
 	public void genererFeuilleDeRoute(Plan plan)
 	{
 		List<String> strings=tournee.genererFeuille(plan);
-		File file= new File("FeuilleDeRoute"+System.currentTimeMillis()+".txt");
+		
+		File file= new File("FeuilleDeRoute.txt");
 		FileWriter fw;
 	    try {
 			fw = new FileWriter(file);
@@ -288,7 +289,6 @@ public class DemandeLivraison
 		      fw.close();
 
 		} catch (IOException e) {
-			e.printStackTrace();
 		}
 			
 			

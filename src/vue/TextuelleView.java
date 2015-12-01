@@ -83,7 +83,6 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
         plan.addObserver(this);
 		this.plan = plan;
 		this.controleur = controleur;
-
         
         listFenetre.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

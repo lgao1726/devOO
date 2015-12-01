@@ -1,5 +1,9 @@
 package controleur;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
+
 import modele.Livraison;
 import modele.Noeud;
 import modele.Plan;
@@ -75,6 +79,13 @@ public class EtatTourneeCalculee extends EtatDefaut{
 	@Override
 	public void genererFeuilleDeRoute(Plan plan){
 		plan.getDemandeLivraisons().genererFeuilleDeRoute(plan);
+		File f =new File ("FeuilleDeRoute.txt");
+		try {
+			Desktop.getDesktop().open(f);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 		
 	}
