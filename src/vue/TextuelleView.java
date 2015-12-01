@@ -1,5 +1,8 @@
 package vue;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -19,6 +22,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.LayoutStyle;
 import javax.swing.ListSelectionModel;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import controleur.Controleur;
@@ -73,11 +78,11 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
         
         setBorder(BorderFactory.createEtchedBorder());
         setVerifyInputWhenFocusTarget(false);
+        setPreferredSize(new Dimension(400, 500));
         
         plan.addObserver(this);
 		this.plan = plan;
 		this.controleur = controleur;
-
         
         listFenetre.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -87,7 +92,7 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
         jScrollPane1.setViewportView(listFenetre);
         listFenetre.getAccessibleContext().setAccessibleParent(this);
 
-        jLabel1.setText("Sï¿½lï¿½ctionner une fenï¿½tre de livraison :");
+        jLabel1.setText("Selectionner une fenetre de livraison :");
 
         tableLivraison.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tableLivraison.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -98,10 +103,10 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
         jScrollPane2.setViewportView(tableLivraison);
         tableLivraison.getAccessibleContext().setAccessibleParent(this);
 
-        labelFenetreTexte.setText("Demande de les Livraisons de la fenï¿½tre :");
+        labelFenetreTexte.setText("Demande de livraisons de la fenetre :");
 
         lableFenetreSelection.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lableFenetreSelection.setText(" 08:30 -> 12:30");
+        lableFenetreSelection.setText("");
 
         btnLivraison.setText("Ajouter Livraison");
         btnLivraison.setEnabled(false);
@@ -156,8 +161,6 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
                     .addGroup(GroupLayout.Alignment.TRAILING, vueTextuelleLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(vueTextuelleLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1)
-                            .addComponent(jScrollPane1)
                             .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE))
                         .addGap(257, 257, 257))
                     .addGroup(vueTextuelleLayout.createSequentialGroup()
@@ -180,10 +183,6 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
         vueTextuelleLayout.setVerticalGroup(
             vueTextuelleLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(vueTextuelleLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(jLabel1)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addGroup(vueTextuelleLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(labelFenetreTexte)
@@ -252,13 +251,9 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
 	        
 			int noeudid;
 			
-			if (Controleur.getEtatCourant() instanceof EtatTourneeCalculee)
 			
 				noeudid = (int)tableLivraison.getValueAt(tableLivraison.getSelectedRow(), 3);
 	        
-			else
-				
-				noeudid = (int)tableLivraison.getValueAt(tableLivraison.getSelectedRow(), 2);
 	        
 			System.out.println(noeudid);
 	        
@@ -267,15 +262,22 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
 			System.out.println("noueud id selection textuelle"+noeudid);
 			while (itFen.hasNext())
 			{
-				Iterator<Livraison> itLiv = itFen.next().getLivraisonIterator();
 				
-				while (itLiv.hasNext() )
+				FenetreLivraison fen = itFen.next();
+				Iterator<Livraison> itLiv = fen.getLivraisonIterator();
+				
+				while (itLiv.hasNext())
 				{
 					liv = itLiv.next();
 					
 					if (liv.getAdresse().getId() == noeudid)
-						
+					{
+						lableFenetreSelection.setText(liv.getHeureDebut().getTime().getHours() + ":" + 
+								  liv.getHeureDebut().getTime().getMinutes() +
+								  " -> " + liv.getHeureFin().getTime().getHours() + ":" + 
+								  liv.getHeureFin().getTime().getMinutes());
 						break;
+					}
 				}
 				if (liv.getAdresse().getId() == noeudid)
 					
@@ -283,6 +285,7 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
 				
 			}
 			
+			System.out.println("selection textuelle dans echange ajout: "+liv.getAdresse().getId());
 			controleur.selectionnerLivraison(liv);
 	    }           
 	
@@ -316,6 +319,12 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
     	btnSupprimerLivraison.setEnabled(true);
     }
     
+    public void changerValider(boolean state)
+    {
+    	btnValider.setEnabled(state);
+  
+    }
+
     
 
     private void btnLivraisonActionPerformed(java.awt.event.ActionEvent evt) 
@@ -354,7 +363,7 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
 		
 		//remplirFenetre(itFen);
 		
-		String[] colums = new String[] {"Numï¿½ro", "Heure Passage", "Client", "Adresse"};
+		String[] colums = new String[] {"Numéro", "Heure Passage", "Client", "Adresse"};
 		
 		int count = 0;
 		while (itFen.hasNext())
@@ -375,6 +384,8 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
 		
 		int i=0;
 		
+		ArrayList<Integer> TableReatrd = new ArrayList<Integer>();
+		
 		itFen = v.getFenetreIterator();	
 		
 		Iterator<Itineraire> it = v.getTournee().getItineraireIterator();
@@ -383,12 +394,24 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
 		{
 			Itineraire itn = it.next();
 			
-			//Livraison livOr = itn.getLivraisonOrigine();
 			Livraison liv = itn.getLivraisonDestination();
 			
 			if (liv.getAdresse() != plan.getAdresseEntrepot())
 			{
-			   rows[i][1] = liv.getHeurePassage().getTime().getHours() + ":" + liv.getHeurePassage().getTime().getMinutes();
+			   String di = "";
+			   
+			   if (liv.getHeurePassage().compareTo(liv.getHeureFin()) > 0)
+			   {
+				   TableReatrd.add(i);
+				   
+				   
+				   Date tF = liv.getHeureFin().getTime();
+				   Date tP = liv.getHeurePassage().getTime();
+				   
+				   di = " +(" + (tP.getTime() - tF.getTime()) / 1000 / 60 + "min)";
+			   }
+				
+			   rows[i][1] = liv.getHeurePassage().getTime().getHours() + ":" + liv.getHeurePassage().getTime().getMinutes() + di;
 			   rows[i][0] = i+1;
 			   rows[i][2] = liv.getClient();
 			   rows[i][3] = liv.getAdresse().getId();
@@ -413,6 +436,35 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
 	            }
 	        });
 		
+		class TableCellRender extends DefaultTableCellRenderer
+		{
+			private ArrayList<Integer> TableReatrd;
+			
+			public TableCellRender(ArrayList<Integer> TableReatrd)
+			{
+				this.TableReatrd = TableReatrd;
+			}
+			
+		    @Override
+		    public Component getTableCellRendererComponent(JTable table,
+		            Object value, boolean isSelected, boolean hasFocus, int row, int col) {
+
+		        super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
+
+		        if (TableReatrd.contains(row))
+		        	
+		        	setBackground(Color.RED);
+		        
+		        else
+		        	if (!isSelected)
+		        		
+		        		setBackground(Color.WHITE);
+		        
+		        return this;
+		    }   
+		}
+		
+		tableLivraison.setDefaultRenderer(Object.class, new TableCellRender(TableReatrd));
 	}
 
 	private void listeNonOrdonnee(DemandeLivraison v) {
@@ -421,7 +473,7 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
 		
 		remplirFenetre(v.getFenetreIterator());
 		
-		String[] colums = new String[] {"Fenï¿½tre", "Client", "Adresse"};
+		String[] colums = new String[] {"Fenetre", "Client", "Adresse"};
 		
 		int count = 0;
 		while (itFen.hasNext())
@@ -482,53 +534,13 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
 	            }
 	        });
 		
+		tableLivraison.setDefaultRenderer(Object.class, new DefaultTableCellRenderer());
+		
 	}
 
 	private void remplirFenetre(Iterator<FenetreLivraison> f)
 	{
 
-		class ListFenetre extends AbstractListModel<String>
-		{
-			ArrayList<String> strings;
-			
-			public ListFenetre(Iterator<FenetreLivraison> itFen)
-			{
-				strings = new ArrayList<String>();
-					
-				strings.add("Toute les fenï¿½tres");
-				
-				while (itFen.hasNext())
-				{
-					FenetreLivraison fen = itFen.next();
-
-					if (fen != null)
-					{
-						if (fen.getHeureDebut() != null && fen.getHeureFin() != null)
-						{
-							strings.add(fen.getHeureDebut().getTime().getHours() + 
-							    ":" + fen.getHeureDebut().getTime().getMinutes() + " -> " + 
-							    fen.getHeureFin().getTime().getHours() + ":" + 
-							    fen.getHeureFin().getTime().getMinutes());
-						}
-					}
-				}
-			}
-			
-			@Override
-			public String getElementAt(int arg0) {
-				// TODO Auto-generated method stub
-				return strings.get(arg0);
-			}
-
-			@Override
-			public int getSize() {
-				// TODO Auto-generated method stub
-				return strings.size();
-			}
-		}
-		
-		
-		listFenetre.setModel(new ListFenetre(f));
 	}
 
 	@Override
@@ -539,5 +551,33 @@ public class TextuelleView extends JPanel implements Observer, Visiteur
 		if (dem != null)
 			
 			dem.accepte(this);
+		
+		else
+		{
+			lableFenetreSelection.setText("");
+			
+			
+			tableLivraison.setModel(new AbstractTableModel() {
+				
+				@Override
+				public Object getValueAt(int arg0, int arg1) {
+					// TODO Auto-generated method stub
+					return null;
+				}
+				
+				@Override
+				public int getRowCount() {
+					// TODO Auto-generated method stub
+					return 0;
+				}
+				
+				@Override
+				public int getColumnCount() {
+					// TODO Auto-generated method stub
+					return 0;
+				}
+			});
+			
+		}
 	}
 }

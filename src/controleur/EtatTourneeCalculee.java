@@ -1,5 +1,9 @@
 package controleur;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
+
 import modele.Livraison;
 import modele.Noeud;
 import modele.Plan;
@@ -49,6 +53,7 @@ public class EtatTourneeCalculee extends EtatDefaut{
 		Controleur.setEtatCourant(Controleur.etatModeAjout);
 		fenetre.afficheMessage("Cliquez sur un noeud pour selectionner le lieu de votre livraison");
 		fenetre.desacactiverUndoRedoGenerer();
+		fenetre.changerValider(false);
 	}
 	
 	@Override
@@ -57,6 +62,7 @@ public class EtatTourneeCalculee extends EtatDefaut{
 		Controleur.setEtatCourant(Controleur.EtatModeSuppresion);
 		fenetre.afficheMessage("Cliquez sur la livraison à supprimer");
 		fenetre.desacactiverUndoRedoGenerer();
+		fenetre.changerValider(false);
 
 	}
 	
@@ -66,13 +72,22 @@ public class EtatTourneeCalculee extends EtatDefaut{
 		Controleur.setEtatCourant(Controleur.etatModeEchange);
 		fenetre.afficheMessage("Cliquez sur la première livraison");
 		fenetre.desacactiverUndoRedoGenerer();
+		fenetre.changerValider(false);
 
 	}
 	
 	@Override
 	public void genererFeuilleDeRoute(Plan plan){
 		plan.getDemandeLivraisons().genererFeuilleDeRoute(plan);
+		File f =new File ("FeuilleDeRoute.txt");
+		try {
+			Desktop.getDesktop().open(f);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
+		
 	}
 	
 	@Override

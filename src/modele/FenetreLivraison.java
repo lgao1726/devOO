@@ -24,17 +24,17 @@ public class FenetreLivraison
 		return heureDebut;
 	}
 
-	public void setHeureDebut(Calendar heureDebut) {
+	/**public void setHeureDebut(Calendar heureDebut) {
 		this.heureDebut = heureDebut;
-	}
+	}**/
 
 	public Calendar getHeureFin() {
 		return heureFin;
 	}
 
-	public void setHeureFin(Calendar heureFin) {
+	/**public void setHeureFin(Calendar heureFin) {
 		this.heureFin = heureFin;
-	}
+	}**/
 	
 	public void ajouterLivraison(Livraison livraison)
 	{

@@ -3,6 +3,8 @@
  */
 package controleur;
 
+import javax.swing.JToolBar;
+
 import modele.Plan;
 import vue.Fenetre;
 
@@ -33,6 +35,7 @@ public class EtatLivraisonCharge extends EtatDefaut
 	public void chargerDemandes(Plan plan, Fenetre fenetre) 
 	{
 		Controleur.etatPlanCharge.chargerDemandes(plan, fenetre);
+		fenetre.activerCalculer();
 	}
 	
 	@Override

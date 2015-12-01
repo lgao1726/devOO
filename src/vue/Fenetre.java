@@ -31,6 +31,8 @@ public class Fenetre extends JFrame
     private JButton btnRedo;
     private JButton btnUndo;
     
+    private JButton btnCalculer;
+    
     /* Menu d'application */
     private JMenuBar menuBar;
     
@@ -291,7 +293,7 @@ public class Fenetre extends JFrame
         menuEdition.add(menuUndo);
 
         menuRedo.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_MASK));
-        menuRedo.setText("Rï¿½tablir");
+        menuRedo.setText("Rétablir");
         menuRedo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -304,7 +306,7 @@ public class Fenetre extends JFrame
         menuBar.add(menuEdition);
 
         menuTournee.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
-        menuTournee.setText("Calculer Tournï¿½e");
+        menuTournee.setText("Calculer Tournée");
         menuTournee.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent evt) 
@@ -313,11 +315,11 @@ public class Fenetre extends JFrame
 			}
 		});
         
-        menuGenere.setText("Gï¿½nï¿½rer");
+        menuGenere.setText("Générer");
         menuGenere.add(menuTournee);
 
         menuGenerer.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
-        menuGenerer.setText("Gï¿½nï¿½rer Feuille de route");
+        menuGenerer.setText("Générer Feuille de route");
         menuGenere.add(menuGenerer);
         menuGenere.addActionListener(new ActionListener() {
 			@Override
@@ -347,6 +349,7 @@ public class Fenetre extends JFrame
         btnUndo = new JButton();
         btnRedo = new JButton();
         btnGenerer = new JButton();
+        btnCalculer = new JButton();
     	
     	barOutil.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
         barOutil.setRollover(true);
@@ -390,6 +393,7 @@ public class Fenetre extends JFrame
         
         barOutil.add(btnChargerLivraison);
         barOutil.add(new JToolBar.Separator());
+   
 
         btnUndo.setIcon(new ImageIcon(getClass().getResource("/vue/icons/undo.png"))); // NOI18N
         btnUndo.setText("Annuler");
@@ -428,7 +432,7 @@ public class Fenetre extends JFrame
         barOutil.add(new JToolBar.Separator());
 
         btnGenerer.setIcon(new ImageIcon(getClass().getResource("/vue/icons/generate.png"))); // NOI18N
-        btnGenerer.setText("Gï¿½nï¿½rer");
+        btnGenerer.setText("Generer");
         btnGenerer.setAlignmentX(5.0F);
         btnGenerer.setAlignmentY(5.0F);
         btnGenerer.setFocusable(false);
@@ -436,6 +440,15 @@ public class Fenetre extends JFrame
         btnGenerer.setMargin(new java.awt.Insets(5, 5, 5, 5));
         btnGenerer.setVerticalTextPosition(SwingConstants.BOTTOM);
         btnGenerer.setEnabled(false);
+        
+        btnGenerer.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controleur.genererFeuilleDeRoute();
+			}
+        	
+        });
+        
         barOutil.add(btnGenerer);
 	}
 	
@@ -487,6 +500,11 @@ public class Fenetre extends JFrame
 		btnChargerLivraison.setEnabled(true);
 	}
 	
+	public void activerCalculer()
+	{
+		btnCalculer.setEnabled(true);
+	}
+	
 	public void activerUndoRedoGenerer() {
 		btnUndo.setEnabled(true);
 		btnRedo.setEnabled(true);
@@ -506,6 +524,10 @@ public class Fenetre extends JFrame
 		vueTextuelle.selectionnerLivraisonTextuelle(liv);
 	}
 	
-    
+    public void changerValider(boolean state)
+    {
+    	vueTextuelle.changerValider(state);
+    }
+	
     // End of variables declaration        
 }
