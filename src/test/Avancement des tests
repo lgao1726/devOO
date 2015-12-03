@@ -11,3 +11,8 @@ package modele :
 	Troncon : no tests
 	UsineNoeud : no tests
 	Visiteur : no tests
+	
+package xml : ok
+	OuvreurDeFichierXML : Implemented
+	DeserialiseurXML : Implemented
+	
