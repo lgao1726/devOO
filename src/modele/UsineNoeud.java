@@ -1,15 +1,18 @@
-/**
- * 
- */
+
 package modele;
 
+/**
+ * Un Factory pour cree les objets de type Noeud
+ * @author H4101
+ *
+ */
 public class UsineNoeud 
 {
 	private static Noeud noeuds[];
 	private static int taille;
 
 	/**
-	 * Cree une fabrique de noeud capable de creer des noeuds dont les id sont noeuds[id]
+	 * Cree une factory de noeud qui est capable de creer des noeuds dont les id sont noeuds[id]
 	 * @param Taille
 	 */
 	public static void initPointFactory(int taille)
