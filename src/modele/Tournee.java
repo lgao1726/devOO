@@ -301,7 +301,18 @@ public class Tournee {
 		}
 	}
 	
-
+	/**
+	 * A partir d'une livraison, obtenir la livraison precedente dans la tournee
+	 * @param livraison
+	 * @return
+	 */
+	public Livraison getLivraisonPrecedente(Livraison livraison){
+		for( Itineraire itineraire : itineraires){
+			if(itineraire.getLivraisonDestination()==livraison)
+				return itineraire.getLivraisonOrigine();
+			}
+		return null;
+	}
 	
 	public List<String> genererFeuille(Plan plan){
 		LinkedList<String> res = new LinkedList<String>();

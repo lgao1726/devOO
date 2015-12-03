@@ -5,7 +5,11 @@ import modele.Noeud;
 import modele.Plan;
 import vue.Fenetre;
 
-
+/**
+ * Etat au lancement de l'application
+ * @author H4101
+ *
+ */
 public class EtatDefaut implements Etat {
 
 	@Override
@@ -86,42 +90,5 @@ public class EtatDefaut implements Etat {
 		
 	}
 	
-/**	@Override
-	protected void genererFeuilleDeRoute(Tournee tournee) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void supprimerLivraison(Tournee tournee, Livraison livraison) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void deplacerLivraison(Tournee tournee, Livraison livraison,
-			Livraison livraisonPrecedente) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void ajouterLivraison(Tournee tournee, Plan plan, Noeud noeud,
-			Livraison livraisonPrecedente, FenetreLivraison fenetreLivraison) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void undo() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void redo() {
-		// TODO Auto-generated method stub
-		
-	}**/
 
 }

@@ -6,6 +6,11 @@ import modele.Plan;
 import modele.Tournee;
 import vue.Fenetre;
 
+/**
+ * Interface implemente par toutes les etats
+ * @author H4101
+ *
+ */
 public interface Etat {
 	
 	public abstract void chargerPlan(Plan planDeVille, Fenetre fenetre);

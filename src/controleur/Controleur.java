@@ -4,7 +4,11 @@ import modele.Livraison;
 import modele.Noeud;
 import modele.Plan;
 import vue.Fenetre;
-
+/**
+ * Classe controlleur pour le l'architecure MVC de l'application
+ * @author H4101
+ *
+ */
 public class Controleur 
 {
 	private Plan plan;	
@@ -31,11 +35,13 @@ public class Controleur
 		this.fenetre = new Fenetre(p, this);
 
 	}
-	
+	/**
+	 * Affecter un nouvel état courant
+	 * @param etat
+	 */
 	protected static void setEtatCourant(Etat etat){
 		etatCourant = etat;
 	}
-	
 	
 	public void chargerPlan() 
 	{
