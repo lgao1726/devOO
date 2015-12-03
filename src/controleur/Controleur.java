@@ -1,14 +1,13 @@
 package controleur;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import modele.Livraison;
 import modele.Noeud;
 import modele.Plan;
 import vue.Fenetre;
-/**
- * Classe controlleur pour le l'architecure MVC de l'application
- * @author H4101
- *
- */
+
 public class Controleur 
 {
 	private Plan plan;	
@@ -35,13 +34,11 @@ public class Controleur
 		this.fenetre = new Fenetre(p, this);
 
 	}
-	/**
-	 * Affecter un nouvel état courant
-	 * @param etat
-	 */
+	
 	protected static void setEtatCourant(Etat etat){
 		etatCourant = etat;
 	}
+	
 	
 	public void chargerPlan() 
 	{
@@ -119,6 +116,35 @@ public class Controleur
 	public void genererFeuilleDeRoute()
 	{
 		etatCourant.genererFeuilleDeRoute(plan);
+	}
+
+	public Noeud getNoeud(int x, int y, int rayon) 
+	{
+		return plan.getNoeud(x, y, rayon);
+	}
+
+	public void quitter() 
+	{
+		if (fenetre.afficherMessageConfirmation("Voulez-vous vraiment quittez l'application ?"))
+			
+			System.exit(JFrame.EXIT_ON_CLOSE);
+	}
+
+	public void apropos() 
+	{
+		String about =  "Optimod'Lyon Application (SOLNON)\n\n" +
+						"Groupe: H4101 International Corp\n\n" +
+					    "Membres: \n" +
+					    "AHAZAT Iliass\n" + 
+					    "BARATTOLO Hugo\n" +
+					    "BENEA Orlando\n" +
+					    "GAO Lingfan\n" +
+					    "GUEGAN Thomas\n" +
+					    "LAHJOUJI Zineb\n" +
+					    "LUNGENSTRASS Valentin\n\n" +
+					    "Copyright © 2015 Tous les droits sont réservés";
+				
+		JOptionPane.showMessageDialog(null, about, "A propos", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 }
