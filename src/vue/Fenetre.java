@@ -1,11 +1,8 @@
 package vue;
 
-import java.awt.Choice;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.awt.event.KeyEvent;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -13,14 +10,30 @@ import javax.swing.border.EtchedBorder;
 import modele.Livraison;
 import modele.Plan;
 import controleur.Controleur;
+
+/**
+ * Classe Fenetre qui integre la vue textuelle et la vue graphique
+ * @author H4101 Internal Corp
+ * 
+ */
+@SuppressWarnings("serial")
 public class Fenetre extends JFrame
 {
+	public static final String CHARGER_LIVRAISON = "Charger livraison";
+	public static final String CHARGER_PLAN = "Charger plan";
+	public static final String GENERE = "Feuille de route";
+	public static final String UNDO = "Annuler";
+	public static final String REDO = "Rétablir";
+	public static final String CALCULER_TOURNEE = "Calculer trounée";
+	public static final String ABOUT = "A propos";
+	public static final String EXIT = "Quitter";
 	
-	
-	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("unused")
 	private Controleur controleur;
 	private EcouteurDeSouris ecouteurDeSouris;
 	private EcouterDeMvtSouris ecouteurDeMvtSouris;
+	private EcouteurDeBoutons ecouteurDeBoutons;
+	
 	// Variables declaration - do not modify      
     /* Bar de menu */
     private JToolBar barOutil;
@@ -31,8 +44,6 @@ public class Fenetre extends JFrame
     private JButton btnRedo;
     private JButton btnUndo;
     
-    private JButton btnCalculer;
-    
     /* Menu d'application */
     private JMenuBar menuBar;
     
@@ -41,18 +52,15 @@ public class Fenetre extends JFrame
     private JMenu menuGenere;
     private JMenu menuAide;
     
+    /* Boutton de menu */
     private JMenuItem menuChargerLivraison;
     private JMenuItem menuChargerPlan;
     private JMenuItem menuQuitter;
-   
     private JMenuItem menuGenerer;
     private JMenuItem menuTournee;
-    
     private JMenuItem menuRedo;
     private JMenuItem menuUndo;
-    
     private JMenuItem menuAbout;
-    
     
     /* Boite de dialogue */
     private JLabel cardreMessage;
@@ -60,14 +68,19 @@ public class Fenetre extends JFrame
     
     private VueGraphique vueGraphique;
     private JScrollPane scrollPane;
-    private TextuelleView vueTextuelle;
+    private VueTextuelle vueTextuelle;
 
     /**
-     * Creates new form Fenetre
+     * Constructeur de la fenêtre
+     * @param plan le plan
+     * @param controleur le controleur 
      */
-    public Fenetre(Plan p, Controleur controleur) 
+    public Fenetre(Plan plan, Controleur controleur) 
     {
+    	this.controleur = controleur;
+        ecouteurDeBoutons = new EcouteurDeBoutons(controleur);
     	
+    	// Look and feel pour afficher les composants SWING en style de l'OS
     	try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException ex) {
@@ -80,55 +93,29 @@ public class Fenetre extends JFrame
             java.util.logging.Logger.getLogger(Fenetre.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     	
-    	/* Bar d'outils */
+    	creerMenus();
         creerBarOutils();
-        
-        /* Menu */
-        creerMenus();
-        
-        this.controleur = controleur;
-        
-        vueGraphique = new VueGraphique(p, 1, this);
-		ecouteurDeMvtSouris = new EcouterDeMvtSouris(controleur, vueGraphique, this);
-		vueGraphique.addMouseMotionListener(ecouteurDeMvtSouris);
-        
-        /* Vue graphique */
-        scrollPane = new JScrollPane(vueGraphique);
-        
-        scrollPane.setBorder(BorderFactory.createEtchedBorder());
-        scrollPane.setAutoscrolls(true);
-        scrollPane.setViewportView(vueGraphique);
-        scrollPane.setPreferredSize(new Dimension(200, 200));
-        
-        vueGraphique.getAccessibleContext().setAccessibleParent(scrollPane);
-        
-        /* Vue textuelle */
-        vueTextuelle = new TextuelleView(p,controleur);
-        
-        ecouteurDeSouris = new EcouteurDeSouris(controleur,vueGraphique,this);
-        vueGraphique.addMouseListener(ecouteurDeSouris);
-        
-        vueGraphique.getAccessibleContext().setAccessibleParent(scrollPane);
-        
-        
-        /* Boite de dialogue */
+        creerVues(plan, controleur);    
         creerBoiteDialogue();
 
-        /* Proprit� de la fen�tre */
+        /* Proprité de la fenêtre */
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Gestion des livraisons");
+        setTitle("Optimod'Lyon");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setFocusCycleRoot(false);
-        setName("iFrame"); // NOI18N
+        
+        btnChargerPlan.setEnabled(true);
         
         ajouterComposants();
-
         pack();
         
-    	setVisible(true);
+        setVisible(true);
     }
     
-    public void activerModification()
+    /**
+     * Méthode qui active les boutons de modification
+     */
+	public void activerModification()
     {
     	vueTextuelle.activerModification();
     }
@@ -136,13 +123,18 @@ public class Fenetre extends JFrame
     
     /**
 	 * Affiche un message box à l'utilisateur
-	 * @param message
+	 * @param String message à afficher
 	 */
 	public void afficheMessageBox(String message) 
 	{
 		JOptionPane.showMessageDialog(null, message, "Erreur", JOptionPane.ERROR_MESSAGE);
 	}
 	
+	/**
+	 * Méthode qui affiche une boite de dialogue à l'utlisateur pour confirmé un traitement
+	 * @param String message à affichier
+	 * @return
+	 */
 	public boolean afficherMessageConfirmation(String message)
 	{
 		int dialogButton = JOptionPane.YES_NO_OPTION;
@@ -150,9 +142,10 @@ public class Fenetre extends JFrame
         
         return dialogButton == JOptionPane.YES_OPTION;
 	}
-    
 
-    
+    /**
+     * Méthode ajouter les composants vue graphique, textuelle, barre d'outils et boite de dialogue aux bonne endroits  
+     */
     private void ajouterComposants() 
     {
     	GroupLayout layout = new GroupLayout(getContentPane());
@@ -169,6 +162,7 @@ public class Fenetre extends JFrame
                 .addComponent(vueTextuelle, GroupLayout.PREFERRED_SIZE, 441, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+        
         layout.setVerticalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -181,9 +175,36 @@ public class Fenetre extends JFrame
                 .addComponent(messagePanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(43, Short.MAX_VALUE))
         );
-		
+	}
+    
+    /**
+     * Méthode creer les deux vues textuelle et graphique
+     * @param plan
+     * @param controleur
+     */
+    private void creerVues(Plan plan, Controleur controleur) 
+    {
+    	vueGraphique = new VueGraphique(plan, 1, this);
+    	vueTextuelle = new VueTextuelle(plan, controleur);
+    	
+        scrollPane = new JScrollPane(vueGraphique);
+        
+        ecouteurDeMvtSouris = new EcouterDeMvtSouris(controleur, vueGraphique);
+        ecouteurDeSouris = new EcouteurDeSouris(controleur,vueGraphique);
+        
+		vueGraphique.getAccessibleContext().setAccessibleParent(scrollPane);
+        vueGraphique.addMouseListener(ecouteurDeSouris);
+        vueGraphique.addMouseMotionListener(ecouteurDeMvtSouris);
+        
+        scrollPane.setBorder(BorderFactory.createEtchedBorder());
+        scrollPane.setAutoscrolls(true);
+        scrollPane.setViewportView(vueGraphique);
+        scrollPane.setPreferredSize(new Dimension(200, 200));	
 	}
 
+    /**
+     * Méthode créér la boite de dialogue de l'utilisateur
+     */
 	private void creerBoiteDialogue() 
     {
     	messagePanel = new JPanel();
@@ -191,9 +212,8 @@ public class Fenetre extends JFrame
         
         messagePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Boite de dialogue"));
 
-        cardreMessage.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        cardreMessage.setFont(new java.awt.Font("Tahoma", 2, 11));
         cardreMessage.setText("Pour commancer : charger un plan");
-
         
         GroupLayout messagePanelLayout = new GroupLayout(messagePanel);
         messagePanel.setLayout(messagePanelLayout);
@@ -204,6 +224,7 @@ public class Fenetre extends JFrame
                 .addComponent(cardreMessage, GroupLayout.PREFERRED_SIZE, 847, GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+        
         messagePanelLayout.setVerticalGroup(
             messagePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(messagePanelLayout.createSequentialGroup()
@@ -211,323 +232,175 @@ public class Fenetre extends JFrame
                 .addComponent(cardreMessage)
                 .addContainerGap(22, Short.MAX_VALUE))
         );
-		
 	}
 	
 	/**
-	 * Definit la taille du cadre et de ses composants en fonction de la taille de la vue
-	 * @param largeurVue
-	 * @param hauteurVue
+	 * Méthode qui le menu dans la fenêtre
 	 */
-	
-	public JScrollPane getScrollPane()
-	{
-		return scrollPane;
-	}
-
 	private void creerMenus() 
     {
     	menuBar = new JMenuBar();
-        menuFichier = new JMenu();
-        menuChargerPlan = new JMenuItem();
-        menuChargerLivraison = new JMenuItem();
-        menuQuitter = new JMenuItem();
-        menuEdition = new JMenu();
-        menuUndo = new JMenuItem();
-        menuRedo = new JMenuItem();
-        menuGenere = new JMenu();
-        menuTournee = new JMenuItem();
-        menuGenerer = new JMenuItem();
-        menuAide = new JMenu();
-        menuAbout = new JMenuItem();
+        menuFichier = new JMenu("Fichier");
+        menuEdition = new JMenu("Edition");
+        menuGenere = new JMenu("Générer");
+        menuAide = new JMenu("Aide");
         
-        menuFichier.setText("Fichier");
+        menuChargerPlan = new JMenuItem(CHARGER_PLAN);
+        menuChargerLivraison = new JMenuItem(CHARGER_LIVRAISON);
+        menuQuitter = new JMenuItem(EXIT);
+        menuUndo = new JMenuItem(UNDO);
+        menuRedo = new JMenuItem(REDO);
+        menuTournee = new JMenuItem(CALCULER_TOURNEE);
+        menuGenerer = new JMenuItem(GENERE);
+        menuAbout = new JMenuItem(ABOUT);
+        
+        JMenu[] menu = {menuFichier, menuEdition, menuGenere, menuAide};
+        JMenuItem[][] menuItem = {{menuChargerPlan, menuChargerLivraison, menuQuitter}, 
+        						  {menuUndo, menuRedo}, 
+        						  {menuTournee, menuGenerer}, 
+        						  {menuAbout}};
 
-        menuChargerPlan.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
-        menuChargerPlan.setText("Charger Plan");
-        menuChargerPlan.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent evt) 
-			{
-				controleur.chargerPlan();
-			}
-		});
-        menuFichier.add(menuChargerPlan);
-
-        menuChargerLivraison.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
-        menuChargerLivraison.setText("Charger Demande de Livraison");
-        menuChargerLivraison.addActionListener(new ActionListener() {
-        	@Override
-            public void actionPerformed(ActionEvent evt) 
-            {
-            	controleur.chargerLivraison();
-            }
-        });
-        menuFichier.add(menuChargerLivraison);
-
-        menuQuitter.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
-        menuQuitter.setText("Quitter");
-        menuQuitter.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent evt) 
-			{
-				if (afficherMessageConfirmation("Voulez-vous vraiment quittez l'application ?"))
-					
-					System.exit(EXIT_ON_CLOSE);
-			}
-		});
-        menuFichier.add(menuQuitter);
-
+        int[][] keys = {{KeyEvent.VK_P, KeyEvent.VK_D, KeyEvent.VK_F}, 
+        				{KeyEvent.VK_Z, KeyEvent.VK_Y},
+        				{KeyEvent.VK_T, KeyEvent.VK_G},
+        				{KeyEvent.VK_B}};
+        		
+        // Créé les menu item de chaque menu
+        for (int i=0; i < menu.length; i++)
+        
+        	for (int j=0; j < menuItem[i].length; j++)
+        	{
+        		menuItem[i][j].setAccelerator(KeyStroke.getKeyStroke(keys[i][j], java.awt.event.InputEvent.CTRL_MASK));
+        		menuItem[i][j].addActionListener(ecouteurDeBoutons);
+        		menu[i].add(menuItem[i][j]);
+        	}
+        
         menuBar.add(menuFichier);
-
-        menuEdition.setText("Edition");
-
-        menuUndo.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
-        menuUndo.setText("Annuler");
-        menuUndo.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				controleur.undo();
-			}
-		});
-        menuEdition.add(menuUndo);
-
-        menuRedo.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_MASK));
-        menuRedo.setText("R�tablir");
-        menuRedo.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				controleur.redo();
-			}
-		});
-        
-        menuEdition.add(menuRedo);
-
         menuBar.add(menuEdition);
-
-        menuTournee.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
-        menuTournee.setText("Calculer Tourn�e");
-        menuTournee.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent evt) 
-			{
-				controleur.calculerTournee();
-			}
-		});
-        
-        menuGenere.setText("G�n�rer");
-        menuGenere.add(menuTournee);
-
-        menuGenerer.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
-        menuGenerer.setText("G�n�rer Feuille de route");
-        menuGenere.add(menuGenerer);
-        menuGenere.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				controleur.genererFeuilleDeRoute();
-			}
-		});
-
         menuBar.add(menuGenere);
-
-        menuAide.setText("Aide");
-
-        menuAbout.setText("A propos");
-        menuAide.add(menuAbout);
-
         menuBar.add(menuAide);
-
+        
         setJMenuBar(menuBar);
-		
 	}
 
+	/**
+	 * Méthode qui crée la bar d'outils
+	 */
 	private void creerBarOutils() 
     {
     	barOutil = new JToolBar();
-        btnChargerPlan = new JButton();
-        btnChargerLivraison = new JButton();
-        btnUndo = new JButton();
-        btnRedo = new JButton();
-        btnGenerer = new JButton();
-        btnCalculer = new JButton();
+    	
+        btnChargerPlan = new JButton(CHARGER_PLAN);
+        btnChargerLivraison = new JButton(CHARGER_LIVRAISON);
+        btnUndo = new JButton(UNDO);
+        btnRedo = new JButton(REDO);
+        btnGenerer = new JButton(GENERE);
     	
     	barOutil.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
         barOutil.setRollover(true);
         barOutil.setAlignmentX(0.0F);
-
-        btnChargerPlan.setIcon(new ImageIcon(getClass().getResource("/vue/icons/add_map.png"))); // NOI18N
-        btnChargerPlan.setText("Charger Plan");
-        btnChargerPlan.setAlignmentX(5.0F);
-        btnChargerPlan.setAlignmentY(5.0F);
-        btnChargerPlan.setFocusable(false);
-        btnChargerPlan.setHorizontalTextPosition(SwingConstants.CENTER);
-        btnChargerPlan.setMargin(new java.awt.Insets(5, 5, 5, 5));
-        btnChargerPlan.setVerticalTextPosition(SwingConstants.BOTTOM);
         
-        btnChargerPlan.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				controleur.chargerPlan();
-			}
-		});
+        JButton[] listBoutons = {btnChargerPlan, btnChargerLivraison, btnUndo, btnRedo, btnGenerer};
+        String[] icons = {"add_map.png", "add_delivery.png", "undo.png", "redo.png", "generate.png"};
         
-        barOutil.add(btnChargerPlan);
-        barOutil.add(new JToolBar.Separator());
+        for (int i=0; i < listBoutons.length; i++)
+        {
+	        listBoutons[i].setIcon(new ImageIcon(getClass().getResource("/vue/icons/" + icons[i]))); 
+	        listBoutons[i].setAlignmentX(5.0F);
+	        listBoutons[i].setAlignmentY(5.0F);
+	        listBoutons[i].setFocusable(false);
+	        listBoutons[i].setEnabled(false);
+	        listBoutons[i].setHorizontalTextPosition(SwingConstants.CENTER);
+	        listBoutons[i].setMargin(new java.awt.Insets(5, 5, 5, 5));
+	        listBoutons[i].setVerticalTextPosition(SwingConstants.BOTTOM);
+	        listBoutons[i].addActionListener(ecouteurDeBoutons);
+	        
+	        barOutil.add(listBoutons[i]);
+	        
+	        if (i != listBoutons.length - 1)
+	        	
+	        	barOutil.add(new JToolBar.Separator());
+        }
 
-        btnChargerLivraison.setIcon(new ImageIcon(getClass().getResource("/vue/icons/add_delivery.png"))); // NOI18N
-        btnChargerLivraison.setText("Charger Livraisons");
-        btnChargerLivraison.setAlignmentX(5.0F);
-        btnChargerLivraison.setAlignmentY(5.0F);
-        btnChargerLivraison.setFocusable(false);
-        btnChargerLivraison.setHorizontalTextPosition(SwingConstants.CENTER);
-        btnChargerLivraison.setMargin(new java.awt.Insets(5, 5, 5, 5));
-        btnChargerLivraison.setVerticalTextPosition(SwingConstants.BOTTOM);
-        btnChargerLivraison.setEnabled(false);
         
-        btnChargerLivraison.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				controleur.chargerLivraison();
-			}
-		});
-        
-        barOutil.add(btnChargerLivraison);
-        barOutil.add(new JToolBar.Separator());
-   
-
-        btnUndo.setIcon(new ImageIcon(getClass().getResource("/vue/icons/undo.png"))); // NOI18N
-        btnUndo.setText("Annuler");
-        btnUndo.setAlignmentX(5.0F);
-        btnUndo.setAlignmentY(5.0F);
-        btnUndo.setFocusable(false);
-        btnUndo.setHorizontalTextPosition(SwingConstants.CENTER);
-        btnUndo.setMargin(new java.awt.Insets(5, 5, 5, 5));
-        btnUndo.setVerticalTextPosition(SwingConstants.BOTTOM);
-        btnUndo.setEnabled(false);
-        btnUndo.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				controleur.undo();
-			}
-		});
-        barOutil.add(btnUndo);
-        barOutil.add(new JToolBar.Separator());
-
-        btnRedo.setIcon(new ImageIcon(getClass().getResource("/vue/icons/redo.png"))); // NOI18N
-        btnRedo.setText("R�tablir");
-        btnRedo.setAlignmentX(5.0F);
-        btnRedo.setAlignmentY(5.0F);
-        btnRedo.setEnabled(false);
-        btnRedo.setFocusable(false);
-        btnRedo.setHorizontalTextPosition(SwingConstants.CENTER);
-        btnRedo.setMargin(new java.awt.Insets(5, 5, 5, 5));
-        btnRedo.setVerticalTextPosition(SwingConstants.BOTTOM);
-        btnRedo.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				controleur.redo();
-			}
-		});
-        barOutil.add(btnRedo);
-        barOutil.add(new JToolBar.Separator());
-
-        btnGenerer.setIcon(new ImageIcon(getClass().getResource("/vue/icons/generate.png"))); // NOI18N
-        btnGenerer.setText("Generer");
-        btnGenerer.setAlignmentX(5.0F);
-        btnGenerer.setAlignmentY(5.0F);
-        btnGenerer.setFocusable(false);
-        btnGenerer.setHorizontalTextPosition(SwingConstants.CENTER);
-        btnGenerer.setMargin(new java.awt.Insets(5, 5, 5, 5));
-        btnGenerer.setVerticalTextPosition(SwingConstants.BOTTOM);
-        btnGenerer.setEnabled(false);
-        
-        btnGenerer.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				controleur.genererFeuilleDeRoute();
-			}
-        	
-        });
-        
-        barOutil.add(btnGenerer);
-	}
-	
-	public int getVerticalScrollBar()
-	{
-		return scrollPane.getVerticalScrollBar().getValue();
-	}
-	
-	public int getHorizontalScrollBar()
-	{
-		return scrollPane.getHorizontalScrollBar().getValue();
-	}
-
-	public static void getInstance()
-    {
-    	
-    }
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void lancer() 
-    {
-    	
-    }             
+	}          
     
     /**
 	 * Affiche message dans la fenetre de dialogue avec l'utilisateur
-	 * @param message
+	 * @param String message à affichier
 	 */
 	public void afficheMessage(String message) {
 		cardreMessage.setText(message);
 	}
     
-    public int getEchelle(){
+	/**
+	 * Getteur de l'échelle de la vue graphique
+	 * @return int echelle de la vueGraphique
+	 */
+    public int getEchelle()
+    {
 		return vueGraphique.getEchelle();
 	}
 	
-	public void sourisSurNoeud(){
+    /**
+     * Méthode qui change le cuseur de la souris en HAND si on le passe sur un noeud dans le plan
+     */
+	public void sourisSurNoeud()
+	{
 		vueGraphique.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 	
-	public void sourisPasSurNoeud(){
+	/**
+	 * Méthode qui rétablit mle curseur de la souris à l'état normale si le cuseur est n'est sur un noeud
+	 */
+	public void sourisPasSurNoeud()
+	{
 		vueGraphique.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
-                                      
+     
+	/**
+	 * Méthode qui sélectionne une livraison dans la vue textuelle
+	 * @param Livraison 
+	 */
+	public void selectionnerLivraisonTextuelle(Livraison liv)
+	{
+		vueTextuelle.selectionnerLivraisonTextuelle(liv);
+	}
+	
+	/**
+	 * Méthode qui active/déactive le bouton valider
+	 * @param state true designe activé le bouton, false déactivé
+	 */
+    public void changerValider(boolean state)
+    {
+    	vueTextuelle.changerValider(state);
+    }
     
-	public void activerChargementLivraison() {
+    /**
+     * Méthode qui active le bouton chargement livraison
+     */
+	public void activerChargementLivraison() 
+	{
 		btnChargerLivraison.setEnabled(true);
 	}
 	
-	public void activerCalculer()
+	/**
+	 * Méthode qui active les boutons quand la tournée est calculée
+	 */
+	public void activerUndoRedoGenerer() 
 	{
-		btnCalculer.setEnabled(true);
-	}
-	
-	public void activerUndoRedoGenerer() {
 		btnUndo.setEnabled(true);
 		btnRedo.setEnabled(true);
 		btnGenerer.setEnabled(true);
 	}
 	
-	public void desacactiverUndoRedoGenerer() {
+	/**
+	 * Méthode qui active les boutons Undo/Redo/Generer
+	 */
+	public void desacactiverUndoRedoGenerer() 
+	{
 		btnUndo.setEnabled(false);
 		btnRedo.setEnabled(false);
 		btnGenerer.setEnabled(false);
-
 	}
-	
-	public void selectionnerLivraisonTextuelle(Livraison liv)
-	{
-		System.out.println("dans fenetre");
-		vueTextuelle.selectionnerLivraisonTextuelle(liv);
-	}
-	
-    public void changerValider(boolean state)
-    {
-    	vueTextuelle.changerValider(state);
-    }
-	
-    // End of variables declaration        
 }
