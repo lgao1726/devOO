@@ -9,7 +9,7 @@ import modele.Plan;
 import vue.Fenetre;
 
 /**
- * Etat des les livraisons charg�es
+ * Etat des les livraisons chargï¿½es
  * @author interCorp
  *
  */
@@ -27,7 +27,7 @@ public class EtatLivraisonCharge extends EtatDefaut
 		Controleur.etatInit.chargerPlan(plan, fenetre);
 	}
 	/**
-	 * M�thode qui charge les demande des livraision et qui passe vers l'�tat LivraisonCharger
+	 * Mï¿½thode qui charge les demande des livraision et qui passe vers l'ï¿½tat LivraisonCharger
 	 * @param Plan
 	 * @param DemandeLivraison
 	 */
@@ -35,7 +35,6 @@ public class EtatLivraisonCharge extends EtatDefaut
 	public void chargerDemandes(Plan plan, Fenetre fenetre) 
 	{
 		Controleur.etatPlanCharge.chargerDemandes(plan, fenetre);
-		fenetre.activerCalculer();
 	}
 	
 	@Override
@@ -43,7 +42,7 @@ public class EtatLivraisonCharge extends EtatDefaut
 		plan.getDemandeLivraisons().calculerTournee(plan);
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 		plan.updatePlan();
-		fenetre.afficheMessage("Tourn�e calcul�e avec succ�s");
+		fenetre.afficheMessage("Tournée calculée avec succès");
 		fenetre.activerUndoRedoGenerer();
 		fenetre.activerModification();
 	}
