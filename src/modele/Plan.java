@@ -9,7 +9,7 @@ import java.util.Observable;
 
 /**
  * Class plan qui décrit le plan de la ville. Il est compose de Noeuds et Troncons
- * @author interCorp
+ * @author H4101
  *
  */
 public class Plan extends Observable

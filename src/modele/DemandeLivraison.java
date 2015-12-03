@@ -89,7 +89,6 @@ public class DemandeLivraison
 	 */
 	public Tournee calculerTournee(Plan plan){
 		tournee.calculerTournee(plan, listeFenetres);
-		tournee.afficherListeItineraires();
 		setHeuresPassage();
 		return tournee;
 	}
