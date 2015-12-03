@@ -1,48 +1,47 @@
 package vue;
 
-import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.SwingUtilities;
-
 import controleur.Controleur;
-import modele.DemandeLivraison;
-import modele.Livraison;
-import modele.Noeud;
-import modele.Plan;
 
-
-public class EcouterDeMvtSouris extends MouseAdapter {
-
+/**
+ * Classe EcouteurDeMvtSouris qui attend un évenement se génére sur les mouvements de la souris
+ * @author H4101 International Corp
+ *
+ */
+public class EcouterDeMvtSouris extends MouseAdapter 
+{
 	private Controleur controleur;
 	private VueGraphique vueGraphique;
-	private Fenetre fenetre;
 
-	public EcouterDeMvtSouris(Controleur controleur, VueGraphique vueGraphique, Fenetre fenetre){
+	/**
+	 * Constructeur d'objet
+	 * @param controleur
+	 * @param vueGraphique
+	 */
+	public EcouterDeMvtSouris(Controleur controleur, VueGraphique vueGraphique)
+	{
 		this.controleur = controleur;
 		this.vueGraphique = vueGraphique;
-		this.fenetre = fenetre;
 	}
 
-	public void mouseMoved(MouseEvent evt) {
+	/**
+	 * Souris bouger
+	 * @param evt MouseEvent 
+	 */
+	public void mouseMoved(MouseEvent evt) 
+	{
 		// Methode appelee a chaque fois que la souris est bougee
 		// Envoie au controleur les coordonnees de la souris.
-		Noeud courant = getPoint(evt);
-		if (courant!=null){
+		if (controleur.getNoeud(evt.getPoint().x*vueGraphique.getEchelle(), 
+								evt.getPoint().y*vueGraphique.getEchelle(), vueGraphique.getRayonLivraison()) != null)
+		{
 			controleur.sourisSurNoeud(); 
-		}else{
+		}
+		else
+		{			
 			controleur.sourisPasSurNoeud();
 		}
 	}
-	
-	private Noeud getPoint(MouseEvent evt){
-		Plan plan = vueGraphique.getPlan();
-		Point pt = evt.getPoint();
-		
-		return plan.getNoeud(pt.x * vueGraphique.getEchelle(), pt.y * vueGraphique.getEchelle(),vueGraphique.getRayonLivraison());
-		
-	}
-
-
 }
