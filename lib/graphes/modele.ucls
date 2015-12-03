@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<class-diagram version="1.1.9" icons="true" always-add-relationships="true" generalizations="true" realizations="true" 
-  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+<class-diagram version="1.1.9" icons="true" automaticImage="PNG" always-add-relationships="true" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="modele.Plan" project="DevOO" file="/DevOO/src/modele/Plan.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="489" y="234"/>    
@@ -74,134 +74,159 @@
     </display>  
   </class>  
   <association id="9">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="10" name="listeFenetres">        
-        <position height="18" width="70" x="891" y="1549"/>      
-      </attribute>      
-      <multiplicity id="11" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="12">    
     <bendpoint x="748" y="1032"/>    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="13" name="demandeLivraisons"/>      
-      <multiplicity id="14" minimum="0" maximum="1"/>    
+      <attribute id="10" name="demandeLivraisons">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="11" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="15">    
-    <bendpoint x="778" y="574"/>    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="16" name="noeudOrigine"/>      
-      <multiplicity id="17" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="18">    
-    <bendpoint x="357" y="224"/>    
-    <bendpoint x="240" y="224"/>    
-    <bendpoint x="124" y="224"/>    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="19" name="adresseEntrepot">        
-        <position height="18" width="88" x="31" y="389"/>      
-      </attribute>      
-      <multiplicity id="20" minimum="0" maximum="1">        
-        <position height="16" width="23" x="127" y="389"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="21">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="22" name="listeLivraisons"/>      
-      <multiplicity id="23" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="24">    
+  <association id="12">    
     <bendpoint x="361" y="237"/>    
     <bendpoint x="157" y="237"/>    
     <bendpoint x="157" y="293"/>    
     <bendpoint x="156" y="421"/>    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="25" name="intersections">        
+      <attribute id="13" name="intersections">        
         <position height="18" width="70" x="182" y="390"/>      
       </attribute>      
-      <multiplicity id="26" minimum="0" maximum="2147483647">        
+      <multiplicity id="14" minimum="0" maximum="2147483647">        
         <position height="16" width="21" x="160" y="391"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="27">    
+  <association id="15">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="16" name="itineraires">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="17" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="18">    
     <bendpoint x="241" y="532"/>    
     <bendpoint x="496" y="532"/>    
     <bendpoint x="777" y="532"/>    
     <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="28" name="listeTronconsSortants"/>      
-      <multiplicity id="29" minimum="0" maximum="2147483647"/>    
+      <attribute id="19" name="listeTronconsSortants">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="20" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="30">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="31" name="livraisonDestination">        
-        <position height="18" width="101" x="264" y="1156"/>      
+  <association id="21">    
+    <bendpoint x="357" y="224"/>    
+    <bendpoint x="240" y="224"/>    
+    <bendpoint x="124" y="224"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="22" name="adresseEntrepot">        
+        <position height="18" width="88" x="31" y="389"/>      
       </attribute>      
-      <multiplicity id="32" minimum="0" maximum="1"/>    
+      <multiplicity id="23" minimum="0" maximum="1">        
+        <position height="16" width="23" x="127" y="389"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="24">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="25" name="livraisonsRetard">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="26" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="27">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="28" name="adresse">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="29" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="30">    
+    <bendpoint x="406" y="1198"/>    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="31" name="livraisonOrigine">        
+        <position height="18" width="82" x="415" y="1169"/>      
+      </attribute>      
+      <multiplicity id="32" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="33">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="34" name="tournee"/>      
-      <multiplicity id="35" minimum="0" maximum="1"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="34" name="listeLivraisons">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="35" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="8" navigable="true"/>    
+    <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="36">    
     <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="37" name="livraisonsRetard"/>      
-      <multiplicity id="38" minimum="0" maximum="2147483647"/>    
+      <attribute id="37" name="listeFenetres">        
+        <position height="18" width="70" x="891" y="1549"/>      
+      </attribute>      
+      <multiplicity id="38" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
+    <end type="TARGET" refId="7" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="39">    
-    <bendpoint x="406" y="1198"/>    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="40" name="livraisonOrigine">        
-        <position height="18" width="82" x="415" y="1169"/>      
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="40" name="tournee">        
+        <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="41" minimum="0" maximum="1"/>    
+      <multiplicity id="41" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
+    <end type="TARGET" refId="8" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="42">    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="43" name="itineraires"/>      
-      <multiplicity id="44" minimum="0" maximum="2147483647"/>    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="43" name="livraisonDestination">        
+        <position height="18" width="101" x="264" y="1156"/>      
+      </attribute>      
+      <multiplicity id="44" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="45">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="46" name="adresse"/>      
-      <multiplicity id="47" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
+    <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
