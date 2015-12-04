@@ -60,6 +60,9 @@ public class TourneeTest extends DeserialiseurXML{
 		
 		Tournee tournee = new Tournee();
 		tournee.calculerTournee(plan, plan.getDemandeLivraisons().getFenetres());
+		
+		tournee.supprimerLivraison(0);
+		tournee.getItineraires().get(index)
 	}
 
 	@Test
