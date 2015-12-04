@@ -4,7 +4,8 @@
 package modele;
 
 /**
- * @author InterCorp
+ * 
+ * @author H4101
  *
  */
 public interface Visiteur 

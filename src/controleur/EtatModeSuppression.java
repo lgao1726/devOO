@@ -5,21 +5,27 @@ import modele.Noeud;
 import modele.Plan;
 import vue.Fenetre;
 
-public class EtatModeSuppression extends EtatDefaut{
-	
+/**
+ * Etat Mode suppression d'une livraison
+ * @author interCorp
+ *
+ */
+public class EtatModeSuppression extends EtatDefaut
+{
 	Livraison livraison;
 	ListeCommandes listeDeCdes;
 	Plan plan;
 	
 	@Override
-	public void valider(Fenetre fenetre){
+	public void valider(Fenetre fenetre)
+	{
 		fenetre.activerUndoRedoGenerer();
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 
 		if(plan.getDemandeLivraisons().getTournee().getLivraisonPrecedente(livraison)!=null)
 		{
 			listeDeCdes.ajoute(new CommandeSupprimer(plan, livraison));
-			fenetre.afficheMessage("La livraison à  l'adresse ( " + livraison.getAdresse().getId() + ") a été supprimée" ); 
+			fenetre.afficheMessage("La livraison Ã   l'adresse ( " + livraison.getAdresse().getId() + ") a Ã©tÃ© supprimÃ©e" ); 
 		}
 		else
 		{
@@ -29,15 +35,15 @@ public class EtatModeSuppression extends EtatDefaut{
 	}
 	
 	@Override
-	public void selectionnerLivraison(Plan plan, Livraison livraison, ListeCommandes listeDeCdes, Fenetre fenetre) {
+	public void selectionnerLivraison(Plan plan, Livraison livraison, ListeCommandes listeDeCdes, Fenetre fenetre) 
+	{
 		this.plan=plan;
 		this.listeDeCdes=listeDeCdes;
 		this.livraison=livraison;
-		fenetre.afficheMessage("Validez pour supprimer la livraison à  l'adresse ( " + livraison.getAdresse().getId() + ")." ); 
+		fenetre.afficheMessage("Validez pour supprimer la livraison Ã   l'adresse ( " + livraison.getAdresse().getId() + ")." ); 
 		fenetre.selectionnerLivraisonTextuelle(livraison);
 		fenetre.changerValider(true);
 	}
-
 	
 	@Override
 	public void annuler(Fenetre fenetre)
@@ -46,11 +52,6 @@ public class EtatModeSuppression extends EtatDefaut{
 		fenetre.activerUndoRedoGenerer();
 		fenetre.afficheMessage("");
 	}
-	
-	/**@Override
-	public void deselectionner(Fenetre fenetre){
-		livraison=null;
-	}**/
 
 	@Override
 	public void selectionnerNoeud(Plan plan, Noeud noeud, Fenetre fenetre)
@@ -58,7 +59,12 @@ public class EtatModeSuppression extends EtatDefaut{
 		fenetre.afficheMessage("Selectionner une livraison.");
 	}
 	
-	public void setLivraison(Livraison liv){
+	/**
+	 * Setteur de livraison
+	 * @param liv
+	 */
+	public void setLivraison(Livraison liv)
+	{
 			this.livraison = liv;
-		}	
+	}	
 }

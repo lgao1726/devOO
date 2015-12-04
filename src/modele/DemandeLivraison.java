@@ -13,7 +13,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-
+/**
+ * La classe DemandeLivraison contient toutes les données des livraisons 
+ * de l'application. 
+ * @author H4101	
+ *
+ */
 public class DemandeLivraison
 {
 	private ArrayList<FenetreLivraison> listeFenetres;
@@ -28,12 +33,22 @@ public class DemandeLivraison
 		livraisonsRetard = new ArrayList<Livraison>();
 	}
 	
+	/**
+	 * Ajouter une nouvelle fenetre de livraison
+	 * @param fenetre
+	 */
 	public void ajouterFenetre(FenetreLivraison fenetre)
 	{
 		listeFenetres.add(fenetre);
 	}
 	
-	public FenetreLivraison getFenetre(Calendar debut, Calendar fin)
+	/**
+	 * Avec l'heure debut et l'heure fin de la fenetre recuperer l'objet FenetreLivraison
+	 * @param heureDebut
+	 * @param heureFin
+	 * @return fenetre
+	 */
+	public FenetreLivraison getFenetre(Calendar heureDebut, Calendar heureFin)
 	{
 		Iterator<FenetreLivraison> it = listeFenetres.iterator();
 		FenetreLivraison fenetre = null;
@@ -42,7 +57,7 @@ public class DemandeLivraison
 		{
 			fenetre = (FenetreLivraison)it.next();
 			
-			if (fenetre.getHeureDebut().equals(debut) && fenetre.getHeureFin().equals(fin))
+			if (fenetre.getHeureDebut().equals(heureDebut) && fenetre.getHeureFin().equals(heureFin))
 				
 				break;
 		}
@@ -50,26 +65,48 @@ public class DemandeLivraison
 		return fenetre;
 	}
 	
+	/**
+	 * obtenir un iterator pour parcourir les fenetres de livraison
+	 * @return iterator de FenetreLivraison
+	 */
 	public Iterator<FenetreLivraison> getFenetreIterator()
 	{
 		return listeFenetres.iterator();
 	}
 	
+	/**
+	 * obtenir un List de Fenetre Livraison
+	 * @return List de FenetreLivraison
+	 */
 	public ArrayList<FenetreLivraison> getFenetres(){
 		return listeFenetres;
 	}
 	
+	/**
+	 * Appelle la methode calculerTournee de l'objet tournee
+	 * @param plan
+	 * @return un object Tournee
+	 */
 	public Tournee calculerTournee(Plan plan){
 		tournee.calculerTournee(plan, listeFenetres);
-		tournee.afficherListeItineraires();
 		setHeuresPassage();
 		return tournee;
 	}
 	
+	/**
+	 * obtenir un objet Tournee
+	 * @return
+	 */
 	public Tournee getTournee(){
 		return tournee;
 	}
 	
+	/**
+	 * Ajouter un nouvel livraison a la demande. Cette methode parcourt 
+	 * Le nouvel livraison est apres un livraison specifie par l'utilisateur
+	 * @param livraison
+	 * @param livraisonPrecedente
+	 */
 	public void ajouterLivraison(Livraison livraison, Livraison livraisonPrecedente){
 		Calendar heureDebutPrecedente=livraisonPrecedente.getHeureDebut();
 		Calendar heureFinPrecedente=livraisonPrecedente.getHeureFin();
@@ -102,6 +139,10 @@ public class DemandeLivraison
 		setHeuresPassage();
 	}
 	
+	/**
+	 * Supprimer un livraison sachant ou est son adresse
+	 * @param adresseLivraison
+	 */
 	public void supprimerLivraison(int adresseLivraison){
 		getTournee().supprimerLivraison(adresseLivraison);
 		for(FenetreLivraison fenetre:getFenetres()){
@@ -118,7 +159,13 @@ public class DemandeLivraison
 		setHeuresPassage();
 	}
 	
-	//echanger 2 livraisons, ils ont pas besoin d'etre un a cotre de l'autre
+	/**
+	 * Echanger la position de deux livraisons sur la tournee
+	 * Mettre aussi les deux livraison dans les bonne fenetres s'il y a 
+	 * une changement de fenetre
+	 * @param livraison1
+	 * @param livraison2
+	 */
 	public void echangerLivraisonSepares(int livraison1,int livraison2){
 		List<Itineraire> itineraires = getTournee().getItineraires();
 		//trouver qui est le livraison precedent entre les deux
@@ -167,9 +214,12 @@ public class DemandeLivraison
 	}
 	
 	
-	//echanger deux livraison cotoyant
-	//les deux n'ont pas besoin d'être ordonné
-	public void echangerLivraison(int livraison1,int livraison2){
+	/**
+	 * Echanger l'ordre de deux livraisons cote a cote dans la tournee 
+	 * @param livraison1
+	 * @param livraison2
+	 */
+	private void echangerLivraison(int livraison1,int livraison2){
 		List<Itineraire> itineraires = getTournee().getItineraires();
 		//trouver qui est le livraison precedent entre les deux
 		int livAvant = -1;
@@ -221,7 +271,14 @@ public class DemandeLivraison
 		setHeuresPassage();
 	}
 	
-	
+	/**
+	 * on obtient le livraison associe avec les cordonnees contenu dans 
+	 * un cercle ou l'utilisateur a clique
+	 * @param xPoint
+	 * @param yPoint
+	 * @param rayon
+	 * @return
+	 */
 	public Livraison getLivraison(int xPoint, int yPoint, int rayon)
 	{
 		for(FenetreLivraison fenetre:listeFenetres)
@@ -240,12 +297,20 @@ public class DemandeLivraison
 		return null;
 	}
 	
+	/**
+	 * Avec un livraison donnee, obtenir la FenetreLivraison correspondante
+	 * @param liv
+	 * @return
+	 */
 	public FenetreLivraison getFenetre(Livraison liv){
 		for(FenetreLivraison fenetre:listeFenetres){
 			if(fenetre.getLivraisons().contains(liv)) return fenetre;
 		}return null;
 	}
 	
+	/**
+	 * Calculer les heures de passage pour tous les livraisons sur la tournee
+	 */
 	private void setHeuresPassage(){
 		List<Itineraire> itineraires = tournee.getItineraires();
 		for(Itineraire iti:itineraires){
@@ -265,7 +330,10 @@ public class DemandeLivraison
 		}
 	}
 	
-	//reset les heures de passage de toutes les itin�raires avant une nouvelle calculation
+	/**
+	 * Remettre toutes les heures de Passage à 8h00 et vider la liste de
+	 * livraisons en retard 
+	 */
 	private void resetHeuresPassage(){
 		List<FenetreLivraison> fenetres = getFenetres();
 		for(int i=1;i<fenetres.size();i++){
@@ -275,6 +343,10 @@ public class DemandeLivraison
 		}livraisonsRetard.clear();
 	}
 	
+	/**
+	 * Generer la feuille de route en forme texte
+	 * @param plan
+	 */
 	public void genererFeuilleDeRoute(Plan plan)
 	{
 		List<String> strings=tournee.genererFeuille(plan);
@@ -294,10 +366,18 @@ public class DemandeLivraison
 			
 	}
 	
+	/**
+	 * Obtenir un List de livraisons en retard
+	 * @return
+	 */
 	public List<Livraison> getLivraisonsRetard(){
 		return livraisonsRetard;
 	}
 	
+	/**
+	 * methode pour accepter un changement dans la vue
+	 * @param v
+	 */
 	public void accepte(Visiteur v)
 	{
 		v.visite(this);

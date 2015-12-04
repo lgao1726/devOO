@@ -4,7 +4,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
+/**
+ * La classe Itineraire contient le chemin prise entre deux livraisons
+ * successifs dans la tournee sous forme d'une collection de'adresses
+ * de noeuds. Les livraison d'origine et de destination se trouvent aussi 
+ * dans cet objet 
+ * @author H4101
+ *
+ */
 public class Itineraire{
 
 	private Livraison livraisonOrigine;
@@ -18,63 +25,86 @@ public class Itineraire{
 		//this.livraisonDestination = livraisonDestination;
 	}
 
+	/**
+	 * Obtenir la livraison d'origine
+	 * @return
+	 */
 	public Livraison getLivraisonOrigine() {
 		return livraisonOrigine;
 	}
 
+	/**
+	 * Attribuer une livraison comme livraison origine
+	 * @param livraisonOrigine
+	 */
 	public void setLivraisonOrigine(Livraison livraisonOrigine) {
 		this.livraisonOrigine = livraisonOrigine;
 	}
 
+	/**
+	 * Obtenir la livraison de destination
+	 * @return
+	 */
 	public Livraison getLivraisonDestination() {
 		return livraisonDestination;
 	}
 
+	/**
+	 * Attribuer une livraison comme livraison de destination
+	 * @param livraisonDestination
+	 */
 	public void setLivraisonDestination(Livraison livraisonDestination) {
 		this.livraisonDestination = livraisonDestination;
 	}
 
+	/**
+	 * Obtenir un List ordonne d'adresses de noeuds a suivre pour
+	 * aller de l'origine a la destination 
+	 * @return
+	 */
 	public ArrayList<Integer> getNoeuds() {
 		return listeNoeud;
 	}
 
-
+	/**
+	 * Ajouter un List ordonnee d'adresses de noeuds à suivre
+	 * pour aller de l'origine a la destination
+	 * @param listeNoeud
+	 */
 	public void setListeNoeud(ArrayList<Integer> listeNoeud) {
 		this.listeNoeud = listeNoeud;
 	}
 
-	public void ajouterNoeud(int id) {
-		listeNoeud.add(id);
-	}
 
-	public void ajouterNoeud(int index, int id) {
-		listeNoeud.add(index, id);
-	}
-
+	/**
+	 * 
+	 * @param v
+	 */
 	public void accepte(Visiteur v) {
 		v.visite(this);
 	}
 	
-	public void affichertItineraire()
-	{
-		System.out.print("Itin�raire entier de la tourn�e");
-		for(Integer i:listeNoeud)
-		{
-			System.out.print(i+"|");
-			
-		}
-		System.out.println("");
-
-	}
-	
+	/**
+	 * Attribuer un cout a cet itineraire en int (secondes)
+	 * @param cout
+	 */
 	public void setCout(float cout){
 		this.cout = cout + 10*60;
 	}
 	
+	/**
+	 * Obtenir le cout de cet itineraire en int (secondes)
+	 * @return
+	 */
 	public float getCout(){
 		return cout;
 	}
 
+	/**
+	 * Generer la section de la feuille de route concernant cette Itineraire sous forme de String 
+	 * @param plan
+	 * @return String 
+	 */
 	public String getFeuilleString(Plan plan){
 		String itineraire= "";
 		Calendar passage = livraisonDestination.getHeurePassage();

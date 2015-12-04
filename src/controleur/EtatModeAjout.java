@@ -5,8 +5,13 @@ import modele.Livraison;
 import modele.Noeud;
 import modele.Plan;
 
-public class EtatModeAjout extends EtatDefaut{
-	
+/**
+ * Etat mode ajouter une livraison
+ * @author interCorp
+ *
+ */
+public class EtatModeAjout extends EtatDefaut
+{	
 	ListeCommandes listeDeCdes;
 	
 	@Override
@@ -14,7 +19,7 @@ public class EtatModeAjout extends EtatDefaut{
 	{	
 		Controleur.etatNoeudSelectionne.setNoeud(noeud);
 		Controleur.setEtatCourant(Controleur.etatNoeudSelectionne);
-		fenetre.afficheMessage("Adresse de la livraison: " + noeud.getId() + ". Selectionnez la livraison après laquelle vous voulez l'insérer");
+		fenetre.afficheMessage("Adresse de la livraison: " + noeud.getId() + ". Selectionnez la livraison aprÃ¨s laquelle vous voulez l'insÃ©rer");
 	}
 	
 	@Override
@@ -38,7 +43,4 @@ public class EtatModeAjout extends EtatDefaut{
 	{
 		fenetre.afficheMessage("Il faut selectionner un noeud");
 	}
-	
-	
-
 }

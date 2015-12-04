@@ -49,7 +49,6 @@ public class DeserialiseurXML {
 	        traitementPlan(plan, xml);
 	        return true;
 		}
-        
 	}
 
 	protected static void traitementPlan(Plan plan, File xml)
@@ -61,7 +60,6 @@ public class DeserialiseurXML {
         if (racine.getNodeName().equals("Reseau")) 
         {
            construireAPartirDeDOMXML(racine, plan);
-           
         }
         else
         	throw new ExceptionXML("Document non conforme");

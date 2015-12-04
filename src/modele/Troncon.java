@@ -1,8 +1,8 @@
 package modele;
 
 /**
- * Classe troncon qui décrit un lien entre deux noeud
- * @author interCorp
+ * Classe troncon qui decrit un lien entre deux noeuds
+ * @author H4101
  *
  */
 public class Troncon 
@@ -11,7 +11,6 @@ public class Troncon
 	private float longueur;
 	private String nomRue;
 	
-	private Noeud noeudOrigine;
 	private int idNoeudDestination;
 
 
@@ -20,48 +19,44 @@ public class Troncon
 		this.vitesse = vitesse;
 		this.longueur = longueur;
 		this.nomRue = nomRue;
-		setIdNoeudDestination(idNoeudDestination);
+		this.idNoeudDestination = idNoeudDestination;
 	}
 
+	/**
+	 * Obtenir la vitesse moyenne du troncon
+	 * @return vitesse moyenne du troncon
+	 */
 	public float getVitesse() {
 		return vitesse;
 	}
 
-	public void setVitesse(float vitesse) {
-		this.vitesse = vitesse;
-	}
-
+	/**
+	 * Obtenir le longeur du troncon
+	 * @return longeur du troncon
+	 */
 	public float getLongueur() {
 		return longueur;
 	}
 
-	public void setLongueur(float longueur) {
-		this.longueur = longueur;
-	}
 
+	/**
+	 * Obtenir le nom d'un troncon sous form de String
+	 * @return Nom du troncon
+	 */
 	public String getNomRue() {
 		return nomRue;
 	}
 
-	public void setNomRue(String nomRue) {
-		this.nomRue = nomRue;
-	}
 
-	public Noeud getNoeudOrigine() {
-		return noeudOrigine;
-	}
 
-	public void setNoeudOrigine(Noeud noeudOrigine) {
-		this.noeudOrigine = noeudOrigine;
-	}
-	
+	/**
+	 * Obtenir l'adresse du noeud auquel cet troncon amene
+	 * @return
+	 */
 	public int getIdNoeudDestination() {
 		return idNoeudDestination;
 	}
 
-	public void setIdNoeudDestination(int idNoeudDestination) {
-		this.idNoeudDestination = idNoeudDestination;
-	}
 
 
 }

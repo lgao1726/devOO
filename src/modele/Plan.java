@@ -8,8 +8,8 @@ import java.util.Iterator;
 import java.util.Observable;
 
 /**
- * Class plan qui décrit le plan de la ville
- * @author interCorp
+ * Class plan qui décrit le plan de la ville. Il est compose de Noeuds et Troncons
+ * @author H4101
  *
  */
 public class Plan extends Observable
@@ -35,6 +35,7 @@ public class Plan extends Observable
 	 * @param Dimession d'axe X
 	 * @param Dimession d'axe Y
 	 */
+	
 	public Plan(int dimX, int dimY) 
 	{
 		this.dimX = dimX;
@@ -45,31 +46,55 @@ public class Plan extends Observable
 		this.intersections = new ArrayList<Noeud>();
 	}
 
+	/**
+	 * Obtenir la dimension X du plan
+	 * @return dimension X du plan
+	 */
 	public int getDimX() {
 		return dimX;
 	}
 
+	/**
+	 * Attribuer une nouvelle dimension X au plan
+	 * @param dimX la nouvelle dimension X
+	 */
 	public void setDimX(int dimX) {
 		this.dimX = dimX;
 	}
 
+	/**
+	 * Obtenir la dimension Y du plan
+	 * @return Dimension Y du plan
+	 */
 	public int getDimY() {
 		return dimY;
 	}
 
+	/**
+	 * Attribuer une nouvelle dimension Y au plan
+	 * @param dimY la nouvelle dimension du plan
+	 */
 	public void setDimY(int dimY) {
 		this.dimY = dimY;
 	}
 	
+	/**
+	 * Obtenir un List de tous les noeuds sur le plan ordonnes par leurs adresses
+	 * @return List de noeuds ordonnees par leurs adresses
+	 */
 	public ArrayList<Noeud> getIntersections() {
 		return intersections;
 	}
 	
+	/**
+	 * Obtenir le nombre d'intersections/de noeuds sur le plan
+	 * @return nombre d'intersections/de noeuds
+	 */
 	public int getNbIntersections(){
 		return intersections.size();
 	}
 	/**
-	 * Méthode qui ajout la liste des intersection un noeud
+	 * Ajouter un noeud au plan
 	 * @param noeud
 	 */
 	public void ajouterNoeud(Noeud noeud)
@@ -79,9 +104,9 @@ public class Plan extends Observable
 	}
 	
 	/**
-	 * 
+	 * Obtenir un Noeud avec un son Id
 	 * @param id
-	 * @return
+	 * @return Id du noeud
 	 */
 	public Noeud getNoeud(int id) {
 		for(Noeud n:intersections){
@@ -94,6 +119,7 @@ public class Plan extends Observable
 	}
 	
 	/**
+	 * Obtenir adresse/Id du noeud ou se trouve l'entrepot
 	 * @return L'adresse d'Entrepot
 	 */
 	public Noeud getAdresseEntrepot() {
@@ -101,6 +127,7 @@ public class Plan extends Observable
 	}
 	
 	/**
+	 * Affecter un noeud au plan ou se trouve l'entrepot
 	 * @param adresseEntrepot affecter l'adresseEntrepot
 	 */
 	public void setAdresseEntrepot(Noeud adresseEntrepot) {
@@ -108,6 +135,7 @@ public class Plan extends Observable
 	}
 	
 	/**
+	 * Attribue une demande de livraison au plan
 	 * @param DemandeDeLivraison
 	 */
 	public void setDemandeLivraisons(DemandeLivraison demandes) 
@@ -117,6 +145,7 @@ public class Plan extends Observable
 
 	
 	/**
+	 * Obtenir la demande de livraison du plan
 	 * @param DemandeDeLivraison
 	 */
 	public DemandeLivraison getDemandeLivraisons() 
@@ -126,8 +155,6 @@ public class Plan extends Observable
 	
 	/**
 	 * Re-initialise le plan : supprime les formes du plan courant et met a jour la taille
-	 * @param largeur
-	 * @param hauteur
 	 */
 	public void reset() 
 	{
@@ -151,6 +178,9 @@ public class Plan extends Observable
 		UsineNoeud.initPointFactory(0);
 	}
 	
+	/**
+	 * Declenche les modifications du plan dans la vue
+	 */
 	public void updatePlan() 
 	{
 		setChanged();
@@ -158,6 +188,13 @@ public class Plan extends Observable
 		
 	}
 
+	/**
+	 * Obtenir un Noeud avec les coordonnes ou l'utilisateur a clique dans la vue
+	 * @param xPoint
+	 * @param yPoint
+	 * @param rayon marge d'erreur du clic
+	 * @return
+	 */
 	public Noeud getNoeud(int xPoint, int yPoint, int rayon) {
 			for(Noeud noeud:intersections)
 			{

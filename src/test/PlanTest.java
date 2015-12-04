@@ -71,16 +71,4 @@ public class PlanTest {
 	public void testReset() {
 		fail("Not yet implemented");
 	}
-<<<<<<< HEAD
-
-	/**
-	 * Test method for {@link modele.Plan#setTournee()}.
-	 */
-	@Test
-	public void testSetTournee() {
-		fail("Not yet implemented");
-	}
-
-=======
->>>>>>> branch 'development' of https://github.com/lgao1726/devOO.git
 }

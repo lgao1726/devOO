@@ -13,11 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Random;
-
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import modele.DemandeLivraison;
 import modele.FenetreLivraison;
@@ -28,10 +24,18 @@ import modele.Plan;
 import modele.Tournee;
 import modele.Visiteur;
 
+/**
+ * Classe VueGraphique qui cntient le plan de la ville et les livraisons
+ * @author H4101 Internal Corp
+ * 
+ */
 public class VueGraphique extends JPanel implements Observer, Visiteur
 {
+	private static final long serialVersionUID = 1L;
 	private final int RAYON_LIVRAISON=5;
 	private final int RAYON_NOEUD=3;
+	private final int HAUTEUR_DEFAULT=200;
+	private final int LARGEUR_DEFAULT=200;
 	private int echelle;
 	private int hauteurVue;
 	private int largeurVue;
@@ -45,38 +49,38 @@ public class VueGraphique extends JPanel implements Observer, Visiteur
 	 * @param e l'echelle
 	 * @param f la fenetre
 	 */
-	public VueGraphique(Plan plan, int e, Fenetre f) {
+	public VueGraphique(Plan plan, int e, Fenetre f) 
+	{
 		super();
-		//setBorder(BorderFactory.createEtchedBorder());
-		plan.addObserver(this); // this observe plan
+		// Observer ce plan
+		plan.addObserver(this);
 		
-		traitsDejaDessine = new ArrayList<TraitsDejaDessine>();
-		
+		this.traitsDejaDessine = new ArrayList<TraitsDejaDessine>();
 		this.echelle = e;
-		
-		hauteurVue = 200;
-		largeurVue = 200;
+		this.hauteurVue = HAUTEUR_DEFAULT;
+		this.largeurVue = LARGEUR_DEFAULT;
+		this.plan = plan;
 		
 		setLayout(null);
 		setBackground(Color.white);
-		setPreferredSize(new Dimension(200, 200));
+		setPreferredSize(new Dimension(HAUTEUR_DEFAULT, LARGEUR_DEFAULT));
 		setSize(largeurVue, hauteurVue);
 		f.getContentPane().add(this);
-		this.plan = plan;
 	}
 	
-	public int getRayonNoeud()
-	{
-		return RAYON_NOEUD;
-	}
 	
 	/**
 	 * Methode appelee a chaque fois que VueGraphique doit etre redessinee
+	 * @param Graphics g le graphe de contenu
 	 */
 	@Override
-	public void paintComponent(Graphics g) {
+	public void paintComponent(Graphics g) 
+	{
 		super.paintComponent(g);
+		
 		Graphics2D g2 = (Graphics2D) g;
+		
+		// Arrière-plan blanc
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 		RenderingHints.VALUE_ANTIALIAS_ON);
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
@@ -84,24 +88,26 @@ public class VueGraphique extends JPanel implements Observer, Visiteur
 		
 		this.g = g;
 		
+		// Pour chaque intersections
 		for(int i = 0; i < this.plan.getIntersections().size(); i++)
 		{
 			Noeud noeudOrigine = this.plan.getIntersections().get(i);
 			g2.fillOval(noeudOrigine.getX()*echelle-3, noeudOrigine.getY()*echelle-3, 6,6);
 			
+			// Dessiner les traoncons
 			for(int j = 0; j < noeudOrigine.getListeTronconsSortants().size(); j++) 
 			{
 				int idNoeudDestination = noeudOrigine.getListeTronconsSortants().get(j).getIdNoeudDestination();
 				Noeud noeudDestination = null;
 				
 				for(int k = 0; k < this.plan.getIntersections().size(); k++)
-				{
+				
 					if(idNoeudDestination == this.plan.getIntersections().get(k).getId())
 					{
 						noeudDestination = this.plan.getIntersections().get(k);
 						break;
 					}
-				}
+				
 				
 				g2.drawLine(noeudOrigine.getX()*echelle, noeudOrigine.getY()*echelle, 
 						noeudDestination.getX()*echelle, noeudDestination.getY()*echelle);
@@ -118,7 +124,8 @@ public class VueGraphique extends JPanel implements Observer, Visiteur
 		}
 		
 		DemandeLivraison dem = plan.getDemandeLivraisons();
-		
+
+		// Remplir les livraisons
 		if (dem != null)
 		{
 			Iterator<FenetreLivraison> itFen = dem.getFenetreIterator();	
@@ -127,49 +134,92 @@ public class VueGraphique extends JPanel implements Observer, Visiteur
 			{
 				FenetreLivraison fen = itFen.next();				
 				Iterator<Livraison> itLiv = fen.getLivraisonIterator();				
+				
 				while (itLiv.hasNext())				
 					itLiv.next().accepte(this);
-			}traitsDejaDessine.clear();
+			}
+			
+			traitsDejaDessine.clear();
 		}
 		
-		if(dem != null && dem.getTournee() != null){
+		// Déssiner la tournée si déjà calculer
+		if(dem != null && dem.getTournee() != null)
+		{
 			Tournee tour = dem.getTournee();
 			List<Itineraire> itIti = tour.getItineraires();
-			for(int i=0;i<itIti.size();i++){
-				itIti.get(i).accepte(this);
-			}
-				
-				
-			}
+			
+			for(int i=0;i<itIti.size();i++)
+			
+				itIti.get(i).accepte(this);	
 		}
+	}
 	
-
-	public void setEchelle(int e) {
+	/**
+	 * Setteur de l'échelle de la vue
+	 * @param e int l'échelle
+	 */
+	public void setEchelle(int e) 
+	{
 		largeurVue = (largeurVue/echelle)*e;
 		hauteurVue = (hauteurVue/echelle)*e;
 		setSize(largeurVue, hauteurVue);
 		echelle = e;
 	}
 
-	public int getEchelle() {
+	/**
+	 * Getteur de l'échelle de la vue
+	 * @return int l'échelle
+	 */
+	public int getEchelle() 
+	{
 		return echelle;
 	}
 
-	public int getHauteur() {
+	/**
+	 * Getteur de l'hauteur
+	 * @return int l'hauteur
+	 */
+	public int getHauteur() 
+	{
 		return hauteurVue;
 	}
 
-	public int getLargeur() {
+	/**
+	 * Getteur de la largeur
+	 * @return int largeur
+	 */
+	public int getLargeur() 
+	{
 		return largeurVue;
 	}
 	
-	public Plan getPlan() {
+	/**
+	 * Getteur du plan
+	 * @return Plan
+	 */
+	public Plan getPlan() 
+	{
 		return plan;
 	}
 
-	public int getRayonLivraison() {
+	/**
+	 * Getteur de rayon livraison
+	 * @return int rayon
+	 */
+	public int getRayonLivraison() 
+	{
 		return RAYON_LIVRAISON;
 	}
+	
+	/**
+	 * Getteur de rayon noeud
+	 * @return int rayon
+	 */
+	public int getRayonNoeud()
+	{
+		return RAYON_NOEUD;
+	}
+	
 	/**
 	 * Methode appelee par les objets observes par this a chaque fois qu'ils ont ete modifies
 	 */
@@ -186,7 +236,7 @@ public class VueGraphique extends JPanel implements Observer, Visiteur
 	}
 
 	/**
-	 * Methode appelee par l'objet visite (un livraison) a chaque fois qu'il recoit le message accepte
+	 * Methode appelee par l'objet visite (une livraison) a chaque fois qu'il recoit le message accepte
 	 */
 	@Override
 	public void visite(Livraison liv) 
@@ -194,109 +244,86 @@ public class VueGraphique extends JPanel implements Observer, Visiteur
 		int x = liv.getAdresse().getX();
 		int y = liv.getAdresse().getY();
 		
-		
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.RED);
 		
 		g2.fillOval(x*echelle-RAYON_LIVRAISON, y*echelle-RAYON_LIVRAISON, 2*RAYON_LIVRAISON, 2*RAYON_LIVRAISON);
 	}
 	
+	/**
+	 * Methode appelee par l'objet visite (un iténiraire) a chaque fois qu'il recoit le message accepte
+	 */
 	@Override
-	public void visite(DemandeLivraison v)
+	public void visite(Itineraire iti) 
 	{
-	}
-	
-	@Override
-	public void visite(Itineraire iti) {
 		int i = 0;
 		List<Integer> idNoeuds = iti.getNoeuds();
-		Random r = new Random();
-		int re = r.nextInt(256);
-		int gr = r.nextInt(256);
-		int b = r.nextInt(256);
+		
 		Color[] colors = new Color[]
 				{
 				    Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN,
 				    Color.BLACK, Color.PINK, Color.ORANGE,Color.CYAN,
 				    Color.GRAY,Color.magenta,Color.ORANGE
 				};
+		
 		Color c = colors[idNoeuds.get(0)%colors.length];
-		while(i < idNoeuds.size() - 1){
+		
+		while(i < idNoeuds.size() - 1)
+		{
 			Graphics2D g2 = (Graphics2D) g;
+			
 			Noeud origine = plan.getNoeud(idNoeuds.get(i));
 			Noeud destination = plan.getNoeud(idNoeuds.get(i+1));
 			g2.setColor(Color.blue);
 			g2.drawString(""+origine.getId(), origine.getX()+5, origine.getY()-10);			
 			g2.setColor(c);
 			g2.setStroke(new BasicStroke(1));
+			
 			drawArrow(g2,origine.getX(),origine.getY(),
-					destination.getX(),destination.getY());	
-			//g2.drawLine(origine.getX(),origine.getY(),
-			//			destination.getX(),destination.getY());			
+					destination.getX(),destination.getY());		
 			i++;
 		}
-		
 	}
 	
-	private void drawArrow(Graphics g1, int x1, int y1, int x2, int y2) {
-        Graphics2D g = (Graphics2D) g1.create();
-
-        double control = 15;
-        double dx = x2 - x1, dy = y2 - y1;
-        double angle = Math.atan2(dy, dx);
-        int len = (int) Math.sqrt(dx*dx + dy*dy);
-        AffineTransform at = AffineTransform.getTranslateInstance(x1, y1);
-        at.concatenate(AffineTransform.getRotateInstance(angle));
-        g.transform(at);
-        
-        // Draw horizontal arrow starting in (0, 0)
-        QuadCurve2D.Double s = new QuadCurve2D.Double(0, 0, len/2, control, len, 0);
-        g.draw(s);
-        
-        
-        //g.drawLine(0, 0, len, 0);
-        
-        AffineTransform atArrow = AffineTransform.getTranslateInstance(len/2, control);
-        atArrow.concatenate(AffineTransform.getRotateInstance(Math.atan2(-control, len/2)));
-        g.transform(atArrow);
-        g.fillPolygon(new int[] {len/2, (len/2)-12, (len/2)-12, len/2},
-                      new int[] {0, -8, 8, 0}, 4);
-    }
+	/**
+	 * Methode appelee par l'objet visite (une livraison) a chaque fois qu'il recoit le message accepte
+	 */
+	@Override
+	public void visite(DemandeLivraison v) 
+	{	
+	}
 	
-	/**public void selectionnerLivraison(Livraison liv, Color color) 
+	/**
+	 * Methode qui déssine les flêches
+	 * @param g1 Graphic
+	 * @param x1 int x orgine
+	 * @param y1 int y origine
+	 * @param x2 int x destination
+	 * @param y2 int y destination
+	 */
+	private void drawArrow(Graphics g1, int x1, int y1, int x2, int y2) 
 	{
-		Graphics2D g2 = (Graphics2D)getGraphics();
-		g2.setColor(color);
-		g2.fillOval(liv.getAdresse().getX()*echelle-RAYON_LIVRAISON, liv.getAdresse().getY()*echelle-RAYON_LIVRAISON, 2*RAYON_LIVRAISON, 2*RAYON_LIVRAISON);
-		
-	}**/
+	        Graphics2D g = (Graphics2D) g1.create();
 	
-	/**public void selectionnerNoeud(Noeud noeud, Color color) 
-	{
-		Graphics2D g2 = (Graphics2D)getGraphics();
-		g2.setColor(color);
-		g2.fillOval(noeud.getX()*echelle-RAYON_NOEUD, noeud.getY()*echelle-RAYON_NOEUD, 2*RAYON_NOEUD, 2*RAYON_NOEUD);
-		
-	}
-	
-	public void deselectionnerLivraison(Noeud noeud){
-		if(noeud!=null){
-			int xNoeud=noeud.getX();
-			int yNoeud=noeud.getY();
-			if(plan.getDemandeLivraisons().getLivraison(xNoeud, yNoeud, RAYON_LIVRAISON)!=null)
-			{
-				Graphics2D g2 = (Graphics2D)getGraphics();
-				g2.setColor(Color.RED);
-				g2.fillOval(xNoeud*echelle-RAYON_LIVRAISON, yNoeud*echelle-RAYON_LIVRAISON, 2*RAYON_LIVRAISON, 2*RAYON_LIVRAISON);
-			}
-			else if(plan.getNoeud(xNoeud, yNoeud, RAYON_NOEUD)!=null)
-			{
-				Graphics2D g2 = (Graphics2D)getGraphics();
-				g2.setColor(Color.BLACK);
-				g2.fillOval(xNoeud*echelle-RAYON_NOEUD, yNoeud*echelle-RAYON_NOEUD, 2*RAYON_NOEUD, 2*RAYON_NOEUD);
-			}
-		}**/
-		
-	}
+	        double control = 15;
+	        double dx = x2 - x1, dy = y2 - y1;
+	        double angle = Math.atan2(dy, dx);
+	        int len = (int) Math.sqrt(dx*dx + dy*dy);
+	        
+	        AffineTransform at = AffineTransform.getTranslateInstance(x1, y1);
+	        at.concatenate(AffineTransform.getRotateInstance(angle));
+	        g.transform(at);
+	        
+	        // Draw horizontal arrow starting in (0, 0)
+	        QuadCurve2D.Double s = new QuadCurve2D.Double(0, 0, len/2, control, len, 0);
+	        g.draw(s);
+	        
+	        AffineTransform atArrow = AffineTransform.getTranslateInstance(len/2, control);
+	        atArrow.concatenate(AffineTransform.getRotateInstance(Math.atan2(-control, len/2)));
+	        g.transform(atArrow);
+	        g.fillPolygon(new int[] {len/2, (len/2)-12, (len/2)-12, len/2},
+	                      new int[] {0, -8, 8, 0}, 4);
+    	}
+}
 
 

@@ -1,84 +1,82 @@
 package vue;
 
-import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import javax.swing.SwingUtilities;
 
 import controleur.Controleur;
 import modele.DemandeLivraison;
 import modele.Livraison;
 import modele.Noeud;
 
-
-public class EcouteurDeSouris extends MouseAdapter {
-
+/**
+ * Classe EcouteurDeSouris qui attend un évenement se génére sur les bouttons de la souris
+ * @author H4101 International Corp
+ *
+ */
+public class EcouteurDeSouris extends MouseAdapter 
+{
 	private Controleur controleur;
 	private VueGraphique vueGraphique;
-	private Fenetre fenetre;
 
-	public EcouteurDeSouris(Controleur controleur, VueGraphique vueGraphique, Fenetre fenetre){
+	/**
+	 * Constructeur d'objet
+	 * @param controleur
+	 * @param vueGraphique
+	 */
+	public EcouteurDeSouris(Controleur controleur, VueGraphique vueGraphique)
+	{
 		this.controleur = controleur;
 		this.vueGraphique = vueGraphique;
-		this.fenetre = fenetre;
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent evt) {
-		
+	public void mouseClicked(MouseEvent evt) 
+	{	
 		// Methode appelee par l'ecouteur de souris a chaque fois que la souris est cliquee
-		// S'il s'agit d'un clic gauche dans la vue graphique, l'ecouteur envoie au controleur les coordonnees du point clique.
-		// S'il s'agit d'un clic droit, l'ecouteur envoie le message d'echappement au controleur
-		switch (evt.getButton()){
-		case MouseEvent.BUTTON1: 
-			Livraison livraison = getLivraison(evt);
-			Noeud noeud= getNoeud(evt);
-			
-			if (livraison != null)
+
+		switch (evt.getButton())
+		{
+			// Bouton gauche cliqué
+			case MouseEvent.BUTTON1: 
 			{
-				controleur.selectionnerLivraison(livraison); 
-			}
-			else if(noeud != null)
-			{
-				controleur.selectionnerNoeud(noeud);
-				//vueGraphique.selectionnerNoeud(noeud, Color.CYAN);
-			}
-			else
-			{
-				controleur.deselectionner();
-				//vueGraphique.deselectionnerLivraison(noeudDeselectionne);
+				Livraison livraison = getLivraison(evt);
+				Noeud noeud = vueGraphique.getPlan().getNoeud(evt.getPoint().x * vueGraphique.getEchelle(), 
+															  evt.getPoint().y * vueGraphique.getEchelle(),
+															  vueGraphique.getRayonNoeud());
+				
+				if (livraison != null)
+					controleur.selectionnerLivraison(livraison);
+				else if(noeud != null)
+					controleur.selectionnerNoeud(noeud);
+				else
+					controleur.deselectionner();
 			}
 			break;
-		case MouseEvent.BUTTON3: 
-			//controleur.clicDroit(); 
-			break;
-		default:
+			default:
 		}
 	}
-
-	/**public void mouseMoved(MouseEvent evt) {
-		// Methode appelee a chaque fois que la souris est bougee
-		// Envoie au controleur les coordonnees de la souris.
-		Point p = coordonnees(evt);
-		if (p != null)
-			controleur.sourisBougee(p); 
-	}**/
 	
-	private Livraison getLivraison(MouseEvent evt){
+	/**
+	 * Getteur de Livraison en fonction des coordonnées de la souris
+	 * @param evt
+	 * @return Livraison une livraison
+	 */
+	private Livraison getLivraison(MouseEvent evt)
+	{
 		DemandeLivraison demandeLivraison=vueGraphique.getPlan().getDemandeLivraisons();
 		
-		java.awt.Point Pt = evt.getPoint();	 
+		if (demandeLivraison != null)
+		{
+			demandeLivraison.getLivraison(evt.getPoint().x * vueGraphique.getEchelle(), 
+									  evt.getPoint().y * vueGraphique.getEchelle(), 
+									  vueGraphique.getRayonLivraison());		
 		
-		 demandeLivraison.getLivraison(Pt.x* vueGraphique.getEchelle(), Pt.y * vueGraphique.getEchelle(), vueGraphique.getRayonLivraison());		
-		
-		return demandeLivraison.getLivraison(Pt.x * vueGraphique.getEchelle(), Pt.y * vueGraphique.getEchelle(), vueGraphique.getRayonLivraison());		
+			return demandeLivraison.getLivraison(evt.getPoint().x * vueGraphique.getEchelle(), 
+											 evt.getPoint().y * vueGraphique.getEchelle(), 
+											 vueGraphique.getRayonLivraison());		
+		}
+		else
+			
+			return null;
 	}
-
-	private Noeud getNoeud(MouseEvent evt)
-	{
-		java.awt.Point Pt = evt.getPoint();	 
-		return vueGraphique.getPlan().getNoeud( Pt.x * vueGraphique.getEchelle(), Pt.y*vueGraphique.getEchelle(), vueGraphique.getRayonNoeud());
-	}
-
 }

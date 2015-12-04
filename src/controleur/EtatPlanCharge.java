@@ -12,10 +12,16 @@ import xml.ExceptionXML;
 import modele.DemandeLivraison;
 import modele.Plan;
 
+/**
+ * Etat ou le plan est charge, l'utilisateur a le choix de charger
+ * un plan different ou charger une demande
+ * @author H4101
+ *
+ */
 public class EtatPlanCharge extends EtatDefaut
 {	
 	/**
-	 * Mï¿½thode qui charge les demande des livraision et qui passe vers l'ï¿½tat LivraisonCharger
+	 * Methode qui charge les demande des livraision et qui passe vers l'etat LivraisonCharger
 	 * @param Plan
 	 * @param DemandeLivraison
 	 */
@@ -28,7 +34,7 @@ public class EtatPlanCharge extends EtatDefaut
 				
 				Controleur.setEtatCourant(Controleur.etatLivraisonCharge);
 				plan.updatePlan();
-				fenetre.afficheMessage("Vous pouvez désormais calculer la tournée");
+				fenetre.afficheMessage("Vous pouvez dï¿½sormais calculer la tournï¿½e");
 			}
 		} 
 		catch (ExceptionXML e)

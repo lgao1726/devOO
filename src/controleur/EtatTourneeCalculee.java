@@ -9,12 +9,18 @@ import modele.Noeud;
 import modele.Plan;
 import vue.Fenetre;
 
+/**
+ * Etat ou la tournee est calcule, l'utilisateur a le choix d'effectuer toutes
+ * les modifications proposÃ©es par les entreprise
+ * @author H4101
+ *
+ */
 public class EtatTourneeCalculee extends EtatDefaut{
 	
 	
 	Fenetre fenetre;
 	/**
-	 * Mï¿½thode qui charger un plan
+	 * Methode qui charge un plan
 	 * @param Plan de ville
 	 * @param Fenetre
 	 * @throws ExceptionEtat
@@ -25,7 +31,7 @@ public class EtatTourneeCalculee extends EtatDefaut{
 		Controleur.etatInit.chargerPlan(plan, fenetre);
 	}
 	/**
-	 * Mï¿½thode qui charge les demande des livraision et qui passe vers l'ï¿½tat LivraisonCharger
+	 * Methode qui charge les demande des livraision et qui passe vers l'etat LivraisonCharger
 	 * @param Plan
 	 * @param DemandeLivraison
 	 */
@@ -60,7 +66,7 @@ public class EtatTourneeCalculee extends EtatDefaut{
 	public void supprimerLivraison(Plan plan, Fenetre fenetre) {
 		this.fenetre=fenetre;
 		Controleur.setEtatCourant(Controleur.EtatModeSuppresion);
-		fenetre.afficheMessage("Cliquez sur la livraison à supprimer");
+		fenetre.afficheMessage("Cliquez sur la livraison ï¿½ supprimer");
 		fenetre.desacactiverUndoRedoGenerer();
 		fenetre.changerValider(false);
 
@@ -70,7 +76,7 @@ public class EtatTourneeCalculee extends EtatDefaut{
 	public void echangerLivraison(Plan plan, ListeCommandes listeDeCdes, Fenetre fenetre) {
 		this.fenetre=fenetre;
 		Controleur.setEtatCourant(Controleur.etatModeEchange);
-		fenetre.afficheMessage("Cliquez sur la première livraison");
+		fenetre.afficheMessage("Cliquez sur la premiï¿½re livraison");
 		fenetre.desacactiverUndoRedoGenerer();
 		fenetre.changerValider(false);
 

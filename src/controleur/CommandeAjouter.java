@@ -1,32 +1,44 @@
 package controleur;
 
-import java.util.Calendar;
-import java.util.Date;
-
-import modele.DemandeLivraison;
 import modele.Livraison;
-import modele.Noeud;
 import modele.Plan;
 
-public class CommandeAjouter implements Commande {
+/**
+ * Classe commande aouter livriason
+ * @author H4101 International Corp
+ *
+ */
+public class CommandeAjouter implements Commande 
+{
 	private Plan plan;
 	private Livraison livraison;
 	private Livraison livraisonPrecedente;
-	
-	public CommandeAjouter(Plan plan,Livraison livraison, Livraison livraisonPrecedente){
+
+	/**
+	 * Contructeur d'objet
+	 * @param plan
+	 * @param livraison
+	 * @param livraisonPrecedente
+	 */
+	public CommandeAjouter(Plan plan,Livraison livraison, Livraison livraisonPrecedente)
+	{
 		this.plan = plan;
 		this.livraison = livraison;
 		this.livraisonPrecedente=livraisonPrecedente;
 
 	}
 	
-	public void executer(){
+	@Override
+	public void executer()
+	{
 		System.out.println(plan);
 		plan.getDemandeLivraisons().ajouterLivraison(livraison, livraisonPrecedente);
 		plan.updatePlan();
-		}
+	}
 	
-	public void undo(){
+	@Override
+	public void undo()
+	{
 		plan.getDemandeLivraisons().supprimerLivraison(livraison.getAdresse().getId());
 		plan.updatePlan();
 	}

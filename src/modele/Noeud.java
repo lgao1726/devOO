@@ -5,9 +5,10 @@ import java.util.List;
 import java.util.Observable;
 
 /**
- * Classe noeud qui d�finir une intersection des tron�ons
- * 
- * @author interCorp
+ * Classe noeud qui defini une intersection de troncons
+ * Compose d'un Id qui est l'adresse de l'intersection et 
+ * les coordonnees cartesinnes ou se trouve ce noeud sur le plan
+ * @author H4101
  *
  */
 public class Noeud {
@@ -22,9 +23,9 @@ public class Noeud {
 	 * @param id
 	 *            identifiant de noeud sur le plan
 	 * @param x
-	 *            coordonn�e X
+	 *            coordonnee X
 	 * @param y
-	 *            coordonn�e y
+	 *            coordonnee y
 	 */
 	public Noeud(int id, int x, int y) {
 		this.id = id;
@@ -33,38 +34,51 @@ public class Noeud {
 		listeTronconsSortants = new ArrayList<Troncon>();
 	}
 
+	/**
+	 * Obtenir Id du noeud
+	 * @return Id du noeud
+	 */
 	public int getId() {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
+	/**
+	 * Obtenir la coordonee X du noeud
+	 * @return coordonnee X du noeud
+	 */
 	public int getX() {
 		return x;
 	}
 
-	public void setX(int x) {
-		this.x = x;
-	}
-
+	/**
+	 * Obtenir la coordonnee Y du noeud
+	 * @return coordonnee Y du noeud
+	 */
 	public int getY() {
 		return y;
 	}
 
-	public void setY(int y) {
-		this.y = y;
-	}
-
+	/**
+	 * Obtenir un List de Troncons du noeud
+	 * @return Troncons qui sortent de l'intersection
+	 */
 	public List<Troncon> getListeTronconsSortants() {
 		return listeTronconsSortants;
 	}
 
+	/**
+	 * Ajouter un Troncon au noeud
+	 * @param troncon
+	 */
 	public void ajouterTroncon(Troncon troncon) {
 		listeTronconsSortants.add(troncon);
 	}
 	
+	/**
+	 * Obtenir le Troncon qui amene a un autre noeud dont son adresse est donnee
+	 * @param adresse du noeud
+	 * @return Tronc qui amene a ce noeud
+	 */
 	public Troncon getToncon(int adresse){
 		for(Troncon troncon:listeTronconsSortants){
 			if(troncon.getIdNoeudDestination() == adresse) return troncon;

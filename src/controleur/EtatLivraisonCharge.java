@@ -3,13 +3,11 @@
  */
 package controleur;
 
-import javax.swing.JToolBar;
-
 import modele.Plan;
 import vue.Fenetre;
 
 /**
- * Etat des les livraisons charg�es
+ * Etat des les livraisons chargées
  * @author interCorp
  *
  */
@@ -27,7 +25,7 @@ public class EtatLivraisonCharge extends EtatDefaut
 		Controleur.etatInit.chargerPlan(plan, fenetre);
 	}
 	/**
-	 * M�thode qui charge les demande des livraision et qui passe vers l'�tat LivraisonCharger
+	 * MÃ¯Â¿Â½thode qui charge les demande des livraision et qui passe vers l'Ã¯Â¿Â½tat LivraisonCharger
 	 * @param Plan
 	 * @param DemandeLivraison
 	 */
@@ -35,18 +33,16 @@ public class EtatLivraisonCharge extends EtatDefaut
 	public void chargerDemandes(Plan plan, Fenetre fenetre) 
 	{
 		Controleur.etatPlanCharge.chargerDemandes(plan, fenetre);
-		fenetre.activerCalculer();
 	}
 	
 	@Override
-	public void calculerTournee(Plan plan, Fenetre fenetre) {
+	public void calculerTournee(Plan plan, Fenetre fenetre)
+	{
 		plan.getDemandeLivraisons().calculerTournee(plan);
 		Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 		plan.updatePlan();
-		fenetre.afficheMessage("Tourn�e calcul�e avec succ�s");
+		fenetre.afficheMessage("TournÃ©e calculÃ©e avec succÃ¨s");
 		fenetre.activerUndoRedoGenerer();
 		fenetre.activerModification();
 	}
-	
-	
 }
