@@ -5,27 +5,38 @@ import modele.Livraison;
 import modele.Noeud;
 import modele.Plan;
 
-public class EtatLivraisonSelectionneeEchange extends EtatDefaut{
-	
+/**
+ * Etat livraison echanger
+ * @author interCorp
+ *
+ */
+public class EtatLivraisonSelectionneeEchange extends EtatDefaut
+{	
 	Livraison livraison;
 	Livraison livraison2;
 	private ListeCommandes listeDeCdes;
 	private Plan plan;
-	public EtatLivraisonSelectionneeEchange(){
-		// TODO Auto-generated constructor stub
-	}
 	
-	public void setLivraison(Livraison liv){
+	/**
+	 * Setteur de la livraison
+	 * @param liv
+	 */
+	public void setLivraison(Livraison liv)
+	{
 		this.livraison = liv;
 	}
 	
-	
-	public void selectionnerLivraison(Plan plan, Livraison liv, ListeCommandes listeDeCdes, Fenetre fenetre){
+	/**
+	 * MÃ©thode qui selectionne une livraison 
+	 */
+	@Override
+	public void selectionnerLivraison(Plan plan, Livraison liv, ListeCommandes listeDeCdes, Fenetre fenetre)
+	{
 		this.livraison2 = liv;
 		this.listeDeCdes=listeDeCdes;
 		this.plan=plan;
 		fenetre.changerValider(true);
-		fenetre.afficheMessage(" ... Adresse de la deuxième livraison :" + livraison2.getAdresse().getId()+" . Validez!");
+		fenetre.afficheMessage(" ... Adresse de la deuxiÃ¨me livraison :" + livraison2.getAdresse().getId()+" . Validez!");
 		fenetre.selectionnerLivraisonTextuelle(livraison2);
 
 	}
@@ -53,13 +64,13 @@ public class EtatLivraisonSelectionneeEchange extends EtatDefaut{
 			}
 			else
 			{
-				fenetre.afficheMessageBox("Vous ne pouvez pas échanger une livraison avec elle-même");
+				fenetre.afficheMessageBox("Vous ne pouvez pas Ã©changer une livraison avec elle-mÃªme");
 				fenetre.afficheMessage("");
 			}
 		}
 		else
 		{
-			fenetre.afficheMessageBox("On ne peut pas déplacer l'entrepot");
+			fenetre.afficheMessageBox("On ne peut pas dÃ©placer l'entrepot");
 		}
 		fenetre.activerUndoRedoGenerer();
 		livraison=null;
@@ -77,7 +88,7 @@ public class EtatLivraisonSelectionneeEchange extends EtatDefaut{
 		if(livraison2==null)
 		{
 			Controleur.setEtatCourant(Controleur.etatModeEchange);
-			fenetre.afficheMessage("Cliquez sur la première livraison");
+			fenetre.afficheMessage("Cliquez sur la premiÃ¨re livraison");
 		}
 		else if(livraison!=null && livraison2!=null)
 		{
