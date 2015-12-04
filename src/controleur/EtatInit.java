@@ -1,16 +1,7 @@
 package controleur;
 
 import vue.Fenetre;
-import xml.ExceptionXML;
 import xml.DeserialiseurXML;
- 
-
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
 import modele.Plan;
 
 public class EtatInit extends EtatDefaut
@@ -31,7 +22,7 @@ public class EtatInit extends EtatDefaut
 				plan.notifyObservers();
 				Controleur.setEtatCourant(Controleur.etatPlanCharge);
 				fenetre.activerChargementLivraison();
-				fenetre.afficheMessage("Vous pouvez désormais charger une livraison");
+				fenetre.afficheMessage("Vous pouvez dÃ©sormais charger une livraison");
 			}
 		} 
 		catch (Exception e) 
