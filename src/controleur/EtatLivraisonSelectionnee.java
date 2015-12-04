@@ -5,13 +5,13 @@ import modele.Livraison;
 import modele.Noeud;
 import modele.Plan;
 
-public class EtatLivraisonSelectionneeEchange extends EtatDefaut{
+public class EtatLivraisonSelectionnee extends EtatDefaut{
 	
 	Livraison livraison;
 	Livraison livraison2;
 	private ListeCommandes listeDeCdes;
 	private Plan plan;
-	public EtatLivraisonSelectionneeEchange(){
+	public EtatLivraisonSelectionnee(){
 		// TODO Auto-generated constructor stub
 	}
 	

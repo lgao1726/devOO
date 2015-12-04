@@ -21,7 +21,7 @@ public class Controleur
 	protected static final EtatModeEchange etatModeEchange = new EtatModeEchange();
 	protected static EtatModeSuppression EtatModeSuppresion = new EtatModeSuppression();
 	protected static EtatNoeudSelectionne etatNoeudSelectionne=new EtatNoeudSelectionne();
-	protected static EtatLivraisonSelectionneeEchange etatLivraisonSelectionneeEchange=new EtatLivraisonSelectionneeEchange();
+	protected static EtatLivraisonSelectionnee etatLivraisonSelectionneeEchange=new EtatLivraisonSelectionnee();
 
 	public Controleur(Plan p) 
 	{

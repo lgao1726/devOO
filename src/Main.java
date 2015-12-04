@@ -16,12 +16,9 @@ public class Main
 	 */
 	public static void main(String[] args) 
 	{		
-		// Creation du plan
 		Plan plan = new Plan(dimX, dimY);
 		
 		Controleur controleur=new Controleur(plan);
-		
-		//new Windows(plan, controleur);
-	}
+		}
 
 }
